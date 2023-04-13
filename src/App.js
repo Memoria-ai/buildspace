@@ -26,7 +26,7 @@ function App() {
       {console.log(session)}
       {!session ? (
         // <Auth />
-        <div>here</div>
+        <div>here1</div>
       ) : (
         // <Home session={session} />
         <div>there</div>
