@@ -80,7 +80,7 @@ const Home = ({ session }) =>{
       })
       .single();
 
-    if (error) console.log('Error inserting new note:', error);
+    if (error) console.log('Error inserting new note', error);
     else setUserNotes((prevNotes) => [...prevNotes, newNote]);
 
     // Clear the input fields
