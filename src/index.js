@@ -15,7 +15,7 @@ const Router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/home", element: <Home /> },
   { path: "/account", element: <Account /> },
-])
+], { basename: "/your-base-name" }); // add your base name here
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
