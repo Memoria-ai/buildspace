@@ -25,11 +25,11 @@ function App() {
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {console.log(session)}
       {!session ? (
-        // <Auth />
-        <div>here1</div>
+        <Auth />
+        // <div>here1</div>
       ) : (
-        // <Home session={session} />
-        <div>there</div>
+        <Home session={session} />
+        // <div>there</div>
       )}
     </div>
   )
