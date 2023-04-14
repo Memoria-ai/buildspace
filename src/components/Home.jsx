@@ -19,7 +19,7 @@ const Home = ({ session }) =>{
   const [gptResponse, setGptResponse] = useState('');
   const navigate = useNavigate();
   const userId = session.id;
-  console.log(session);
+  // console.log(session);
 
 // ??
   useEffect(() => {
@@ -50,7 +50,7 @@ const Home = ({ session }) =>{
     };
 
     fetchUserNotes();
-    console.log(userNotes)
+    // console.log(userNotes)
   }, [userNotes]);
 
   // render the account page
@@ -89,22 +89,21 @@ const Home = ({ session }) =>{
   };
 
   async function processMessageToChatGPT(message, max_tokens){
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    console.log(message)
+
+    const response = await fetch('http://localhost:8000/gpt', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': "Bearer " + process.env.REACT_APP_GPT_PRIVATE_KEY
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{role:'system', content:message}],
+        message: message,
         max_tokens: max_tokens,
-        n: 1,
-        
       })
     });
+    console.log(response)
     const data = await response.json();
-    return data.choices[0].message.content;
+    return data;
   }
 
 
