@@ -3,7 +3,7 @@ import Account from './Account';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition = window.webkitSpeechRecognition;
 const mic = new SpeechRecognition();
 
 mic.continuous = true;
@@ -19,6 +19,7 @@ const Home = ({ session }) =>{
   const [gptResponse, setGptResponse] = useState('');
   const navigate = useNavigate();
   const userId = session.id;
+  
   // console.log(session);
 
 // ??
