@@ -143,7 +143,7 @@ const Home = ({ session }) =>{
     <div>
       <button onClick={handleGoToProfile}>Profile</button>
       <h1>Memoria</h1>
-      <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
+      <h2>Memoria takes your ideas and stores them in a way that is actually useful.</h2>
       {/* <input type="text" value={userInput} onChange={handleInputChange} /> */}
       {isListening ? <span>🎙️</span> : <span>🛑🎙️</span> }
 
