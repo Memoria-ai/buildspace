@@ -91,7 +91,7 @@ const Home = ({ session }) =>{
   async function processMessageToChatGPT(message, max_tokens){
     console.log(message)
 
-    const response = await fetch('http://localhost:8000/gpt', {
+    const response = await fetch('http://buildspace.herokuapp.com/gpt', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
