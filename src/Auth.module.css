@@ -1,16 +1,18 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
+
 .container {
+    overflow: hidden;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
     background-color: black;
     color: white;
     min-height: 100vh;
+    padding: 0 !important;
+  }
+  .inner{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
   }
   .logo{
     padding-top: 3%;

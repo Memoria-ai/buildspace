@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Account from './Account';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import styles from './Home.module.css';
+import img from '../imgs/Memoria.png';
 
 const SpeechRecognition = window.webkitSpeechRecognition;
 const mic = new SpeechRecognition();
@@ -14,7 +16,7 @@ const Home = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
   const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState('New Note');
+  const [userTitle, setUserTitle] = useState('Title');
   const [gptResponse, setGptResponse] = useState('');
   const [showAllNotes, setShowAllNotes] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,16 +30,14 @@ const Home = ({ session }) =>{
 
   
   useEffect(() => {
-    if (gptResponse != '' && userTitle) {
+    if (gptResponse !== '' && userTitle) {
       console.log("gptResponse and userTitle are set")
       addNote();
       setGptResponse('');
-      setUserTitle('New Note');
+      setUserTitle('Title');
       setNote('');
     }
   }, [gptResponse, userTitle]);
-
-
   
   const fetchUserNotes = async () => {
     const userId = session.user.id;
@@ -167,26 +167,32 @@ const Home = ({ session }) =>{
   };
 
   return (
-    <div>
-      <button onClick={handleGoToProfile}>Profile</button>
-      <h1>Memoria</h1>
-      <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
-      {isListening ? <span>🎙️</span> : <span>🛑🎙️</span> }
-      <button onClick={() => setIsListening(prevState => !prevState)}>Start/Stop</button>
-      <h2>Current Note</h2>
-      <br></br>
-      <textarea value={userTitle} onChange={handleTitleChange} />
-      <textarea value={note} onChange={handleInputChange} />
-      <button onClick={handleButtonClick}>Submit</button>
-      <br />
-      <br />
-      <br />
-      <button onClick={handleNotesView}>View All Notes</button>
-      <button onClick={handleSearchView}>Search by Title</button>
-      <br/>
+    <div className={styles.container}>
+      <div className={styles.inner}>
+        <div className={styles.header}>
+          <img src={img} alt="Memoria Logo" className={styles.logo} />
+          <button onClick={handleGoToProfile} className={styles.profileButton}>Profile</button>
+        </div>
+        <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
+        <button onClick={() => setIsListening(prevState => !prevState)} className={isListening ? styles.micButtonActive : styles.micButton}>Start/Stop</button>
+        <h2>Current Note</h2>
+        <br></br>
+        <div>
+          <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.textBoxes}/>
+          <input value={note} onChange={handleInputChange} placeholder='transcription' className={styles.textBoxes}/>
+          <button onClick={handleButtonClick} className={styles.submitButton}>Submit</button>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div className={styles.buttons}>
+          <button onClick={handleNotesView} className={styles.innerButtons}>View All Notes</button>
+          <button onClick={handleSearchView}className={styles.innerButtons}>Search by Title</button>
+        </div>
+        <br/>
       
       {showAllNotes ? (
-        <div>
+        <div className={styles.notesDiv}>
           <h1>My Notes</h1>
           {userNotes.map((note) => (
             <div key={note?.id}>
@@ -197,7 +203,7 @@ const Home = ({ session }) =>{
           ))}
         </div>
       ) : (
-        <div>
+        <div className={styles.searchDiv}>
           <h2>Search by Title</h2>
           <input
           type="text"
@@ -214,7 +220,7 @@ const Home = ({ session }) =>{
           ))}
         </div>
       )}
-
+      </div>
     </div>
   );
 }

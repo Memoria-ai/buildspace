@@ -1,0 +1,131 @@
+.container {
+  overflow: hidden;
+  background-color: black;
+  color: white;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  text-align: center; /* Center the .logo element */
+}
+
+.logo {
+  padding-top: 3%;
+  padding-bottom: 5%;
+  width: 50%;
+  /* margin: 0 auto; Center the .logo element horizontally */
+  margin-left: 25%;
+}
+
+.header {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* flex: 1; Take up all the available space */
+}
+
+.micButton {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #96D9E9;
+  color: white;
+  border: none;
+  outline: none;
+  /* put the button in the center */
+  align-self: center;
+}
+
+.micButtonActive {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #6995db;
+  align-self: center;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+.searchDiv {
+  padding-bottom: 20vh;
+}
+
+.notesDiv {
+  padding-bottom: 20vh;
+}
+
+.innerButtons {
+
+  background: #272727;
+  color: white;
+  width: 30%;
+  padding: 12px 0px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 25px;
+  cursor: pointer;
+
+  border: 2px solid transparent;
+  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
+  border-image-slice: 1;
+  box-shadow: 0px 0px 0px 2px #96D9E9;
+}
+
+
+
+.profileButton{
+  background: #272727;
+  color: white;
+
+  padding: 12px 5px;
+  /* margin-left: 20; */
+  /* align-self:; */
+  /* pin to the right side */
+  margin-left: auto; 
+  margin-right: 20px;
+  border-radius: 25px;
+  cursor: pointer;
+
+  border: 2px solid transparent;
+  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
+  border-image-slice: 1;
+  box-shadow: 0px 0px 0px 2px #96D9E9;
+}
+
+.submitButton{
+  background: #272727;
+  color: white;
+
+  padding: 12px 5px;
+  /* margin-left: 20; */
+  /* align-self:; */
+  /* pin to the right side */
+  margin-left: 10px; 
+  margin-right: 20px;
+  border-radius: 25px;
+  cursor: pointer;
+
+  border: 2px solid transparent;
+  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
+  border-image-slice: 1;
+  box-shadow: 0px 0px 0px 2px #96D9E9;
+}
+.textBoxes{
+  background: #272727;
+  color: white;
+
+  padding: 12px 5px;
+ 
+  margin-left: 5px; 
+  margin-right: 5px;
+  border-radius: 25px;
+  cursor: pointer;
+
+  border: 2px solid transparent;
+  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
+  border-image-slice: 1;
+  box-shadow: 0px 0px 0px 2px #96D9E9;
+}
+

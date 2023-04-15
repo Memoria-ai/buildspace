@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { supabase } from './supabaseClient'
-import Styles from './Auth.css'
+import styles from './Auth.module.css'
 import Memoria from './imgs/Memoria.png'
 
 export default function Auth() {
@@ -11,7 +11,7 @@ export default function Auth() {
     event.preventDefault()
 
     setLoading(true)
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://memoria-ai.github.io/buildspace/" } });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "http://localhost:3000/buildspace" } });
 
     if (error) {
       alert(error.error_description || error.message)
@@ -45,29 +45,28 @@ export default function Auth() {
   }
 
   return (
-    <div className="container">
-      <div className="col-6 form-widget">
-        {/* <h1 className="header">Supabase + React</h1> */}
-        <img src={Memoria} alt="Memoria" className="logo" />
-        <div className='header'>
+    <div className={styles.container}>
+      <div className={styles.inner}>
+        <img src={Memoria} alt="Memoria" className={styles.logo} />
+        <div className={styles.header}>
           <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
         </div>
-        <h3 className="description">Sign in </h3>
+        <h3 className={styles.description}>Sign in </h3>
         
         <input
-          className="inputField"
+          className={styles.inputField}
           type="email"
           placeholder="Your email"
           value={email}
           required={true}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button className={'googleButton'} disabled={loading} onClick={handleLogin}>
+        <button className={styles.googleButton} disabled={loading} onClick={handleLogin}>
           {loading ? <span>Loading</span> : <span>Sign in with Email</span>}
         </button>
-        <hr className='line'/>
-        <button onClick={signInWithGoogle} className='googleButton'>Sign in with Google</button>
-        <button onClick={signInWithTwitter} className='googleButton'>Sign in with Twitter</button>
+        <hr className={styles.line}/>
+        <button onClick={signInWithGoogle} className={styles.googleButton}>Sign in with Google</button>
+        <button onClick={signInWithTwitter} className={styles.googleButton}>Sign in with Twitter</button>
       </div>
     </div>
   )
