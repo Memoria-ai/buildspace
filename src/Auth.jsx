@@ -22,6 +22,9 @@ export default function Auth() {
   async function signInWithTwitter() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
+      options: {
+        redirectTo: 'https://memoria-ai.github.io/buildspace/',
+      }
     })
   }
 
@@ -29,12 +32,13 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
+        redirectTo: 'https://memoria-ai.github.io/buildspace/',
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
         },
       },
-      redirectTo: 'https://memoria-ai.github.io/buildspace/',
+      
     })
   }
 
