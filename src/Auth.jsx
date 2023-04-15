@@ -19,6 +19,24 @@ export default function Auth() {
     setLoading(false)
   }
 
+  async function signInWithTwitter() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'twitter',
+    })
+  }
+
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    })
+  }
+
   return (
     <div className="row flex flex-center">
       <div className="col-6 form-widget">
@@ -41,6 +59,8 @@ export default function Auth() {
             </button>
           </div>
         </form>
+        <button onClick={signInWithGoogle}>Sign in with Google</button>
+        <button onClick={signInWithTwitter}>Sign in with Twitter</button>
       </div>
     </div>
   )

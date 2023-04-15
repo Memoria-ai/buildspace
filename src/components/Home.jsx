@@ -12,49 +12,57 @@ mic.lang = 'en-US';
 
 const Home = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState('');
-  const [userInput, setUserInput] = useState('');
+  const [userTitle, setUserTitle] = useState('New Note');
   const [gptResponse, setGptResponse] = useState('');
+  const [showAllNotes, setShowAllNotes] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchedNotes, setSearchedNotes] = useState([]);
   const navigate = useNavigate();
   const userId = session.id;
-  
-  // console.log(session);
 
-// ??
   useEffect(() => {
     handleListen();
   }, [isListening]);
 
+  
   useEffect(() => {
-    if (gptResponse && userTitle) {
+    if (gptResponse != '' && userTitle) {
+      console.log("gptResponse and userTitle are set")
       addNote();
-      setGptResponse(null);
-      setUserTitle(null);
+      setGptResponse('');
+      setUserTitle('New Note');
+      setNote('');
     }
   }, [gptResponse, userTitle]);
 
-  useEffect(() => {
-    // Get the user's ID from the session
+
+  
+  const fetchUserNotes = async () => {
     const userId = session.user.id;
+    const { data: notes, error } = await supabase
+      .from('notes')
+      .select('*')
+      .eq('user_id', userId);
 
-    // Retrieve the user's notes from the database
-    const fetchUserNotes = async () => {
-      const { data: notes, error } = await supabase
-        .from('notes')
-        .select('*')
-        .eq('user_id', userId);
+    if (error) console.log('Error fetching notes:', error);
+    else setUserNotes(notes);
+    console.log("HEREERE")
+  };
 
-      if (error) console.log('Error fetching notes:', error);
-      else setUserNotes(notes);
-    };
-
+  useEffect(() => {  
     fetchUserNotes();
-    // console.log(userNotes)
-  }, [userNotes]);
+  }, [session]);
 
-  // render the account page
+  const handleInputChange = (event) => {
+    setNote(event.target.value);
+  };
+
+  const handleTitleChange = (event) => {
+    setUserTitle(event.target.value);
+  }
+
   const handleGoToProfile = () => {
     console.log(session);
     navigate('/account', {state:{session: session }});
@@ -65,11 +73,9 @@ const Home = ({ session }) =>{
     await processMessageToChatGPT("This is an idea I have: " + note + ". Summarize the key points of this app (only write the points, no intro to the points)", 1000)
     .then((response) => {
         setGptResponse(response);
-        setUserTitle('New Note');
       });
-    // await addNote();
+  
   };
-
   const addNote = async () => {
     if (!note) return;
     const { data: newNote, error } = await supabase
@@ -80,13 +86,9 @@ const Home = ({ session }) =>{
         content: gptResponse,
       })
       .single();
-
     if (error) console.log('Error inserting new note', error);
     else setUserNotes((prevNotes) => [...prevNotes, newNote]);
-
-    // Clear the input fields
-    // setUserTitle('');
-    // setNote('');
+    fetchUserNotes();
   };
 
   async function processMessageToChatGPT(message, max_tokens){
@@ -107,9 +109,19 @@ const Home = ({ session }) =>{
     return data;
   }
 
-
-  const handleInputChange = (event) => {
-    setUserInput(event.target.value);
+  const deleteNote = async (id) => {
+    const { data, error } = await supabase
+      .from('notes')
+      .delete()
+      .eq('id', id);
+  
+    if (error) {
+      console.log('Error deleting note:', error);
+    } else {
+      const filteredNotes = userNotes.filter((note) => note.id !== id);
+      setUserNotes(filteredNotes);
+    }
+    fetchUserNotes();
   };
 
   const handleListen = () => {
@@ -139,31 +151,70 @@ const Home = ({ session }) =>{
     }
   }
 
+  const handleNotesView = () => {
+    setShowAllNotes(true);
+  }
+
+  const handleSearchView = () => {
+    setShowAllNotes(false);
+  }
+
+  const handleSearch = () => {
+    const filteredNotes = userNotes.filter((note) =>
+      note.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchedNotes(filteredNotes);
+  };
+
   return (
     <div>
       <button onClick={handleGoToProfile}>Profile</button>
       <h1>Memoria</h1>
       <h2>Memoria takes your ideas and stores them in a way that is actually useful.</h2>
-      {/* <input type="text" value={userInput} onChange={handleInputChange} /> */}
       {isListening ? <span>🎙️</span> : <span>🛑🎙️</span> }
-
       <button onClick={() => setIsListening(prevState => !prevState)}>Start/Stop</button>
       <h2>Current Note</h2>
       <br></br>
-      <p>{note}</p>
+      <textarea value={userTitle} onChange={handleTitleChange} />
+      <textarea value={note} onChange={handleInputChange} />
       <button onClick={handleButtonClick}>Submit</button>
-      <br/>
-      <br/>
-      <textarea value={gptResponse} readOnly />
       <br />
       <br />
-      <h1>My Notes</h1>
-      {userNotes.map((note) => (
-        <div key={note?.id}>
-          <h2>{note?.title}</h2>
-          <p>{note?.content}</p>
+      <br />
+      <button onClick={handleNotesView}>View All Notes</button>
+      <button onClick={handleSearchView}>Search by Title</button>
+      <br/>
+      
+      {showAllNotes ? (
+        <div>
+          <h1>My Notes</h1>
+          {userNotes.map((note) => (
+            <div key={note?.id}>
+              <h2>{note?.title}</h2>
+              <p>{note?.content}</p>
+              <button onClick={() => deleteNote(note?.id)}>Delete</button>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div>
+          <h2>Search by Title</h2>
+          <input
+          type="text"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
+          {searchedNotes.map((note) => (
+            <div key={note?.id}>
+              <h2>{note?.title}</h2>
+              <p>{note?.content}</p>
+              <button onClick={() => deleteNote(note?.id)}>Delete</button>
+            </div>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 }

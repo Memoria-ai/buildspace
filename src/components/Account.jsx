@@ -40,6 +40,18 @@ export default function Account() {
     getProfile();
   }, [session]);
 
+  async function signInWithGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+    },
+  })
+}
+
   async function updateProfile(event) {
     event.preventDefault()
 
