@@ -34,6 +34,7 @@ export default function Auth() {
           prompt: 'consent',
         },
       },
+      redirectTo: 'https://memoria-ai.github.io/buildspace/',
     })
   }
 
