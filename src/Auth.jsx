@@ -11,7 +11,7 @@ export default function Auth() {
     event.preventDefault()
 
     setLoading(true)
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "http://localhost:3000/buildspace" } });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://memoria-ai.github.io/buildspace/" } });
 
     if (error) {
       alert(error.error_description || error.message)
