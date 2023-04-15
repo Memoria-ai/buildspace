@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { supabase } from './supabaseClient'
+import Styles from './Auth.css'
+import Memoria from './imgs/Memoria.png'
 
 export default function Auth() {
   const [loading, setLoading] = useState(false)
@@ -43,29 +45,29 @@ export default function Auth() {
   }
 
   return (
-    <div className="row flex flex-center">
+    <div className="container">
       <div className="col-6 form-widget">
-        <h1 className="header">Supabase + React</h1>
-        <p className="description">Sign in via magic link with your email below</p>
-        <form className="form-widget" onSubmit={handleLogin}>
-          <div>
-            <input
-              className="inputField"
-              type="email"
-              placeholder="Your email"
-              value={email}
-              required={true}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <button className={'button block'} disabled={loading}>
-              {loading ? <span>Loading</span> : <span>Send magic link</span>}
-            </button>
-          </div>
-        </form>
-        <button onClick={signInWithGoogle}>Sign in with Google</button>
-        <button onClick={signInWithTwitter}>Sign in with Twitter</button>
+        {/* <h1 className="header">Supabase + React</h1> */}
+        <img src={Memoria} alt="Memoria" className="logo" />
+        <div className='header'>
+          <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
+        </div>
+        <h3 className="description">Sign in </h3>
+        
+        <input
+          className="inputField"
+          type="email"
+          placeholder="Your email"
+          value={email}
+          required={true}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button className={'googleButton'} disabled={loading} onClick={handleLogin}>
+          {loading ? <span>Loading</span> : <span>Sign in with Email</span>}
+        </button>
+        <hr className='line'/>
+        <button onClick={signInWithGoogle} className='googleButton'>Sign in with Google</button>
+        <button onClick={signInWithTwitter} className='googleButton'>Sign in with Twitter</button>
       </div>
     </div>
   )

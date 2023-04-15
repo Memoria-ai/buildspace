@@ -1,0 +1,81 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+.container {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    background-color: black;
+    color: white;
+    min-height: 100vh;
+  }
+  .logo{
+    padding-top: 3%;
+    width:50%;
+    padding-bottom: 5%;
+  }
+  .form-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .line {
+    width: 30%;
+    /* height: 1px; */
+    background-color: #ccc;
+    margin: 10px 0;
+  }
+  .header {
+    text-align: center;
+    padding-bottom: 5%;
+
+  }
+  
+  .description {
+    text-align: center;
+    /* margin-bottom: 24px; */
+  }
+  
+  .googleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #272727;
+    color: white;
+    width: 30%;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    border: 2px solid transparent;
+    /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
+    border-image-slice: 1;
+    box-shadow: 0px 0px 0px 2px #96D9E9;
+    
+
+  }
+  
+  .inputField {
+    width: 30%;
+    padding: 12px;
+    /* margin-bottom: 24px; */
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    color: white;
+    background: #272727;
+    box-sizing: border-box;
+    margin-bottom: 1%;
+  }
+  
+  .button {
+    /* background-color: #4CAF50;
+    color: white; */
+    /* padding: 12px 24px; */
+    /* border: none; */
+    /* border-radius: 4px; */
+    cursor: pointer;
+  }
