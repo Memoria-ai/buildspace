@@ -25,7 +25,7 @@
     "start:backend": "nodemon index.js",
     "predeploy": "env-cmd -f .env npm run build",
     "deploy": "env-cmd -f .env gh-pages -d build",
-    "start:frontend": "env-cmd -f .env react-scripts start",
+    "start": "env-cmd -f .env react-scripts start",
     "build": "env-cmd -f .env react-scripts build",
     "test": "env-cmd -f .env react-scripts test",
     "eject": "env-cmd -f .env react-scripts eject"
