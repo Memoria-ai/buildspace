@@ -29,15 +29,15 @@ const Home = ({ session }) =>{
   }, [isListening]);
 
   
-  useEffect(() => {
-    if (gptResponse !== '' && userTitle) {
-      console.log("gptResponse and userTitle are set")
-      addNote();
-      setGptResponse('');
-      setUserTitle('Title');
-      setNote('');
-    }
-  }, [gptResponse, userTitle]);
+  // useEffect(() => {
+  //   if (gptResponse !== '' && userTitle) {
+  //     console.log("gptResponse and userTitle are set")
+  //     addNote();
+  //     setGptResponse('');
+  //     setUserTitle('Title');
+  //     setNote('');
+  //   }
+  // }, [gptResponse, userTitle]);
   
   const fetchUserNotes = async () => {
     const userId = session.user.id;
@@ -70,10 +70,11 @@ const Home = ({ session }) =>{
 
   const handleButtonClick = async (event) => {
     event.preventDefault();
-    await processMessageToChatGPT("This is an idea I have: " + note + ". Summarize the key points of this app (only write the points, no intro to the points)", 1000)
-    .then((response) => {
-        setGptResponse(response);
-      });
+    // await processMessageToChatGPT("This is an idea I have: " + note + ". Summarize the key points of this app (only write the points, no intro to the points)", 1000)
+    // .then((response) => {
+    //     setGptResponse(response);
+    //   });
+    addNote();
   
   };
   const addNote = async () => {
@@ -83,7 +84,7 @@ const Home = ({ session }) =>{
       .insert({
         user_id: session.user.id,
         title: userTitle,
-        content: gptResponse,
+        content: note,
       })
       .single();
     if (error) console.log('Error inserting new note', error);
@@ -161,7 +162,8 @@ const Home = ({ session }) =>{
 
   const handleSearch = () => {
     const filteredNotes = userNotes.filter((note) =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase())
+      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchedNotes(filteredNotes);
   };
@@ -187,7 +189,7 @@ const Home = ({ session }) =>{
         <br />
         <div className={styles.buttons}>
           <button onClick={handleNotesView} className={styles.innerButtons}>View All Notes</button>
-          <button onClick={handleSearchView}className={styles.innerButtons}>Search by Title</button>
+          <button onClick={handleSearchView}className={styles.innerButtons}>Search by Title/Description</button>
         </div>
         <br/>
       
