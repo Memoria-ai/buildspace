@@ -45,29 +45,37 @@ export default function Auth() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.body}>
       <div className={styles.inner}>
-        <img src={Memoria} alt="Memoria" className={styles.logo} />
         <div className={styles.header}>
-          <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
+          <p>Memoria</p>
         </div>
-        <h3 className={styles.description}>Sign in </h3>
-        
-        <input
-          className={styles.inputField}
-          type="email"
-          placeholder="Your email"
-          value={email}
-          required={true}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button className={styles.googleButton} disabled={loading} onClick={handleLogin}>
-          {loading ? <span>Loading</span> : <span>Sign in with Email</span>}
-        </button>
-        <hr className={styles.line}/>
-        <button onClick={signInWithGoogle} className={styles.googleButton}>Sign in with Google</button>
-        <button onClick={signInWithTwitter} className={styles.googleButton}>Sign in with Twitter</button>
+        <div className={styles.headline}>
+          <h1>Save, organize, and develop thoughts using your voice.</h1>
+          <p>Talk to our Al to build your very own second brain. Easily find and distill your thoughts using plain English</p>
+        </div>
+        <div className={styles.signInMenu}>
+          <h1>Sign in...</h1>
+          <input
+            className={styles.inputField}
+            type="email"
+            placeholder="person@memoria.ai"
+            value={email}
+            required={true}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button className={styles.signInSubmit} disabled={loading} onClick={handleLogin}>
+            {loading ? <span>Loading!</span> : <span>Sign in with Email -></span>}
+          </button>
+          <div className={styles.signInSocials}>
+            <button onClick={signInWithGoogle} className={styles.signInSubmit}> <span>Sign in with Google </span></button>
+            <button onClick={signInWithTwitter} className={styles.signInSubmit}> <span>Sign in with Twitter </span></button>
+          </div>
+        </div>
       </div>
+      <div className={styles.footer}>
+          <p>Memoria <br/> Your NLP-powered Second Brain. <br/> built for buildspace n&w s3 </p>
+        </div>
     </div>
   )
 }
