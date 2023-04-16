@@ -202,12 +202,13 @@ const Home = ({ session }) =>{
         </div>
       ) : (
         <div className={styles.sectionDiv}>
-          <div className={styles.noteContent}>
+          <div className={styles.searchContent}>
             <h1>Search by Title</h1>
             <input
             type="text"
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
+            className={styles.titleInput}
             />
             <button onClick={handleSearch}>Search</button>
           </div>

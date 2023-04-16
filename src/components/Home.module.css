@@ -228,3 +228,12 @@ span {
   color: #272727;
   text-align: center;
 }
+
+.searchContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
