@@ -25,7 +25,7 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'http://localhost:3000/buildspace',
+        redirectTo: 'https://memoria-ai.github.io/buildspace/',
       }
     })
   }
@@ -65,7 +65,7 @@ export default function Auth() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <button className={styles.signInSubmit} disabled={loading} onClick={handleLogin}>
-            {loading ? <span>Loading!</span> : <span>Sign in with Email -></span>}
+            {loading ? <span>Loading!</span> : <span>Sign in with Email </span>}
           </button>
           <div className={styles.signInSocials}>
             <button onClick={signInWithGoogle} className={styles.signInSubmit}> <span>Sign in with Google </span></button>
