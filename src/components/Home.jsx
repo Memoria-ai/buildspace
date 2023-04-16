@@ -205,7 +205,7 @@ const Home = ({ session }) =>{
       ) : (
         <div className={styles.sectionDiv}>
           <div className={styles.searchContent}>
-            <h1>Search by Title/Description</h1>
+            <h1>Search by Keywords</h1>
             <input
             type="text"
             value={searchTerm}
