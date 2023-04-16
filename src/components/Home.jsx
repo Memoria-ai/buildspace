@@ -180,7 +180,7 @@ const Home = ({ session }) =>{
           <p>Click the mic below and speak freely!</p>
         </div>
         <div>
-          <button onClick={() => setIsListening(prevState => !prevState)} className={isListening ? styles.micButtonActive : styles.micButton}><span>Start/Stop</span></button>
+          <button onClick={() => setIsListening(prevState => !prevState)} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <span>Stop</span> : <span>Start</span>}</button>
         </div>
         <div className={styles.noteContent}>
           <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.titleInput}/>
