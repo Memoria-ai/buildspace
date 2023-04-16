@@ -62,9 +62,65 @@ html {
   font-weight: 700;
 }
 
-.headline {
-  width: 50%;
-  /* border: solid 1px blue !important; */
+
+@media screen and (min-width: 480px) {
+  .headline {
+    width: 50%;
+    /* border: solid 1px blue !important; */
+  }
+ 
+  .signInMenu {
+    width: 50%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  
+    justify-content: center;
+    align-content: center;
+  }
+
+  .signInMenu h1 {
+    background: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  
+    font-size: 24pt;
+    font-weight: 700;
+    text-align: center;
+    padding: 1% 0;
+  }
+  
+  .signInMenu input, .signInMenu button {
+    width: 48%;
+    margin-top: 8px; /* Add margin-top to provide spacing between input and button */
+    align-self: center; /* Add this property to center child elements vertically */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .headline {
+    width: 90%;
+    /* border: solid 1px blue !important; */
+  }
+
+  .signInMenu h1 {
+    background: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  
+    font-size: 24pt;
+    font-weight: 700;
+    text-align: center;
+    padding: 1% 0;
+  }
+
+  .signInMenu input, .signInMenu button {
+    width: 75%;
+    margin-top: 8px; /* Add margin-top to provide spacing between input and button */
+    align-self: center; /* Add this property to center child elements vertically */
+  }
 }
 
 .headline h1 {
@@ -80,36 +136,26 @@ html {
   text-align: center;
 }
 
-.signInMenu {
-  width: 50%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-
-  justify-content: center;
-  align-content: center;
+input {
+  width: 30%;
+  padding: 12px 16px;
+  /* margin-bottom: 24px; */
+  border: 1px solid #FFFFFF;
+  border-radius: 1rem;
+  color: white;
+  background: #272727;
+  box-sizing: border-box;
+  margin: 1%;
+  outline: none;
 }
 
-.signInMenu h1 {
-  background: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-
-  font-size: 24pt;
-  font-weight: 700;
-  text-align: center;
-  padding: 1% 0;
+.button {
+  cursor: pointer;
 }
 
+  
 .signInMenu * {
   font-weight: 700;
-}
-
-.signInMenu input, .signInMenu button {
-  width: 48%;
-  margin-top: 8px; /* Add margin-top to provide spacing between input and button */
-  align-self: center; /* Add this property to center child elements vertically */
 }
 
 .signInSocials {
@@ -142,24 +188,15 @@ html {
   border-image-slice: 1;
 }
 
-input {
-  width: 30%;
-  padding: 12px 16px;
-  /* margin-bottom: 24px; */
-  border: 1px solid #FFFFFF;
-  border-radius: 1rem;
-  color: white;
-  background: #272727;
-  box-sizing: border-box;
-  margin: 1%;
-  outline: none;
+.signInMenu {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-content: center;
 }
-
-.button {
-  cursor: pointer;
-}
-
-
 
 /* .form-widget {
   display: flex;
