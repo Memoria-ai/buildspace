@@ -167,59 +167,62 @@ const Home = ({ session }) =>{
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.body}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <img src={img} alt="Memoria Logo" className={styles.logo} />
-          <button onClick={handleGoToProfile} className={styles.profileButton}>Profile</button>
+          <p>Memoria</p>
+          <button onClick={handleGoToProfile} className={styles.profileButton}><span>Profile</span></button>
         </div>
-        <h2>Memoria takes your ideas and stores them in a way that is actually useful for you.</h2>
-        <button onClick={() => setIsListening(prevState => !prevState)} className={isListening ? styles.micButtonActive : styles.micButton}>Start/Stop</button>
-        <h2>Current Note</h2>
-        <br></br>
+        <div className={styles.headline}>
+          <h1>Save, organize, and develop thoughts using your voice.</h1>
+          <p>Click the mic below and speak freely!</p>
+        </div>
         <div>
-          <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.textBoxes}/>
-          <input value={note} onChange={handleInputChange} placeholder='transcription' className={styles.textBoxes}/>
-          <button onClick={handleButtonClick} className={styles.submitButton}>Submit</button>
+          <button onClick={() => setIsListening(prevState => !prevState)} className={isListening ? styles.micButtonActive : styles.micButton}><span>Start/Stop</span></button>
         </div>
-        <br />
-        <br />
-        <br />
-        <div className={styles.buttons}>
-          <button onClick={handleNotesView} className={styles.innerButtons}>View All Notes</button>
-          <button onClick={handleSearchView}className={styles.innerButtons}>Search by Title</button>
+        <div className={styles.noteContent}>
+          <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.titleInput}/>
+          <textarea value={note} onChange={handleInputChange} placeholder='transcription' className={styles.transcript}/>
+          <button onClick={handleButtonClick} className={styles.submitButton}><span>Commit -></span></button>
         </div>
-        <br/>
-      
+        <div className={styles.noteOptions}>
+          <button onClick={handleNotesView} className={styles.profileButton}>View All Notes</button>
+          <button onClick={handleSearchView}className={styles.profileButton}>Search by Title</button>
+        </div>
       {showAllNotes ? (
-        <div className={styles.notesDiv}>
+        <div className={styles.sectionDiv}>
           <h1>My Notes</h1>
           {userNotes.map((note) => (
-            <div key={note?.id}>
-              <h2>{note?.title}</h2>
+            <div className={styles.noteGallery} key={note?.id}>
+              <span>{note?.title}</span>
               <p>{note?.content}</p>
               <button onClick={() => deleteNote(note?.id)}>Delete</button>
             </div>
           ))}
         </div>
       ) : (
-        <div className={styles.searchDiv}>
-          <h2>Search by Title</h2>
-          <input
-          type="text"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          />
-          <button onClick={handleSearch}>Search</button>
+        <div className={styles.sectionDiv}>
+          <div className={styles.noteContent}>
+            <h1>Search by Title</h1>
+            <input
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            />
+            <button onClick={handleSearch}>Search</button>
+          </div>
           {searchedNotes.map((note) => (
-            <div key={note?.id}>
-              <h2>{note?.title}</h2>
+            <div className={styles.noteGallery} key={note?.id}>
+              <span>{note?.title}</span>
               <p>{note?.content}</p>
               <button onClick={() => deleteNote(note?.id)}>Delete</button>
             </div>
           ))}
         </div>
       )}
+        <div className={styles.footer}>
+              <p>Memoria <br/> Your NLP-powered Second Brain. <br/> built for buildspace n&w s3 </p>
+        </div>
       </div>
     </div>
   );
