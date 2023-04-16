@@ -52,8 +52,10 @@ const Home = ({ session }) =>{
   };
 
   useEffect(() => {  
+    console.log("useeffect ran")
     fetchUserNotes();
   }, [session]);
+
 
   const handleInputChange = (event) => {
     setNote(event.target.value);
@@ -74,21 +76,37 @@ const Home = ({ session }) =>{
     // .then((response) => {
     //     setGptResponse(response);
     //   });
-    addNote();
+    if(isListening){
+      console.log("was listening, now stopping")
+      setIsListening(false);
+      mic.stop();
+      mic.onend = () => {
+        console.log('Stopped Mic on Click');
+      }
+      const title = await getGPTTitle();
+      addNote(title);
+    }
+    else{
+      addNote(userTitle);
+    }
+    
   
   };
-  const addNote = async () => {
+
+  const addNote = async (title) => {
     if (!note) return;
     const { data: newNote, error } = await supabase
       .from('notes')
       .insert({
         user_id: session.user.id,
-        title: userTitle,
+        title: title,
         content: note,
       })
       .single();
     if (error) console.log('Error inserting new note', error);
     else setUserNotes((prevNotes) => [...prevNotes, newNote]);
+    setNote('');
+    setUserTitle('Title');
     fetchUserNotes();
   };
 
@@ -168,6 +186,31 @@ const Home = ({ session }) =>{
     setSearchedNotes(filteredNotes);
   };
 
+  const handleListenChange = async () => {
+    setIsListening(prevState => !prevState);
+    console.log("handling listen change")
+    getGPTTitle();
+  }
+
+  // const getGPTTitle = async () => {
+    // console.log("getGPTTitle")
+    // if(isListening){
+      // if(note !== ''){
+        // setUserTitle((await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20)).replace(/"/g, ''));
+      // }
+    // }
+  // }
+  // 
+  const getGPTTitle = async () => {
+    console.log("getGPTTitle");
+    if (isListening && note !== '') {
+      const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20);
+      const formattedTitle = title.replace(/"/g, '');
+      setUserTitle(formattedTitle);
+      return formattedTitle;
+    }
+  };
+
   return (
     <div className={styles.body}>
       <div className={styles.inner}>
@@ -180,7 +223,7 @@ const Home = ({ session }) =>{
           <p>Click the mic below and speak freely!</p>
         </div>
         <div>
-          <button onClick={() => setIsListening(prevState => !prevState)} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <span>Stop</span> : <span>Start</span>}</button>
+          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <span>Stop</span> : <span>Start</span>}</button>
         </div>
         <div className={styles.noteContent}>
           <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.titleInput}/>
