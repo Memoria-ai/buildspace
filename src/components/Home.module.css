@@ -1,36 +1,133 @@
-.container {
-
-  background-color: #161616;
-  color: white;
+@font-face { font-family: "Inter";
+  src:  url("../../src/fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
+  font-family: Inter;
 }
 
-.inner {
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #272727;
+  border-radius: 10px;
+}
+
+* {
+  /* border: 1px solid red; */
+  font-family: Inter;
+  color: white;
+  font-weight: 600;
+  box-sizing: border-box;
+  font-size: 12pt;
+}
+
+html {
+  min-height: 100%;
+  height: fit-content;
+  background-color: #161616;
+}
+
+.body {
+  overflow: auto;
   display: flex;
   flex-direction: column;
-  text-align: center; /* Center the .logo element */
+  justify-content: center;
+  align-items: center;
+  background-color: #161616;
+  color: white;
+  min-height: 100vh;
+  height: fit-content;
+  padding-top: 5.25rem;
 }
 
-.logo {
-  padding-top: 3%;
-  padding-bottom: 5%;
-  width: 50%;
-  /* margin: 0 auto; Center the .logo element horizontally */
-  margin-left: 25%;
+h1 {
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  font-size: 32pt;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.inner{
+  /* border: solid 1px blue; */
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: fit-content;
 }
 
 .header {
+  /* border: 1px solid blue !important; */
+  border-bottom: solid 2px #272727;
+  width: 100vw;
+  height: 5.25rem;
+
   display: flex;
-  /* justify-content: space-between; */
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  /* flex: 1; Take up all the available space */
+  padding: 0 2%;
+  position: fixed;
+  top: 0;
+
+  z-index: 1;
+
+  background: hsl(0 0% var(--glass-lightness) / 10%);
+  backdrop-filter: blur(10px);
+}
+
+.header p {
+  letter-spacing: -0.04em;
+
+  background: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  font-size: 32pt;
+  font-weight: 700;
+}
+
+button {
+  background: #272727;
+  color: white;
+
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  border: 0;
+  cursor: pointer;
+}
+
+span {
+  background: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headline {
+  width: 50%;
+  /* border: solid 1px blue !important; */
+}
+
+.headline p {
+  font-size: 16pt;
+  text-align: center;
 }
 
 .micButton {
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  background-color: #96D9E9;
-  color: white;
+  width: 150px;
+  height: 150px;
+  background-color: #272727;
   border: none;
   outline: none;
   /* put the button in the center */
@@ -39,93 +136,95 @@
 
 .micButtonActive {
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  background-color: #6995db;
-  align-self: center;
-  color: white;
+  width: 150px;
+  height: 150px;
+  background: #FFFFFF20;
   border: none;
   outline: none;
+  /* put the button in the center */
+  align-self: center;
 }
 
-.searchDiv {
-  padding-bottom: 20vh;
-}
-
-.notesDiv {
-  padding-bottom: 20vh;
-}
-
-.innerButtons {
-
-  background: #272727;
-  color: white;
-  width: 30%;
-  padding: 12px 0px;
-  margin-left: 4px;
-  margin-right: 4px;
-  border-radius: 25px;
-  cursor: pointer;
-
-  border: 2px solid transparent;
-  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
-  border-image-slice: 1;
-  box-shadow: 0px 0px 0px 2px #96D9E9;
-}
-
-
-
-.profileButton{
-  background: #272727;
-  color: white;
-
-  padding: 12px 5px;
-  /* margin-left: 20; */
-  /* align-self:; */
-  /* pin to the right side */
-  margin-left: auto; 
-  margin-right: 20px;
-  border-radius: 25px;
-  cursor: pointer;
-
-  border: 2px solid transparent;
-  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
-  border-image-slice: 1;
-  box-shadow: 0px 0px 0px 2px #96D9E9;
+.noteContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
 }
 
 .submitButton{
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #272727;
   color: white;
-
-  padding: 12px 5px;
-  /* margin-left: 20; */
-  /* align-self:; */
-  /* pin to the right side */
-  margin-left: 10px; 
-  margin-right: 20px;
-  border-radius: 25px;
+  padding: 12px 24px;
+  border-radius: 1rem;
   cursor: pointer;
-
+  margin-bottom: 4px;
+  margin-top: 4px;
   border: 2px solid transparent;
-  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
-  border-image-slice: 1;
-  box-shadow: 0px 0px 0px 2px #96D9E9;
 }
-.textBoxes{
-  background: #272727;
+
+.titleInput{
+  width: 35%;
+  height: fit-content;
+  padding: 12px 16px;
+  border: 1px solid #FFFFFF;
+  border-radius: 1rem;
   color: white;
-
-  padding: 12px 5px;
- 
-  margin-left: 5px; 
-  margin-right: 5px;
-  border-radius: 25px;
-  cursor: pointer;
-
-  border: 2px solid transparent;
-  /* border-image: linear-gradient(180deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%) 1 100%; */
-  border-image-slice: 1;
-  box-shadow: 0px 0px 0px 2px #96D9E9;
+  background: #272727;
+  box-sizing: border-box;
+  outline: none;
+  text-align: center;
 }
 
+.transcript{
+  width: 50%;
+  height: 8rem;
+  padding: 12px 16px;
+  border-radius: 1rem;
+  color: white;
+  background: 0;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  border: 0;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  resize: none;
+}
+
+.noteOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.sectionDiv {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 1rem;
+}
+
+.noteGallery {
+  max-width: 75%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer p {
+  color: #272727;
+  text-align: center;
+}

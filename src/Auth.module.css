@@ -7,23 +7,24 @@
   /* border: 1px solid red; */
   font-family: Inter;
   font-weight: 600;
+  box-sizing: border-box;
+  font-size: 12pt;
 }
 
 html {
-  overflow: hidden;
-  height: 100%;
+  min-height: 100vh;
+  background-color: #161616;
 }
 
 .body {
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #161616;
-    color: white;
-    min-height: 100vh;
-    padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #161616;
+  color: white;
+  height: fit-content;
+  padding: 0;
 }
 
 .inner{
@@ -31,6 +32,8 @@ html {
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 
 .header {
@@ -42,8 +45,7 @@ html {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 0;
+  position: relative;
 
   z-index: 1;
 }
@@ -101,7 +103,6 @@ html {
 }
 
 .signInMenu * {
-  font-size: 12pt;
   font-weight: 700;
 }
 
@@ -133,7 +134,7 @@ html {
   color: white;
   width: 30%;
   padding: 12px 24px;
-  border-radius: 25px;
+  border-radius: 1rem;
   cursor: pointer;
   margin-bottom: 4px;
   margin-top: 4px;
@@ -141,16 +142,17 @@ html {
   border-image-slice: 1;
 }
 
-.inputField {
+input {
   width: 30%;
   padding: 12px 16px;
   /* margin-bottom: 24px; */
-  border: 1px solid #ccc;
-  border-radius: 25px;
+  border: 1px solid #FFFFFF;
+  border-radius: 1rem;
   color: white;
   background: #272727;
   box-sizing: border-box;
   margin: 1%;
+  outline: none;
 }
 
 .button {
@@ -183,8 +185,7 @@ html {
   gap: 0px;
   align-items: center;
 
-  position: fixed;
-  bottom: 0;
+  position: relative;
 
   padding: 1% 0;
 
