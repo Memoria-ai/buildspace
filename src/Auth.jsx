@@ -25,7 +25,8 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'http://localhost:3000/buildspace',
+        redirectTo: 'https://memoria-ai.github.io/buildspace/',
+        // http://localhost:3000/buildspace
       }
     })
   }
