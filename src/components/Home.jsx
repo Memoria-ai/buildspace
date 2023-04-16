@@ -189,7 +189,7 @@ const Home = ({ session }) =>{
         </div>
         <div className={styles.noteOptions}>
           <button onClick={handleNotesView} className={styles.profileButton}>View All Notes</button>
-          <button onClick={handleSearchView}className={styles.profileButton}>Search by Title</button>
+          <button onClick={handleSearchView}className={styles.profileButton}>Search by Title/Description</button>
         </div>
       {showAllNotes ? (
         <div className={styles.sectionDiv}>
