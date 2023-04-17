@@ -27,17 +27,6 @@ const Home = ({ session }) =>{
   useEffect(() => {
     handleListen();
   }, [isListening]);
-
-  
-  // useEffect(() => {
-  //   if (gptResponse !== '' && userTitle) {
-  //     console.log("gptResponse and userTitle are set")
-  //     addNote();
-  //     setGptResponse('');
-  //     setUserTitle('Title');
-  //     setNote('');
-  //   }
-  // }, [gptResponse, userTitle]);
   
   const fetchUserNotes = async () => {
     const userId = session.user.id;
