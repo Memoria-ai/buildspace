@@ -28,17 +28,7 @@ const Home = ({ session }) =>{
     handleListen();
   }, [isListening]);
   
-  const fetchUserNotes = async () => {
-    const userId = session.user.id;
-    const { data: notes, error } = await supabase
-      .from('notes')
-      .select('*')
-      .eq('user_id', userId);
 
-    if (error) console.log('Error fetching notes:', error);
-    else setUserNotes(notes);
-    console.log("HEREERE")
-  };
 
   useEffect(() => {  
     console.log("useeffect ran")
@@ -61,10 +51,6 @@ const Home = ({ session }) =>{
 
   const handleButtonClick = async (event) => {
     event.preventDefault();
-    // await processMessageToChatGPT("This is an idea I have: " + note + ". Summarize the key points of this app (only write the points, no intro to the points)", 1000)
-    // .then((response) => {
-    //     setGptResponse(response);
-    //   });
     if(isListening){
       console.log("was listening, now stopping")
       setIsListening(false);
@@ -77,11 +63,10 @@ const Home = ({ session }) =>{
     }
     else{
       addNote(userTitle);
-    }
-    
-  
+    }  
   };
 
+  // TODO move to backend
   const addNote = async (title) => {
     if (!note) return;
     const { data: newNote, error } = await supabase
@@ -93,10 +78,24 @@ const Home = ({ session }) =>{
       })
       .single();
     if (error) console.log('Error inserting new note', error);
+    // comment this out
     else setUserNotes((prevNotes) => [...prevNotes, newNote]);
     setNote('');
     setUserTitle('Title');
     fetchUserNotes();
+  };
+
+  // MOVE TO BACKEND
+  const fetchUserNotes = async () => {
+    const userId = session.user.id;
+    const { data: notes, error } = await supabase
+      .from('notes')
+      .select('*')
+      .eq('user_id', userId);
+
+    if (error) console.log('Error fetching notes:', error);
+    else setUserNotes(notes);
+    // console.log("HEREERE")
   };
 
   async function processMessageToChatGPT(message, max_tokens){
@@ -117,6 +116,7 @@ const Home = ({ session }) =>{
     return data;
   }
 
+  // TODO: Move to backend
   const deleteNote = async (id) => {
     const { data, error } = await supabase
       .from('notes')
@@ -125,6 +125,7 @@ const Home = ({ session }) =>{
   
     if (error) {
       console.log('Error deleting note:', error);
+      // remove
     } else {
       const filteredNotes = userNotes.filter((note) => note.id !== id);
       setUserNotes(filteredNotes);
@@ -167,6 +168,7 @@ const Home = ({ session }) =>{
     setShowAllNotes(false);
   }
 
+  // MOVE to backend
   const handleSearch = () => {
     const filteredNotes = userNotes.filter((note) =>
       note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -181,15 +183,7 @@ const Home = ({ session }) =>{
     getGPTTitle();
   }
 
-  // const getGPTTitle = async () => {
-    // console.log("getGPTTitle")
-    // if(isListening){
-      // if(note !== ''){
-        // setUserTitle((await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20)).replace(/"/g, ''));
-      // }
-    // }
-  // }
-  // 
+  // move all logic to the backend
   const getGPTTitle = async () => {
     console.log("getGPTTitle");
     if (isListening && note !== '') {

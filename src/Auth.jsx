@@ -41,7 +41,6 @@ export default function Auth() {
           prompt: 'consent',
         },
       },
-      
     })
   }
 
@@ -66,7 +65,9 @@ export default function Auth() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <button className={styles.signInSubmit} disabled={loading} onClick={handleLogin}>
-            {loading ? <span>Loading!</span> : <span>Sign in with Email </span>}
+            {loading ? (
+            <span>Loading!</span>
+            ) : <span>Sign in with Email </span>}
           </button>
           <div className={styles.signInSocials}>
             <button onClick={signInWithGoogle} className={styles.signInSubmit}> <span>Sign in with Google </span></button>
