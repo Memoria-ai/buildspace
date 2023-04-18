@@ -183,7 +183,7 @@ const Home = ({ session }) =>{
     getGPTTitle();
   }
 
-  // move all logic to the backend
+  // move all logic to the backend test
   const getGPTTitle = async () => {
     console.log("getGPTTitle");
     if (isListening && note !== '') {
