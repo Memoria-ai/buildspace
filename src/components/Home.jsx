@@ -28,13 +28,10 @@ const Home = ({ session }) =>{
     handleListen();
   }, [isListening]);
   
-
-
   useEffect(() => {  
     console.log("useeffect ran")
     fetchUserNotes();
   }, [session]);
-
 
   const handleInputChange = (event) => {
     setNote(event.target.value);
