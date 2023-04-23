@@ -95,7 +95,7 @@ export default function Account() {
         />
       </div>
       <div>
-        <label htmlFor="website">Website</label>
+        <label htmlFor="website">Website:</label>
         <input
           id="website"
           type="url"

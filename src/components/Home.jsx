@@ -23,6 +23,9 @@ const Home = ({ session }) =>{
   const [searchedNotes, setSearchedNotes] = useState([]);
   const navigate = useNavigate();
   const userId = session.id;
+  const local = "http://localhost:8000/";
+  const server = 'https://memoria-ai.herokuapp.com/';
+  const current = server;
 
   useEffect(() => {
     handleListen();
@@ -63,43 +66,58 @@ const Home = ({ session }) =>{
     }  
   };
 
-  // TODO move to backend
   const addNote = async (title) => {
     if (!note) return;
-    const { data: newNote, error } = await supabase
-      .from('notes')
-      .insert({
+    const response = await fetch(current+'addNote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         user_id: session.user.id,
         title: title,
         content: note,
-      })
-      .single();
-    if (error) console.log('Error inserting new note', error);
-    // comment this out
-    else setUserNotes((prevNotes) => [...prevNotes, newNote]);
-    setNote('');
-    setUserTitle('Title');
-    fetchUserNotes();
+      }),
+    });
+  
+    if (!response.ok) {
+      console.error(response.statusText);
+    } else {
+      setNote('');
+      setUserTitle('Title');
+      fetchUserNotes();
+    }
   };
 
   // MOVE TO BACKEND
   const fetchUserNotes = async () => {
     const userId = session.user.id;
-    const { data: notes, error } = await supabase
-      .from('notes')
-      .select('*')
-      .eq('user_id', userId);
-
-    if (error) console.log('Error fetching notes:', error);
-    else setUserNotes(notes);
-    // console.log("HEREERE")
+    const response = await fetch(current+'fetchUserNotes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+    const notes = await response.json();
+    setUserNotes(notes);
+  };
+  
+  const deleteNote = async (id) => {
+    const response = await fetch(current+'deleteNote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id })
+    });
+    fetchUserNotes();
   };
 
   async function processMessageToChatGPT(message, max_tokens){
     console.log(message)
 
-    const response = await fetch('https://memoria-ai.herokuapp.com/gpt', {  
-      // http://localhost:5000/gpt
+    const response = await fetch(current+'gpt', {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -113,23 +131,6 @@ const Home = ({ session }) =>{
     const data = await response.json();
     return data;
   }
-
-  // TODO: Move to backend
-  const deleteNote = async (id) => {
-    const { data, error } = await supabase
-      .from('notes')
-      .delete()
-      .eq('id', id);
-  
-    if (error) {
-      console.log('Error deleting note:', error);
-      // remove
-    } else {
-      const filteredNotes = userNotes.filter((note) => note.id !== id);
-      setUserNotes(filteredNotes);
-    }
-    fetchUserNotes();
-  };
 
   const handleListen = () => {
     if(isListening) {
