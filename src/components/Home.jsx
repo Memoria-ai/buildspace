@@ -26,7 +26,7 @@ const Home = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
 
   useEffect(() => {
     handleListen();
@@ -90,7 +90,6 @@ const Home = ({ session }) =>{
     }
   };
 
-  // MOVE TO BACKEND
   const fetchUserNotes = async () => {
     const userId = session.user.id;
     const response = await fetch(current+'fetchUserNotes', {
@@ -287,7 +286,7 @@ const Home = ({ session }) =>{
         </div>
       )}
         <div className={styles.footer}>
-              <p>Memoria <br/> Your NLP-powered Second Brain. <br/> built for buildspace n&w s3 </p>
+              <p>Memoria <br/> Your NLP-powered Second Brain.<br/> built for buildspace n&w s3 </p>
         </div>
       </div>
     </div>
