@@ -18,14 +18,15 @@ const Home = ({ session }) =>{
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState('Title');
   const [gptResponse, setGptResponse] = useState('');
-  const [showAllNotes, setShowAllNotes] = useState(true);
+  const [currentPage, setCurrentPage] = useState('notes');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchedNotes, setSearchedNotes] = useState([]);
+  const [queryResponse, setQueryResponse] = useState('');
   const navigate = useNavigate();
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     handleListen();
@@ -160,11 +161,15 @@ const Home = ({ session }) =>{
   }
 
   const handleNotesView = () => {
-    setShowAllNotes(true);
+    setCurrentPage('notes');
   }
 
   const handleSearchView = () => {
-    setShowAllNotes(false);
+    setCurrentPage('search');
+  }
+
+  const handleQueryView = () => {
+    setCurrentPage('query')
   }
 
   // MOVE to backend
@@ -174,6 +179,19 @@ const Home = ({ session }) =>{
       note.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchedNotes(filteredNotes);
+  };
+
+  const handleQuery = async () => {
+    const userId = session.user.id;
+    const response = await fetch(current+'queryUserThoughts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId, searchTerm })
+    });
+    const gptResponse = await response.json();
+    setQueryResponse(gptResponse);
   };
 
   const handleListenChange = async () => {
@@ -215,8 +233,9 @@ const Home = ({ session }) =>{
         <div className={styles.noteOptions}>
           <button onClick={handleNotesView} className={styles.profileButton}>View All Notes</button>
           <button onClick={handleSearchView}className={styles.profileButton}>Search for Notes</button>
+          <button onClick={handleQueryView}className={styles.profileButton}>Query Thoughts</button>
         </div>
-      {showAllNotes ? (
+      {currentPage === 'notes' ? (
         <div className={styles.sectionDiv}>
           <h1>My Notes</h1>
           {userNotes.map((note) => (
@@ -227,7 +246,7 @@ const Home = ({ session }) =>{
             </div>
           ))}
         </div>
-      ) : (
+      ) : currentPage === 'search' ? (
         <div className={styles.sectionDiv}>
           <div className={styles.searchContent}>
             <h1>Search by Keywords</h1>
@@ -246,6 +265,25 @@ const Home = ({ session }) =>{
               <button onClick={() => deleteNote(note?.id)}>Delete</button>
             </div>
           ))}
+        </div>
+      ) : (
+        
+        <div className={styles.sectionDiv}>
+          <div className={styles.searchContent}>
+            <h1>Query Thoughts</h1>
+            <input
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className={styles.titleInput}
+            />
+            <button onClick={handleQuery}>Query</button>
+          </div>
+          <div>
+            <br />
+            {queryResponse}
+            <br /><br />
+          </div>
         </div>
       )}
         <div className={styles.footer}>
