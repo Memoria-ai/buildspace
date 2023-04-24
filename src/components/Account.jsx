@@ -73,6 +73,11 @@ export default function Account() {
     }
     setLoading(false)
   }
+  
+  async function signOut(){
+    await supabase.auth.signOut()
+    navigate('/')
+  }
 
   return (
     <div>
@@ -111,7 +116,7 @@ export default function Account() {
       </div>
 
       <div>
-        <button className="button block" type="button" onClick={() => supabase.auth.signOut()}>
+        <button className="button block" type="button" onClick={()=>signOut()}>
           Sign Out
         </button>
       </div>
