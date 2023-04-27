@@ -27,8 +27,8 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'http://localhost:3000/buildspace',
-        // 'https://memoria-ai.github.io/buildspace/',
+        redirectTo: 'https://memoria-ai.github.io/buildspace/',
+        // 'http://localhost:3000/buildspace',
       }
     })
   }
@@ -94,7 +94,7 @@ export default function Auth() {
         <div className={styles.preview}>
           <p>What it looks like inside...</p>
           <img src={Img.MemoriaCreateWire}/>
-          <img src={Img.MemoriaSearchWire}/>
+          <img src={Img.MemoriaSearchWire}/>``
         </div>
         <div className={styles.footer}>
           <p>Memoria <br/> Your NLP-powered Second Brain. <br/> built for buildspace n&w s3 </p>
