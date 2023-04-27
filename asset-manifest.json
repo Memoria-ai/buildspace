@@ -1,17 +1,23 @@
 {
   "files": {
-    "main.css": "/buildspace/static/css/main.ec0f5501.css",
-    "main.js": "/buildspace/static/js/main.d14a63a9.js",
+    "main.css": "/buildspace/static/css/main.50fdaf22.css",
+    "main.js": "/buildspace/static/js/main.086d15cc.js",
     "static/js/787.f7005703.chunk.js": "/buildspace/static/js/787.f7005703.chunk.js",
+    "static/media/memoria-search-wire.png": "/buildspace/static/media/memoria-search-wire.8c7079d4387c15b8bb6e.png",
+    "static/media/memoria-create-wire.png": "/buildspace/static/media/memoria-create-wire.3a40509aaf7f6155392b.png",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/buildspace/static/media/Inter-VariableFont_slnt,wght.aadb65ac45347ff46699.ttf",
     "static/media/Memoria.png": "/buildspace/static/media/Memoria.dc90d161d473cb209c38.png",
+    "static/media/google-icon-colour.svg": "/buildspace/static/media/google-icon-colour.ea872806419a85204d66daa6ad7984c1.svg",
+    "static/media/twitter-icon-white.svg": "/buildspace/static/media/twitter-icon-white.2dacbaca5c2f14c7da51529af7a26d6f.svg",
+    "static/media/gmail-icon-colour.svg": "/buildspace/static/media/gmail-icon-colour.8425265d2b93f5c1952b64d23bae0758.svg",
     "index.html": "/buildspace/index.html",
-    "main.ec0f5501.css.map": "/buildspace/static/css/main.ec0f5501.css.map",
-    "main.d14a63a9.js.map": "/buildspace/static/js/main.d14a63a9.js.map",
+    "static/media/micicon.svg": "/buildspace/static/media/micicon.6b2317b05f80b699a2cad619ef217535.svg",
+    "main.50fdaf22.css.map": "/buildspace/static/css/main.50fdaf22.css.map",
+    "main.086d15cc.js.map": "/buildspace/static/js/main.086d15cc.js.map",
     "787.f7005703.chunk.js.map": "/buildspace/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ec0f5501.css",
-    "static/js/main.d14a63a9.js"
+    "static/css/main.50fdaf22.css",
+    "static/js/main.086d15cc.js"
   ]
 }
