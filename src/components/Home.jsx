@@ -3,7 +3,7 @@ import Account from './Account';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import styles from './Home.module.css';
-import img from '../imgs/Memoria.png';
+import * as Img from "../imgs" 
 
 const SpeechRecognition = window.webkitSpeechRecognition;
 const mic = new SpeechRecognition();
@@ -26,7 +26,7 @@ const Home = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     handleListen();
@@ -145,6 +145,7 @@ const Home = ({ session }) =>{
             console.log("stopped mic onclick")
         }
     }
+    
     mic.onstart = () => {
         console.log('Mics on');
     }
@@ -212,17 +213,24 @@ const Home = ({ session }) =>{
 
   return (
     <div className={styles.body}>
-      <div className={styles.inner}>
-        <div className={styles.header}>
+      <div className={styles.inner}>        
+        <div className={styles.nav}>
           <p>Memoria</p>
-          <button onClick={handleGoToProfile} className={styles.profileButton}><span>Profile</span></button>
+          <div className={styles.navItems}>
+          <div className={styles.roundedGradientBorder}>
+            <a className={styles.button1} target="_blank" href="">About Us</a>
+          </div>
+          <div className={styles.roundedGradientBorder}>
+            <button onClick={handleGoToProfile} className={styles.button1}><span>Profile</span></button>
+          </div>
+          </div>
         </div>
         <div className={styles.headline}>
           <h1>Save, organize, and develop thoughts using your voice.</h1>
           <p>Click the mic below and speak freely!</p>
         </div>
         <div>
-          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <span>Stop</span> : <span>Start</span>}</button>
+          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}><Img.MicIcon/></button>
         </div>
         <div className={styles.noteContent}>
           <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.titleInput}/>

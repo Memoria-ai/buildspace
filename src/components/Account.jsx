@@ -24,7 +24,7 @@ export default function Account() {
           .from('profiles')
           .select(`username, website, avatar_url`)
           .eq('id', user.id)
-          .single()
+          .single()``
 
         if (error) {
           console.warn(error);
