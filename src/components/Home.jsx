@@ -26,7 +26,7 @@ const Home = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
 
   useEffect(() => {
     handleListen();
