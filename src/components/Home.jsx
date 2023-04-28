@@ -235,7 +235,7 @@ const Home = ({ session }) =>{
         <div className={styles.noteContent}>
           <input value={userTitle} onChange={handleTitleChange} placeholder='note title' className={styles.titleInput}/>
           <textarea value={note} onChange={handleInputChange} placeholder='transcription' className={styles.transcript}/>
-          <button onClick={handleButtonClick} className={styles.submitButton}><span>Commit</span></button>
+          <button onClick={handleButtonClick} className={styles.submitButton}><span>Commit John</span></button>
         </div>
         <div className={styles.noteOptions}>
           <button onClick={handleNotesView} className={styles.profileButton}>View All Notes</button>
