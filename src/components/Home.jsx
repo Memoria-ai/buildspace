@@ -136,7 +136,7 @@ const Home = ({ session }) =>{
     if(isListening) {
         mic.start();
         mic.onend = () => {
-            console.log('continue..');
+            console.log('continue...');
             mic.start();
         }
     } else {
