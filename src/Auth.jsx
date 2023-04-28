@@ -27,8 +27,8 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'https://memoria-ai.github.io/buildspace/',
-        // 'http://localhost:3000/buildspace',
+        redirectTo: 'http://localhost:3000/buildspace',
+        // 'https://memoria-ai.github.io/buildspace/',
       }
     })
   }
@@ -52,54 +52,54 @@ export default function Auth() {
 
   return (
     <div className={styles.body}>
-      <div className={styles.inner}>
         <div className={styles.nav}>
-          <p>Memoria</p>
+          <h2 className={styles.gradientText1}>Memoria</h2>
           <div className={styles.roundedGradientBorder}>
             <a className={styles.button1} target="_blank" href="">About Us</a>
           </div>
         </div>
-        <div className={styles.headline}>
-          <h1>Welcome to Memoria.</h1>
-        </div>
-        <div>
-          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>
-            <Img.MicIcon/>
-          </button>
-        </div>
-        <h2>Save, organize, and develop thoughts on your phone with voice</h2>
-        <div className={styles.signInMenu}>
-          <input
-            className={styles.inputField}
-            type="email"
-            placeholder="person@memoria.ai"
-            value={email}
-            required={true}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <div className={styles.roundedGradientBorder}>
-          <button className={styles.button1} disabled={loading} onClick={handleLogin}>
-            {loading ? (
-            <span>Loading!</span>
-            ) : <span>Sign in with Email </span>}
-          </button>
+        <div className={styles.inner}>
+          <div className={styles.headline}>
+            <h1>Welcome to Memoria.</h1>
           </div>
-          <div className={styles.roundedGradientBorder}>
-            <button onClick={signInWithGoogle} className={styles.button1}>Sign in with Google</button>
+          <div>
+            <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>
+              <Img.MicIcon/>
+            </button>
           </div>
-          <div className={styles.roundedGradientBorder}>
-            <button onClick={signInWithTwitter} className={styles.button1}>Sign in with Twitter </button>
+          <h2>Save, organize, and develop thoughts on your phone with voice</h2>
+          <div className={styles.signInMenu}>
+            <input
+              className={styles.inputField}
+              type="email"
+              placeholder="person@memoria.ai"
+              value={email}
+              required={true}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div className={styles.roundedGradientBorder}>
+            <button className={styles.button1} disabled={loading} onClick={handleLogin}>
+              {loading ? (
+              <span>Loading!</span>
+              ) : <span>Sign in with Email </span>}
+            </button>
+            </div>
+            <div className={styles.roundedGradientBorder}>
+              <button onClick={signInWithGoogle} className={styles.button1}>Sign in with Google</button>
+            </div>
+            <div className={styles.roundedGradientBorder}>
+              <button onClick={signInWithTwitter} className={styles.button1}>Sign in with Twitter </button>
+            </div>
           </div>
-        </div>
-        <div className={styles.preview}>
-          <p>What it looks like inside...</p>
-          <img src={Img.MemoriaCreateWire}/>
-          <img src={Img.MemoriaSearchWire}/>``
+          <div className={styles.preview}>
+            <p>What it looks like inside...</p>
+            <img src={Img.MemoriaCreateWire}/>
+            <img src={Img.MemoriaSearchWire}/>
+          </div>
         </div>
         <div className={styles.footer}>
           <p>Memoria <br/> Your NLP-powered Second Brain. <br/> built for buildspace n&w s3 </p>
         </div>
-      </div>
     </div>
   )
 }
