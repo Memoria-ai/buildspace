@@ -30,7 +30,7 @@ const Home = ({ session }) => {
               <a className={styles.button1} target="_blank" href="">About Us</a>
             </div>
             <div className={styles.roundedGradientBorder}>
-              <button onClick={handleGoToProfile} className={styles.button1}><span>Profile</span></button>
+              <button onClick={handleGoToProfile} className={styles.button1}>Profile</button>
             </div>
           </div>
       </div>

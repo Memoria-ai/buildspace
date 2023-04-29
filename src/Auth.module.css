@@ -323,6 +323,7 @@ input::placeholder {
 }
 
 .signInMenu {
+  min-width: 500px;
   width: fit-content;
   height: auto;
   display: flex;

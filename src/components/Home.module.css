@@ -219,7 +219,9 @@ button {
     background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 0;
+    bottom: -1px;
+
+    border-radius: 1px;
 
     z-index: 1;
   }

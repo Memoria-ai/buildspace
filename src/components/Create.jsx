@@ -45,12 +45,7 @@ const Create = ({ session }) =>{
     setUserTitle(event.target.value);
   }
 
-  const handleGoToProfile = () => {
-    console.log(session);
-    navigate('/account', {state:{session: session }});
-  }
-
-  const handleButtonClick = async (event) => {
+  const handleCommitClick = async (event) => {
     event.preventDefault();
     if(isListening){
       console.log("was listening, now stopping")
@@ -65,6 +60,20 @@ const Create = ({ session }) =>{
     else{
       addNote(userTitle);
     }  
+  };
+
+  const handleDiscardClick = async (event) => {
+    event.preventDefault();
+    if(isListening){
+      console.log("was listening, now stopping")
+      setIsListening(false);
+      mic.stop();
+      mic.onend = () => {
+        console.log('Stopped Mic on Click');
+      }
+    }
+    setUserTitle("");
+    setNote("")
   };
 
   const addNote = async (title) => {
@@ -102,17 +111,7 @@ const Create = ({ session }) =>{
     const notes = await response.json();
     setUserNotes(notes);
   };
-  
-  const deleteNote = async (id) => {
-    const response = await fetch(current+'deleteNote', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id })
-    });
-    fetchUserNotes();
-  };
+
 
   async function processMessageToChatGPT(message, max_tokens){
     console.log(message)
@@ -160,40 +159,7 @@ const Create = ({ session }) =>{
     }
   }
 
-  const handleNotesView = () => {
-    setCurrentPage('notes');
-  }
-
-  const handleSearchView = () => {
-    setCurrentPage('search');
-  }
-
-  const handleQueryView = () => {
-    setCurrentPage('query')
-  }
-
   // MOVE to backend
-  const handleSearch = () => {
-    const filteredNotes = userNotes.filter((note) =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setSearchedNotes(filteredNotes);
-  };
-
-  const handleQuery = async () => {
-    const userId = session.user.id;
-    const response = await fetch(current+'queryUserThoughts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId, searchTerm })
-    });
-    const gptResponse = await response.json();
-    setQueryResponse(gptResponse);
-  };
-
   const handleListenChange = async () => {
     setIsListening(prevState => !prevState);
     console.log("handling listen change")
@@ -223,69 +189,12 @@ const Create = ({ session }) =>{
           <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
           <textarea value={note} onChange={handleInputChange} placeholder='Thought Transcription' className={styles.transcript}/>
           <div className={styles.thoughtActionMenu}>
-            {/* make a discard thought option */}
-            <button onClick={handleButtonClick} className={styles.button2}>Discard</button> 
+            <button onClick={handleDiscardClick} className={styles.button2}>Discard</button> 
             <div className={styles.roundedGradientBorder}>
-              <button onClick={handleButtonClick} className={styles.button2}>Commit</button>
+              <button onClick={handleCommitClick} className={styles.button2}>Commit</button>
             </div>
           </div>
         </div>
-        {/* <div className={styles.noteOptions}>
-          <button onClick={handleNotesView} className={styles.profileButton}>View All Notes</button>
-          <button onClick={handleSearchView}className={styles.profileButton}>Search for Notes</button>
-          <button onClick={handleQueryView}className={styles.profileButton}>Query Thoughts</button>
-      {currentPage === 'notes' ? (
-        <div className={styles.sectionDiv}>
-          <h1>My Notes</h1>
-          {userNotes.map((note) => (
-            <div className={styles.noteGallery} key={note?.id}>
-              <span>{note?.title}</span>
-              <p>{note?.content}</p>
-              <button onClick={() => deleteNote(note?.id)}>Delete</button>
-            </div>
-          ))}
-        </div>
-      ) : currentPage === 'search' ? (
-        <div className={styles.sectionDiv}>
-          <div className={styles.searchContent}>
-            <h1>Search by Keywords</h1>
-            <input
-            type="text"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            className={styles.titleInput}
-            />
-            <button onClick={handleSearch}>Search</button>
-          </div>
-          {searchedNotes.map((note) => (
-            <div className={styles.noteGallery} key={note?.id}>
-              <span>{note?.title}</span>
-              <p>{note?.content}</p>
-              <button onClick={() => deleteNote(note?.id)}>Delete</button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        
-        <div className={styles.sectionDiv}>
-          <div className={styles.searchContent}>
-            <h1>Query Thoughts</h1>
-            <input
-            type="text"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            className={styles.titleInput}
-            />
-            <button onClick={handleQuery}>Query</button>
-          </div>
-          <div>
-            <br />
-            {queryResponse}
-            <br /><br />
-          </div>
-        </div>
-      )}
-      </div> */}
     </div>
   );
 }
