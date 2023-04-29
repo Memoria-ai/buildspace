@@ -48,7 +48,7 @@ const Home = ({ session }) => {
       ) : (
         <Search session={session} />
         // <div>there</div>
-      )}``
+      )}
     </div>
   )
 }
