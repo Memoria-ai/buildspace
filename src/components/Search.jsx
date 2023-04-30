@@ -23,7 +23,7 @@ const Search = ({ session }) => {
 
   useEffect(() => {
     fetchUserNotes();
-  })
+  }, [session])
 
   const fetchUserNotes = async () => {
     const userId = session.user.id;
