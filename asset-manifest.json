@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/buildspace/static/css/main.d5d32cbb.css",
-    "main.js": "/buildspace/static/js/main.ea147d4e.js",
+    "main.css": "/buildspace/static/css/main.58b91b1e.css",
+    "main.js": "/buildspace/static/js/main.2e659cb6.js",
     "static/js/787.f7005703.chunk.js": "/buildspace/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/buildspace/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
     "static/media/memoria-create-wire.png": "/buildspace/static/media/memoria-create-wire.89e22ce989a3503202d1.png",
@@ -12,12 +12,12 @@
     "static/media/gmail-icon-colour.svg": "/buildspace/static/media/gmail-icon-colour.57c570d0ff72811535c13ffc0ebd19ad.svg",
     "index.html": "/buildspace/index.html",
     "static/media/micicon.svg": "/buildspace/static/media/micicon.1b875e306cc3713f3e4ac10ef53d49f6.svg",
-    "main.d5d32cbb.css.map": "/buildspace/static/css/main.d5d32cbb.css.map",
-    "main.ea147d4e.js.map": "/buildspace/static/js/main.ea147d4e.js.map",
+    "main.58b91b1e.css.map": "/buildspace/static/css/main.58b91b1e.css.map",
+    "main.2e659cb6.js.map": "/buildspace/static/js/main.2e659cb6.js.map",
     "787.f7005703.chunk.js.map": "/buildspace/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d5d32cbb.css",
-    "static/js/main.ea147d4e.js"
+    "static/css/main.58b91b1e.css",
+    "static/js/main.2e659cb6.js"
   ]
 }
