@@ -163,8 +163,11 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   gap: 0.5rem;
+
+  padding: 1rem;
+  border: 5px solid #27272725;
+  border-radius: 25px;
 }
 
 @media screen and (min-width: 481px) {
