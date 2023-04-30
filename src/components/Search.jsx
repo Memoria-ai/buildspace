@@ -98,16 +98,18 @@ const Search = ({ session }) => {
         <h2>Thought Bank</h2>
       </div>
       <div className={styles.queryFilterBar}>
+        <h3>Query your thoughts, powered by GPT.</h3>
         <div className={styles.roundedGradientBorder}>
-        <input               
-          type="text"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          className={styles.titleInput}
-          placeholder='Query your thoughts here...'
-          onKeyDown={handleKeyDown}
-        />
+          <input               
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className={styles.titleInput}
+            placeholder='Query your thoughts here...'
+            onKeyDown={handleKeyDown}
+          />
         </div>
+        <p>Press enter to submit query!</p>
       </div>
       <div>
       {queryResponse}

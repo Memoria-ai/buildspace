@@ -204,8 +204,17 @@ button {
   }
 
   .queryFilterBar {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
     width: calc(100% - 20rem);
     min-width: 600px;
+  }
+
+  .queryFilterBar p {
+    align-self: center;
+    color: #272727;
   }
 }
 
