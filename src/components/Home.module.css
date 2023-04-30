@@ -95,12 +95,14 @@ button {
 /* BODY STYLING STARTS */
 
 .body {
-  height: fit-content;
+  height: 100vh;
   width: 100vw;
   
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  overflow: scroll;
 }
 
 .button1 {
@@ -267,5 +269,63 @@ button {
 
   .nav .roundedGradientBorder, .nav .button1, .inner h2 {
     display: none;
+  }
+
+  .pageSelector {
+    position: absolute;
+    width: fit-content ;
+    height: fit-content;
+    left: 50%;
+    transform: translateX(-50%) scale(1.2);
+    bottom: 32px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+
+    background: #161616;
+    border: 1px solid #272727;
+    border-radius: 20px;
+  }
+
+  .pageSelectDiv {
+    width: fit-content;
+    position: relative;
+    /* border: 1px solid red; */
+  }
+
+  .pageSelectButton, .pageSelectButtonActive {
+    padding: 16px 40px;
+    background-color: transparent;
+    border: none;
+  }
+    
+  .pageSelectButton:first-child::after {
+    content: "";
+    position: absolute;
+    height: 50%;
+    width: 1px;
+    background-color: #272727;
+    right:0;
+    transform: translateX(-50%);
+    top: 25%;
+
+    z-index: 1;
+  }
+
+  .pageSelectActive::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -1px;
+
+    border-radius: 1px;
+
+    z-index: 1;
   }
 }

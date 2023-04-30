@@ -98,7 +98,9 @@ const Search = ({ session }) => {
         <h2>Thought Bank</h2>
       </div>
       <div className={styles.queryFilterBar}>
-        <h3>Query your thoughts, powered by GPT.</h3>
+        <div className={styles.headline}>
+          <h3>Query your thoughts, powered by GPT.</h3>
+        </div>
         <div className={styles.roundedGradientBorder}>
           <input               
             type="text"
@@ -110,8 +112,9 @@ const Search = ({ session }) => {
           />
         </div>
         <p>Press enter to submit query!</p>
+        <button onClick={handleQuery} className={`${styles.submitQueryButton} ${styles.button1}`}>Submit Query!</button>
       </div>
-      <div>
+      <div className={styles.headline}>
       {queryResponse}
       </div>
       <div className={styles.noteGallery}>

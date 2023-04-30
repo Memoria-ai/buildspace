@@ -91,17 +91,6 @@ button {
 
 /* BODY STYLING STARTS */
 
-.body {
-  min-height: calc(100vh - 5.25rem);
-  height: fit-content;
-  width: 100vw;
-  
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-}
-
 .button1 {
   display: flex;
   flex-direction: row;
@@ -137,39 +126,6 @@ button {
   border: 2px solid #272727;
 }
 
-.noteOptions {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 1rem;
-}
-  
-.noteGallery {
-  max-width: 75%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-
-  /* border: 1px solid blue; */
-}
-
-.note {
-  /* border: 1px solid red; */
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-
-  padding: 1rem;
-  border: 5px solid #27272725;
-  border-radius: 25px;
-}
-
 @media screen and (min-width: 481px) {
   h1 {    
     font-size: 40pt;
@@ -196,16 +152,26 @@ button {
   }
   
   .body {
+    height: fit-content;
+    width: 100vw;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
     padding: 3rem 5rem 2rem;
   }
 
   .headline {
+    display: flex;
+    flex-direction: column;
     width: 50%;
+    align-self: center;
   }
 
   .queryFilterBar {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
 
     gap: 1rem;
     width: calc(100% - 20rem);
@@ -215,6 +181,36 @@ button {
   .queryFilterBar p {
     align-self: center;
     color: #272727;
+  }
+
+  .submitQueryButton {
+    display: none;
+  }
+
+  .noteGallery {
+    max-width: 75%;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  
+    /* border: 1px solid blue; */
+  }
+  
+  .note {
+    /* border: 1px solid red; */
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  
+    padding: 1rem;
+    border: 5px solid #27272725;
+    border-radius: 25px;
   }
 }
 
@@ -237,9 +233,27 @@ button {
     text-align: center;
     letter-spacing: -0.02em;
   }
-  
+
   input {
     width: 300px;
+    height: 2.2rem;
+  }
+
+  .body {
+    padding: 2rem 0rem 8rem;
+
+    height: fit-content;
+    width: 100vw;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .roundedGradientBorder {
+    width: fit-content;
+    height: fit-content;
   }
 
   .gradientText1, h1, h2, h3 {
@@ -267,6 +281,55 @@ button {
 
   .nav .roundedGradientBorder, .nav .button1, .inner h2 {
     display: none;
+  }
+
+  .headline {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+  }
+
+  .queryFilterBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 0.5rem;
+  }
+
+  .queryFilterBar .headline {
+    padding-bottom: 0.2rem;
+  }
+
+  .queryFilterBar p {
+    align-self: center;
+    color: #272727;
+  }
+
+  .noteGallery {
+    max-width: 90%;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  
+    /* border: 1px solid blue; */
+  }
+  
+  .note {
+    /* border: 1px solid red; */
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  
+    padding: 0.75rem;
+    border: 5px solid #27272725;
+    border-radius: 25px;
   }
 }
 

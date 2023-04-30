@@ -22,7 +22,7 @@ const Home = ({ session }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.body}>
       <div className={styles.nav}>
           <h2>Memoria</h2>
           <div className={styles.navItems}>

@@ -56,7 +56,14 @@ html {
   height: fit-content;
   width: 100vw;
 
+  overflow: hidden;
+
   background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%), #FFFFFF;
+}
+
+.container {
+  overflow-y: scroll;
+  height: 100vh;
 }
 
 button {
@@ -86,12 +93,14 @@ button {
 /* BODY STYLING STARTS */
 
 .body {
-  height: fit-content;
+  height: 100vh;
   width: 100vw;
   
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  overflow-y: scroll;
 }
 
 .button1 {
@@ -179,7 +188,6 @@ button {
 
   .nav {
     width: 100%;
-    min-height: 5.25rem;
     height: fit-content;
   
     display: flex;
@@ -205,6 +213,17 @@ button {
   .headline {
     width: fit-content;
     /* border: solid 1px blue !important; */
+  }
+
+  .signInMenu {
+    min-width: calc(480px - 2rem);
+    width: fit-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  
+    justify-content: center;
   }
 
   .preview {
@@ -258,12 +277,11 @@ button {
 
   .nav {
     width: 100%;
-    min-height: 3.25rem;
     height: fit-content;
   
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 16px 64px;
   
@@ -288,6 +306,17 @@ button {
   .headline {
     width: 90%;
     /* border: solid 1px blue !important; */
+  }
+
+  .signInMenu {
+    max-width: calc(100vw - 2rem);
+    width: fit-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  
+    justify-content: center;
   }
 
   .preview {
@@ -320,17 +349,6 @@ input {
 
 input::placeholder {
   color: #272727;
-}
-
-.signInMenu {
-  min-width: 500px;
-  width: fit-content;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  justify-content: center;
 }
 
 img {
