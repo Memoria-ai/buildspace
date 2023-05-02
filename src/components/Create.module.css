@@ -304,6 +304,7 @@ button {
 
   .headline {
     width: 100%;
+    padding-bottom: 0.5rem;
   }
 
   .thoughtActionFields {
@@ -316,7 +317,7 @@ button {
   }
 
   .thoughtActionMenu {
-    margin-top:0.2rem;
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: row;
     gap: 1rem;
