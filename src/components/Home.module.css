@@ -276,8 +276,8 @@ button {
     width: fit-content ;
     height: fit-content;
     left: 50%;
-    transform: translateX(-50%) scale(1.2);
-    bottom: 32px;
+    transform: translateX(-50%) scale(1.3);
+    bottom: 16px;
 
     display: flex;
     flex-direction: row;

@@ -66,15 +66,6 @@ button {
 
 /* GLOBAL STYLING START */
 
-.gradientText1, h1, h2, h3 {
-  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-
-  text-shadow: 0px 0px 25px rgba(217, 119, 204, 0.5), 0px 0px 50px rgba(255, 255, 255, 0.1);
-}
-
 .roundedGradientBorder {
   border: double 1.5px transparent;
   border-radius: 20px;
@@ -173,6 +164,15 @@ button {
     letter-spacing: -0.02em;
   }
 
+  .gradientText1, h1, h2, h3 {
+    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  
+    text-shadow: 0px 0px 25px rgba(217, 119, 204, 0.5), 0px 0px 50px rgba(255, 255, 255, 0.1);
+  }
+
   input {
     width: 450px;
   }
@@ -262,7 +262,7 @@ button {
   }
   
   h2 {  
-    font-size: 20pt !important;
+    font-size: 18pt !important;
     font-weight: 700;
   }
   
@@ -275,6 +275,15 @@ button {
     letter-spacing: -0.02em;
   }
   
+  .gradientText1, h1, h2, h3 {
+    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  
+    text-shadow: 0px 0px 15px rgba(217, 119, 204, 0.25), 0px 0px 35px rgba(255, 255, 255, 0.1);
+  }
+  
   input {
     width: 300px;
   }
@@ -282,7 +291,7 @@ button {
   .body {
     width: 100vw;
     
-    padding: 1rem 1rem 7rem;
+    padding: 1.5rem 1rem 7rem;
 
     display: flex;
     flex-direction: column;
