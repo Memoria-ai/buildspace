@@ -149,7 +149,6 @@ button {
     width: 450px;
   }
 
-
   .nav {
     width: 100%;
     min-height: 5.25rem;
@@ -259,16 +258,25 @@ button {
     height: fit-content;
   
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 16px 64px;
+    gap: 0.5rem;
+    padding: 16px 32px;
   
     border-bottom: solid 1px #272727;
   }
 
-  .nav .roundedGradientBorder, .nav .button1, .inner h2 {
-    display: none;
+  .nav h2 {
+    font-size: 24pt !important;
+  }
+
+  .navItems {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    justify-content: center;
   }
 
   .pageSelector {
