@@ -126,63 +126,6 @@ const Search = ({ session }) => {
         </div>
       ))}
       </div>
-      {/* <div className={styles.noteOptions}>
-        <button onClick={handleNotesView} className={styles.profileButton}>View All Notes</button>
-        <button onClick={handleSearchView}className={styles.profileButton}>Search for Notes</button>
-        <button onClick={handleQueryView}className={styles.profileButton}>Query Thoughts</button>
-      </div>
-      <div>
-        {currentPage === 'notes' ? (
-          <div className={styles.sectionDiv}>
-            <h1>My Notes</h1>
-            {userNotes.map((note) => (
-              <div className={styles.noteGallery} key={note?.id}>
-                <span>{note?.title}</span>
-                <p>{note?.content}</p>
-                <button onClick={() => deleteNote(note?.id)}>Delete</button>
-              </div>
-            ))}
-          </div>
-        ) : currentPage === 'search' ? (
-          <div className={styles.sectionDiv}>
-            <div className={styles.searchContent}>
-              <h1>Search by Keywords</h1>
-              <input
-              type="text"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              className={styles.titleInput}
-              />
-              <button onClick={handleSearch}>Search</button>
-            </div>
-            {searchedNotes.map((note) => (
-              <div className={styles.noteGallery} key={note?.id}>
-                <span>{note?.title}</span>
-                <p>{note?.content}</p>
-                <button onClick={() => deleteNote(note?.id)}>Delete</button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className={styles.sectionDiv}>
-            <div className={styles.searchContent}>
-              <h1>Query Thoughts</h1>
-              <input
-              type="text"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              className={styles.titleInput}
-              />
-              <button onClick={handleQuery}>Query</button>
-            </div>
-            <div>
-              <br />
-              {queryResponse}
-              <br /><br />
-            </div>
-          </div>
-        )}
-      </div> */}
     </div>
   )
 }
