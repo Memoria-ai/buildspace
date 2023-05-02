@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/buildspace/static/css/main.e5056e8f.css",
+    "main.css": "/buildspace/static/css/main.a8007c73.css",
     "main.js": "/buildspace/static/js/main.a185dd2a.js",
     "static/js/787.f7005703.chunk.js": "/buildspace/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/buildspace/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
@@ -12,12 +12,12 @@
     "static/media/gmail-icon-colour.svg": "/buildspace/static/media/gmail-icon-colour.8425265d2b93f5c1952b64d23bae0758.svg",
     "index.html": "/buildspace/index.html",
     "static/media/micicon.svg": "/buildspace/static/media/micicon.6b2317b05f80b699a2cad619ef217535.svg",
-    "main.e5056e8f.css.map": "/buildspace/static/css/main.e5056e8f.css.map",
+    "main.a8007c73.css.map": "/buildspace/static/css/main.a8007c73.css.map",
     "main.a185dd2a.js.map": "/buildspace/static/js/main.a185dd2a.js.map",
     "787.f7005703.chunk.js.map": "/buildspace/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e5056e8f.css",
+    "static/css/main.a8007c73.css",
     "static/js/main.a185dd2a.js"
   ]
 }
