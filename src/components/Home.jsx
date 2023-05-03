@@ -27,7 +27,7 @@ const Home = ({ session }) => {
           <h2>Memoria</h2>
           <div className={styles.navItems}>
             <div className={styles.roundedGradientBorder}>
-              <a className={styles.button1} target="_blank" href="">About</a>
+              <a className={styles.button1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About</a>
             </div>
             <div className={styles.roundedGradientBorder}>
               <button onClick={handleGoToProfile} className={styles.button1}>Profile</button>

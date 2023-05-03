@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import styles from './Account.module.css';
 
 export default function Account() {
   const [loading, setLoading] = useState(true);
@@ -80,17 +81,19 @@ export default function Account() {
   }
 
   return (
-    <div>
+    <div className={styles.body}>
     {session ? (
     
-    <form onSubmit={updateProfile} className="form-widget">
-      <button onClick={() => navigate('/')}>Go Home</button>
+    <form onSubmit={updateProfile} className={styles.body}>
+      <div className={styles.roundedGradientBorder}>
+        <button onClick={() => navigate('/')} className={styles.button1}>Go Home</button>
+      </div>
       <div>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className={styles.gradientText1}>Email</label>
         <input id="email" type="text" value={session.user.email} disabled />
       </div>
       <div>
-        <label htmlFor="username">Name</label>
+        <label htmlFor="username" className={styles.gradientText1}>Name</label>
         <input
           id="username"
           type="text"
@@ -100,7 +103,7 @@ export default function Account() {
         />
       </div>
       <div>
-        <label htmlFor="website">Website:</label>
+        <label htmlFor="website" className={styles.gradientText1}>Website:</label>
         <input
           id="website"
           type="url"
@@ -108,15 +111,13 @@ export default function Account() {
           onChange={(e) => setWebsite(e.target.value)}
         />
       </div>
-
-      <div>
-        <button className="button block primary" type="submit" disabled={loading}>
-          {loading ? 'Loading ...' : 'Update'}
+      <div className={styles.roundedGradientBorder}>
+        <button className={styles.button1} type="submit" disabled={loading}>
+          {loading ? 'Loading...' : 'Update'}
         </button>
       </div>
-
-      <div>
-        <button className="button block" type="button" onClick={()=>signOut()}>
+      <div className={styles.roundedGradientBorder}>
+        <button className={styles.button1} type="button" onClick={()=>signOut()}>
           Sign Out
         </button>
       </div>
