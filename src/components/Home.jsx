@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styles from './Home.module.css';
 import { useNavigate } from 'react-router-dom';
 import Create from './Create'
-import Search from './Search'
+// import Search from './Search'
+import Search from './Search';
 
 const Home = ({ session }) => {
   const [page, setPage] = useState("Create")

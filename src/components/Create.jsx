@@ -22,6 +22,7 @@ const Create = ({ session }) =>{
   const [searchTerm, setSearchTerm] = useState('');
   const [searchedNotes, setSearchedNotes] = useState([]);
   const [queryResponse, setQueryResponse] = useState('');
+  const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const userId = session.id;
   const local = "http://localhost:8000/";
@@ -73,7 +74,8 @@ const Create = ({ session }) =>{
       }
     }
     setUserTitle("");
-    setNote("")
+    setNote("");
+    setTags([]);
   };
 
   const addNote = async (title) => {
@@ -87,16 +89,32 @@ const Create = ({ session }) =>{
         user_id: session.user.id,
         title: title,
         content: note,
+        tags: tags,
       }),
     });
   
     if (!response.ok) {
       console.error(response.statusText);
     } else {
+      await sendTags();
       setNote('');
       setUserTitle('Title');
+      setTags([]);
       fetchUserNotes();
     }
+  };
+
+  const sendTags = async () => {
+    const response = await fetch(current+'addTags', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tags: tags,
+        userId: session.user.id,
+      }),
+    });
   };
 
   const fetchUserNotes = async () => {
@@ -156,6 +174,7 @@ const Create = ({ session }) =>{
         mic.onerror = event => {
             console.log(event.error);
         }
+        
     }
   }
 
@@ -163,7 +182,12 @@ const Create = ({ session }) =>{
   const handleListenChange = async () => {
     setIsListening(prevState => !prevState);
     console.log("handling listen change")
-    getGPTTitle();
+    if(isListening){
+
+      await getGPTTitle();
+      await getTags();
+      console.log('here')
+    }
   }
 
   // move all logic to the backend test
@@ -177,6 +201,37 @@ const Create = ({ session }) =>{
     }
   };
 
+  const getUserTags = async () => {
+    const userId = session.user.id;
+    const response = await fetch(current+'getUserTags', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+    const tags = await response.json();
+    console.log(tags);
+    return tags;
+  };
+
+  const getTags = async () => {
+    console.log("getTags");
+    if (isListening && note !== '') {
+      const currentTags = await getUserTags();
+      console.log(currentTags)
+      const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return 3 one-word tags that are related to the note, and list them as the following example does - 'notes, plans, cooking'. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 20);
+      const Tags = title.replace(/"/g, '');
+      const arr = Tags.split(', ');
+      setTags(arr);
+      console.log('array is here')
+      console.log(arr);
+      return arr;
+    }
+  };
+
+
+
   return (
     <div className={styles.body}>    
         <div className={styles.headline}>
@@ -188,6 +243,9 @@ const Create = ({ session }) =>{
         <div className={styles.thoughtActionFields}>
           <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
           <textarea value={note} onChange={handleInputChange} placeholder='Thought Transcription' className={styles.transcript}/>
+          {tags.length > 0 && <div className={styles.tags}>Tags:  
+            {tags.map((tag) => <span className={styles.tag}> {tag}</span>)}
+          </div>}
           <div className={styles.thoughtActionMenu}>
             <button onClick={handleDiscardClick} className={styles.button2}>Discard</button> 
             <div className={styles.roundedGradientBorder}>

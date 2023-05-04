@@ -19,11 +19,11 @@ const Search = ({ session }) => {
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
 
   useEffect(() => {
     fetchUserNotes();
-  })
+  }, [session])
 
   const fetchUserNotes = async () => {
     const userId = session.user.id;
@@ -122,6 +122,10 @@ const Search = ({ session }) => {
         <div className={styles.note} key={note?.id}>
           <h3>{note?.title}</h3>
           <p>{note?.content}</p>
+          {note?.Tags?.map((tag) => (
+            <span className={styles.tag}>{tag}</span>
+          )
+          )}
           <button className={styles.button1} onClick={() => deleteNote(note?.id)}>Delete</button>
         </div>
       ))}
