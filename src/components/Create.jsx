@@ -17,17 +17,12 @@ const Create = ({ session }) =>{
   const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState('Title');
-  const [gptResponse, setGptResponse] = useState('');
-  const [currentPage, setCurrentPage] = useState('notes');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchedNotes, setSearchedNotes] = useState([]);
-  const [queryResponse, setQueryResponse] = useState('');
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     handleListen();

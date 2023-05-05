@@ -126,7 +126,7 @@ button {
   border: 2px solid #272727;
 }
 
-@media screen and (min-width: 481px) {
+@media screen and (min-width: 871px) {
   h1 {    
     font-size: 40pt;
     font-weight: 700;
@@ -214,7 +214,7 @@ button {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 870px) {
   h1 {    
     font-size: 32pt;
     font-weight: 700;
@@ -242,8 +242,10 @@ button {
   .body {
     padding: 2rem 0rem 8rem;
 
-    height: fit-content;
+    height: 100%;
     width: 100vw;
+
+    overflow: scroll;
     
     display: flex;
     flex-direction: column;

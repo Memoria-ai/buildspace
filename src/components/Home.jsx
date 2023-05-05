@@ -35,7 +35,7 @@ const Home = ({ session }) => {
             </div>
           </div>
       </div>
-      <div className={styles.pageSelector}>
+      <div className={styles.webPageSelector}>
         <div className={styles.pageSelectDiv}>
           <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Create</button>
         </div>
@@ -50,6 +50,14 @@ const Home = ({ session }) => {
         <Search session={session} />
         // <div>there</div>
       )}
+      <div className={styles.mobilePageSelector}>
+        <div className={styles.pageSelectDiv}>
+          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Create</button>
+        </div>
+        <div className={styles.pageSelectDiv}>
+          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Search</button>
+        </div>
+      </div>
     </div>
   )
 }
