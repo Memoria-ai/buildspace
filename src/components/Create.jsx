@@ -105,6 +105,8 @@ const Create = ({ session }) =>{
   };
 
   const sendTags = async () => {
+    console.log("sending tags" + tags)
+    console.log("DSSDFSDFJHGSDFJHGDSJHFGDJFHSGSJDHFG")
     const response = await fetch(current+'addTags', {
       method: 'POST',
       headers: {

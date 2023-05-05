@@ -125,7 +125,14 @@ button {
   border-radius: 20px;
   border: 2px solid #272727;
 }
+.selected {
+  background-color: blue;
+  color: white;
+}
 
+.but {
+  color: #D977CC;
+}
 @media screen and (min-width: 481px) {
   h1 {    
     font-size: 40pt;
