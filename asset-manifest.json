@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/buildspace/static/css/main.9592e1eb.css",
-    "main.js": "/buildspace/static/js/main.c6fb2c24.js",
+    "main.css": "/buildspace/static/css/main.9f7a43ae.css",
+    "main.js": "/buildspace/static/js/main.0b996e6d.js",
     "static/js/787.f7005703.chunk.js": "/buildspace/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/buildspace/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
     "static/media/memoria-create-wire.png": "/buildspace/static/media/memoria-create-wire.89e22ce989a3503202d1.png",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/buildspace/static/media/Inter-VariableFont_slnt,wght.aadb65ac45347ff46699.ttf",
     "static/media/Memoria.png": "/buildspace/static/media/Memoria.dc90d161d473cb209c38.png",
-    "static/media/google-icon-colour.svg": "/buildspace/static/media/google-icon-colour.ea872806419a85204d66daa6ad7984c1.svg",
-    "static/media/twitter-icon-white.svg": "/buildspace/static/media/twitter-icon-white.2dacbaca5c2f14c7da51529af7a26d6f.svg",
-    "static/media/gmail-icon-colour.svg": "/buildspace/static/media/gmail-icon-colour.8425265d2b93f5c1952b64d23bae0758.svg",
+    "static/media/google-icon-colour.svg": "/buildspace/static/media/google-icon-colour.c0829a6a7dd34cd1872b80aec0b814b9.svg",
+    "static/media/twitter-icon-white.svg": "/buildspace/static/media/twitter-icon-white.a455a024aaf0e01b33dd91dd9b69286d.svg",
+    "static/media/gmail-icon-colour.svg": "/buildspace/static/media/gmail-icon-colour.57c570d0ff72811535c13ffc0ebd19ad.svg",
     "index.html": "/buildspace/index.html",
-    "static/media/micicon.svg": "/buildspace/static/media/micicon.6b2317b05f80b699a2cad619ef217535.svg",
-    "main.9592e1eb.css.map": "/buildspace/static/css/main.9592e1eb.css.map",
-    "main.c6fb2c24.js.map": "/buildspace/static/js/main.c6fb2c24.js.map",
+    "static/media/micicon.svg": "/buildspace/static/media/micicon.1b875e306cc3713f3e4ac10ef53d49f6.svg",
+    "main.9f7a43ae.css.map": "/buildspace/static/css/main.9f7a43ae.css.map",
+    "main.0b996e6d.js.map": "/buildspace/static/js/main.0b996e6d.js.map",
     "787.f7005703.chunk.js.map": "/buildspace/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9592e1eb.css",
-    "static/js/main.c6fb2c24.js"
+    "static/css/main.9f7a43ae.css",
+    "static/js/main.0b996e6d.js"
   ]
 }
