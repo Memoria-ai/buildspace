@@ -3,6 +3,7 @@ import { supabase } from './supabaseClient'
 import styles from './Auth.module.css'
 import Memoria from './imgs/Memoria.png'
 import * as Img from "./imgs" 
+import * as Feat from "./imgs/feature-cards"
 
 export default function Auth() {
   const [loading, setLoading] = useState(false)
@@ -46,14 +47,10 @@ export default function Auth() {
     })
   }
 
-  const handleListenChange = async () => {
-    setIsListening(prevState => !prevState);
-  }
-
   return (
     <div className={styles.body}>
         <div className={styles.nav}>
-          <h2 className={styles.gradientText1}>Memoria</h2>
+          <h2>Memoria</h2>
           <div className={styles.roundedGradientBorder}>
             <a className={styles.button1} target="_blank" href="">About Us</a>
           </div>
@@ -61,44 +58,27 @@ export default function Auth() {
         <div className={styles.inner}>
           <div className={styles.headline}>
             <h1>Welcome to Memoria.</h1>
+            <h2>Save, organize, and develop thoughts on your phone with voice</h2>
           </div>
-          <div>
-            <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>
-              <Img.MicIcon/>
-            </button>
-          </div>
-          <h2>Save, organize, and develop thoughts on your phone with voice</h2>
           <div className={styles.signInMenu}>
-            <input
-              className={styles.inputField}
-              type="email"
-              placeholder="person@memoria.ai"
-              value={email}
-              required={true}
-              onChange={(e) => setEmail(e.target.value)}
-            />
             <div className={styles.roundedGradientBorder}>
-            <button className={styles.button1} disabled={loading} onClick={handleLogin}>
-              {loading ? (
-              <span>Loading!</span>
-              ) : <span>Sign in with Email </span>}
-            </button>
+              <button onClick={signInWithGoogle} className={styles.signInButton}><p>Sign in with Google</p><Img.GoogleIcon/></button>
             </div>
             <div className={styles.roundedGradientBorder}>
-              <button onClick={signInWithGoogle} className={styles.button1}>Sign in with Google</button>
-            </div>
-            <div className={styles.roundedGradientBorder}>
-              <button onClick={signInWithTwitter} className={styles.button1}>Sign in with Twitter </button>
+              <button onClick={signInWithTwitter} className={styles.signInButton}><p>Sign in with Twitter</p><Img.TwitterIcon/></button>
             </div>
           </div>
-          <div className={styles.preview}>
-            <p>What it looks like inside...</p>
-            <img src={Img.MemoriaCreateWire}/>
-            <img src={Img.MemoriaSearchWire}/>
+          <iframe width="627" height="405" src="https://www.youtube.com/embed/mgALvWdFxPY" title="Memoria Demo (April 30th)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <p>Features</p>
+          <div className={styles.gallery}>
+            <img src={Feat.Feature1}/> 
+            <img src={Feat.Feature2}/> 
+            <img src={Feat.Feature3}/> 
+            <img src={Feat.Feature4}/> 
           </div>
         </div>
         <div className={styles.footer}>
-          <p>Memoria <br/> Your NLP-powered Second Brain. <br/> built for buildspace n&w s3 </p>
+          <p>Made with love from California & Canada</p>
         </div>
     </div>
   )

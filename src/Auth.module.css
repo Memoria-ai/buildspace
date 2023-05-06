@@ -103,7 +103,7 @@ button {
   overflow-y: scroll;
 }
 
-.button1 {
+.button1, .signInButton {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -115,38 +115,18 @@ button {
   border-radius: 100px;
 }
 
-.button1:hover {
+.button1:hover, .signInButton:hover {
   background: #272727;
 }
 
-.button1 * {
+.button1 *, .signInButton *{
   font-weight: 700;
 }
 
-.micButton, .micButtonActive {
-  width: 200px;
-  height: 200px;
-
-  border-radius: 100px;
-}
-.micButton {
-  border: 5px solid #272727;
-  background: rgba(39, 39, 39, 0.25);
-  box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(255, 255, 255, 0.1);
-}
-
-.micButton:active {
-  background-color: #27272780;
-}
-
-.micButtonActive {
-  background: rgba(39, 39, 39, 0.25);
-  border: double 3px transparent;
-  background-image: linear-gradient(#161616,#161616), linear-gradient(-45deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  
-  box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(217, 119, 204, 0.25), 0px 0px 50px rgba(255, 255, 255, 0.1);
+.signInButton {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
 }
 
 .signInMenu * {
@@ -177,7 +157,7 @@ button {
     width: 450px;
   }
   
-  .gradientText1, h1, h2, h3 {
+  .gradientText1 {
     background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -233,12 +213,31 @@ button {
     flex-direction: column;
     margin-top: 1rem;
     gap: 2rem;
+    align-items: center;
   }
   
   .preview p {
     color: #272727;
     font-size: 16pt;
     align-self: center;
+  }
+
+  .gallery {
+    width: 75%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 450px);
+    grid-gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery img {
+    height: auto;
+    width: 100%;
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 }
 
