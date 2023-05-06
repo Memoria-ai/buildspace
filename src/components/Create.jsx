@@ -22,7 +22,7 @@ const Create = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     handleListen();
@@ -100,6 +100,8 @@ const Create = ({ session }) =>{
   };
 
   const sendTags = async () => {
+    console.log("sending tags" + tags)
+    console.log("DSSDFSDFJHGSDFJHGDSJHFGDJFHSGSJDHFG")
     const response = await fetch(current+'addTags', {
       method: 'POST',
       headers: {
@@ -228,10 +230,7 @@ const Create = ({ session }) =>{
 
 
   return (
-    <div className={styles.body}>    
-        <div className={styles.headline}>
-          <h2>Save, organize, and develop thoughts using your voice.</h2>
-        </div>
+    <div className={styles.body}>
         <div>
           <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}><Img.MicIcon/></button>
         </div>

@@ -5,3 +5,4 @@ export { ReactComponent as MicIcon } from "./micicon.svg";
 export { ReactComponent as TwitterIcon } from "./twitter-icon-white.svg";
 export { ReactComponent as GmailIcon } from "./gmail-icon-colour.svg";
 export { ReactComponent as GoogleIcon } from "./google-icon-colour.svg";
+export { ReactComponent as TrashIcon } from "./trash_full.svg";

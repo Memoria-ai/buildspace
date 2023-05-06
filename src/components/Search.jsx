@@ -6,24 +6,31 @@ import styles from './Search.module.css';
 import * as Img from "../imgs" 
 
 const Search = ({ session }) => {
-  const [isListening, setIsListening] = useState(false);
-  const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState('Title');
-  const [gptResponse, setGptResponse] = useState('');
-  const [currentPage, setCurrentPage] = useState('notes');
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchedNotes, setSearchedNotes] = useState([]);
   const [queryResponse, setQueryResponse] = useState('');
   const navigate = useNavigate();
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
+  const [userTags, setUserTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
     fetchUserNotes();
+    getUserTags().then(tags => setUserTags(tags));
   }, [session])
+
+  const handleTagSelection = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+    console.log(selectedTags);
+  };
+  
 
   const fetchUserNotes = async () => {
     const userId = session.user.id;
@@ -36,31 +43,23 @@ const Search = ({ session }) => {
     });
     const notes = await response.json();
     setUserNotes(notes);
+    console.log("SKDJFHSDKFJHSDKFJH")
+    console.log(notes);
   };
 
-  const handleSearch = () => {
-    const filteredNotes = userNotes.filter((note) =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setSearchedNotes(filteredNotes);
+  const getUserTags = async () => {
+    const userId = session.user.id;
+    const response = await fetch(current+'getUserTags', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+    const tags = await response.json();
+    console.log(tags);
+    return tags;
   };
-
-  const handleNotesView = () => {
-    fetchUserNotes();
-    setCurrentPage('notes');
-    console.log(currentPage);
-    console.log(userNotes);
-  }
-
-  const handleSearchView = () => {
-    
-    setCurrentPage('search');
-  }
-
-  const handleQueryView = () => {
-    setCurrentPage('query')
-  }
 
   const deleteNote = async (id) => {
     const response = await fetch(current+'deleteNote', {
@@ -94,9 +93,6 @@ const Search = ({ session }) => {
 
   return (
     <div className={styles.body}>    
-      <div className={styles.headline}>
-        <h2>Thought Bank</h2>
-      </div>
       <div className={styles.queryFilterBar}>
         <div className={styles.headline}>
           <h3>Query your thoughts, powered by GPT.</h3>
@@ -111,6 +107,19 @@ const Search = ({ session }) => {
             onKeyDown={handleKeyDown}
           />
         </div>
+        <div className={styles.tagList}>
+        <p>Filter:</p>
+        {userTags.map((tag) => (
+          <div className={selectedTags.includes(tag) ? styles.selected : ''}>
+            <div
+              className={styles.button1}
+              onClick={() => handleTagSelection(tag)}
+            > 
+              {tag}
+          </div>
+          </div>
+        ))}
+      </div>
         <p>Press enter to submit query!</p>
         <button onClick={handleQuery} className={`${styles.submitQueryButton} ${styles.button1}`}>Submit Query!</button>
       </div>
@@ -118,15 +127,26 @@ const Search = ({ session }) => {
       {queryResponse}
       </div>
       <div className={styles.noteGallery}>
-      {userNotes.map((note) => (
+      {userNotes.filter((note) => {
+        if (selectedTags.length === 0) {
+          return true; // Show all notes if no tags selected
+        }
+        if (!note) {
+          return false;
+        }
+        return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
+      }).map((note) => (
+        <div>
         <div className={styles.note} key={note?.id}>
           <h3>{note?.title}</h3>
           <p>{note?.content}</p>
-          {note?.Tags?.map((tag) => (
-            <span className={styles.tag}>{tag}</span>
-          )
-          )}
-          <button className={styles.button1} onClick={() => deleteNote(note?.id)}>Delete</button>
+          <button className={styles.tag} onClick={() => deleteNote(note?.id)}><Img.TrashIcon/></button>
+        </div>
+        <div className={styles.tagList}>
+        {note?.Tags?.map((tag) => (
+            <div className={styles.tag}>{tag}</div>
+          ))}
+        </div>
         </div>
       ))}
       </div>
