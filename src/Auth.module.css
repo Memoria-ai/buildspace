@@ -58,7 +58,7 @@ html {
 
   overflow: hidden;
 
-  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%), #FFFFFF;
+  background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%), #FFFFFF;
 }
 
 .container {
@@ -101,6 +101,8 @@ button {
   align-items: center;
 
   overflow-y: scroll;
+
+  background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%), #FFFFFF;
 }
 
 .button1, .signInButton {

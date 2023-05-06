@@ -23,6 +23,8 @@ const Create = ({ session }) =>{
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = local;
+  const [showNote, setShowNote] = useState(false);
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     handleListen();
@@ -56,6 +58,7 @@ const Create = ({ session }) =>{
     else{
       addNote(userTitle);
     }  
+    setShowNote(false);
   };
 
   const handleDiscardClick = async (event) => {
@@ -71,6 +74,7 @@ const Create = ({ session }) =>{
     setUserTitle("");
     setNote("");
     setTags([]);
+    setShowNote(false);
   };
 
   const addNote = async (title) => {
@@ -177,12 +181,17 @@ const Create = ({ session }) =>{
 
   // MOVE to backend
   const handleListenChange = async () => {
+    if (showNote) {  
+      setShowNote(false);
+    }
     setIsListening(prevState => !prevState);
     console.log("handling listen change")
     if(isListening){
-
+      setLoad(true);
       await getGPTTitle();
       await getTags();
+      setLoad(false);
+      setShowNote(true);
       console.log('here')
     }
   }
@@ -231,19 +240,24 @@ const Create = ({ session }) =>{
 
   return (
     <div className={styles.body}>
+      <h2>Click the Mic to record your thoughts!</h2>
         <div>
           <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}><Img.MicIcon/></button>
         </div>
-        <div className={styles.thoughtActionFields}>
+        <div className={load ? styles.loading : styles.hidden}>
+          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+        </div>
+        <div className={showNote ? styles.thoughtCard : styles.hidden}>
           <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
           <textarea value={note} onChange={handleInputChange} placeholder='Thought Transcription' className={styles.transcript}/>
-          {tags.length > 0 && <div className={styles.tags}>Tags:  
-            {tags.map((tag) => <span className={styles.tag}> {tag}</span>)}
-          </div>}
+          {tags.length > 0 && 
+            <div className={styles.tagList}>
+              {tags.map((tag) => <span className={styles.tag}> {tag}</span>)}
+            </div>}
           <div className={styles.thoughtActionMenu}>
-            <button onClick={handleDiscardClick} className={styles.button2}>Discard</button> 
+            <button onClick={handleDiscardClick} className={styles.thoughtActionButton1}>Discard</button> 
             <div className={styles.roundedGradientBorder}>
-              <button onClick={handleCommitClick} className={styles.button2}>Commit</button>
+              <button onClick={handleCommitClick} className={styles.thoughtActionButton2}>Commit</button>
             </div>
           </div>
         </div>

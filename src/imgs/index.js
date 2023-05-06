@@ -6,3 +6,4 @@ export { ReactComponent as TwitterIcon } from "./twitter-icon.svg";
 export { ReactComponent as GmailIcon } from "./gmail-icon-colour.svg";
 export { ReactComponent as GoogleIcon } from "./google-icon-colour.svg";
 export { ReactComponent as TrashIcon } from "./trash_full.svg";
+export { default as LoadingGif } from "./loading.gif";

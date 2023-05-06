@@ -45,10 +45,8 @@ const Home = ({ session }) => {
       </div>
       {page == "Create" ? (
         <Create session={session} />
-        // <div>here1</div>
       ) : (
         <Search session={session} />
-        // <div>there</div>
       )}
       <div className={styles.mobilePageSelector}>
         <div className={styles.pageSelectDiv}>
