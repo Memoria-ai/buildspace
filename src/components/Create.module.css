@@ -68,7 +68,7 @@ button {
 }
 
 img {
-  box-shadow: 0;
+  box-shadow: none;
   border: none;
   border-radius: 0;
   height: 100px;
@@ -159,22 +159,16 @@ img {
 }
 
 .tag {
+  width: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   align-self: center;
-  padding: 8px 24px;
+  padding: 8px 16px;
 
   border-radius: 100px;
   border: 1px solid #272727;
-}
-
-.tagList {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
 }
 
 @media screen and (min-width: 871px) {
@@ -223,7 +217,7 @@ img {
 
   .thoughtCard {
     height: fit-content;
-    width: 700px;
+    width: 100%;
     
     display: flex;
     flex-direction: column;
@@ -327,6 +321,13 @@ img {
   .transcript::placeholder {
     color: #272727;
   }
+
+  .tagList {
+    display: flex;
+    flex-direction: row;
+    grid-gap: 0.5rem;
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 870px) {
@@ -357,21 +358,17 @@ img {
   
     text-shadow: 0px 0px 15px rgba(217, 119, 204, 0.25), 0px 0px 35px rgba(255, 255, 255, 0.1);
   }
-  
-  input {
-    width: 300px;
-  }
 
   .body {
     width: 100vw;
     height: 100%;
     
-    padding: 1.5rem 1rem 2rem;
+    padding: 3rem 1rem;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    gap: 4rem;
 
     overflow: scroll;
   }
@@ -381,27 +378,81 @@ img {
     padding-bottom: 0.5rem;
   }
 
+  .thoughtCard {
+    height: fit-content;
+    width: 300px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: #161616;
+    border: 1px solid #272727;
+    border-radius: 25px;
+    padding: 1rem;
+    gap: 1rem;
+
+    box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(255, 255, 255, 0.1);
+    ;
+  }
+
   .thoughtActionFields {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    width: 100%;
+    gap: 0.5rem;
+    width: 90%;
+    max-width: 800px;
     justify-content: center;
     align-items: center;
   }
 
   .thoughtActionMenu {
-    margin-top: 0.5rem;
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 1rem;
   }
 
-  .thoughtTitle {
-    width: 75%;
-    height: fit-content;
+  .thoughtActionMenu .roundedGradientBorder {
+    border: double 1.5px transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(#161616,#161616), linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
   
-    /* border: 1px solid red; */
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .thoughtActionButton1, .thoughtActionButton2 {
+    width: 50%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    padding: 16px 32px;
+  
+    background: #27272725;
+    /* box-shadow: 0px 0px 10px #161616; */
+    border-radius: 20px;
+    border: 2px solid #272727;
+  }
+
+  .thoughtActionButton2 {
+    width: 100%;
+  }
+    
+  .thoughtTitle {
+    width: 100%;
+    height: 10px;
+  
+    /* border: 1px solid red !important; */
     border: none;
     outline: none;
     background: none;
@@ -409,9 +460,9 @@ img {
     background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    border: none;
     font-weight: 700;
-    font-size: 20pt;
+    font-size: 16pt;
+    line-height: 1em;
     text-align: center;
   }
 
@@ -420,14 +471,14 @@ img {
   }
 
   .transcript{
-    width: 90%;
+    width: 100%;
     height: 10rem;
 
     padding: 12px 16px;
     
     border-radius: 1rem;
     outline: none;
-    border: 2px solid #272727;
+    border: 1px solid #272727;
     background: none;
 
     color: white;
@@ -439,6 +490,18 @@ img {
 
   .transcript::placeholder {
     color: #272727;
+  }
+
+  .tagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .tag {
+    font-size: 8pt;
+    padding: 8px 16px;;
   }
 }
 

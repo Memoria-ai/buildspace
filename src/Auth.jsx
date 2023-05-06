@@ -68,8 +68,8 @@ export default function Auth() {
               <button onClick={signInWithTwitter} className={styles.signInButton}><p>Sign in with Twitter</p><Img.TwitterIcon/></button>
             </div>
           </div>
-          <iframe width="627" height="405" src="https://www.youtube.com/embed/mgALvWdFxPY" title="Memoria Demo (April 30th)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          <p>Features</p>
+          <iframe className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/mgALvWdFxPY" title="Memoria Demo (April 30th)" frameborder="0" allowfullscreen></iframe>
+          <h3>Features:</h3>
           <div className={styles.gallery}>
             <img src={Feat.Feature1}/> 
             <img src={Feat.Feature2}/> 

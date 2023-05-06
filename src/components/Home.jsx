@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Create from './Create'
 // import Search from './Search'
 import Search from './Search';
+import View from './View';
 
 const Home = ({ session }) => {
   const [page, setPage] = useState("Create")
@@ -15,6 +16,10 @@ const Home = ({ session }) => {
 
   const handleGoToCreate = () => {
     setPage("Create");
+  }
+
+  const handleGoToView = () => {
+    setPage("View")
   }
 
   const handleGoToProfile = () => {
@@ -40,20 +45,29 @@ const Home = ({ session }) => {
           <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Create</button>
         </div>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Search</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Ask</button>
+        </div>
+        <div className={styles.pageSelectDiv}>
+          <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>View</button>
         </div>
       </div>
       {page == "Create" ? (
         <Create session={session} />
-      ) : (
+      ) : page == "Search" ? (
         <Search session={session} />
-      )}
+      ) : (
+        <View session={session} /> 
+      )
+      }
       <div className={styles.mobilePageSelector}>
         <div className={styles.pageSelectDiv}>
           <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Create</button>
         </div>
         <div className={styles.pageSelectDiv}>
           <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Search</button>
+        </div>
+        <div className={styles.pageSelectDiv}>
+          <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>View</button>
         </div>
       </div>
     </div>

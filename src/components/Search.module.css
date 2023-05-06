@@ -81,6 +81,7 @@ button {
   background-origin: border-box;
   background-clip: padding-box, border-box;
 
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,7 +101,7 @@ button {
 
   background: #27272725;
   border-radius: 100px;
-  border: 2px solid #272727;
+  border: 1px solid #272727;
 }
 
 .button1:hover {
@@ -116,9 +117,8 @@ button {
   padding: 8px 24px;
 
   border-radius: 100px;
-  border: 3px solid #27272725;
-
-  margin-top: 0.5rem;
+  border: 1px solid #272727;
+  background-color: #161616;
 }
 
 .button1 * {
@@ -160,8 +160,9 @@ button {
   }
 
   input {
-    width: 100%;
+    width: 50vw;
     height: 2.3rem;
+    align-self: center;
   }
   
   .body {
@@ -189,6 +190,7 @@ button {
     gap: 1rem;
     width: calc(100% - 20rem);
     min-width: 600px;
+    align-items: center;
   }
 
   .queryFilterBar p {
@@ -201,36 +203,36 @@ button {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    margin-top: 0.5rem;
+    align-items: center;
   }
 
   .submitQueryButton {
     display: none;
   }
 
-  .noteGallery {
-    max-width: 75%;
-  
-    display: flex;
-    flex-direction: column-reverse;
+  .gallery {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 600px);
+    grid-gap: 1rem 2rem;
+    align-items: top;
     justify-content: center;
-    align-items: center;
-    gap: 2rem;
-  
-    /* border: 1px solid blue; */
   }
   
-  .note {
-    /* border: 1px solid red; */
-  
+  .thoughtCard {
+    height: fit-content;
+    width: 600px;
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 0.5rem;
-  
-    padding: 1rem;
-    border: 5px solid #27272725;
+
+    background: #161616;
+    border: 1px solid #272727;
     border-radius: 25px;
+    padding: 1rem;
+    gap: 1rem;
   }
 }
 
@@ -260,17 +262,20 @@ button {
   }
 
   .body {
-    padding: 2rem 0rem 8rem;
+    padding: 2rem 1rem 8rem;
 
     height: 100%;
     width: 100vw;
 
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     
     display: flex;
     flex-direction: column;
     gap: 2rem;
     align-items: center;
+
+    position: relative;
   }
 
   .roundedGradientBorder {
@@ -340,18 +345,43 @@ button {
     /* border: 1px solid blue; */
   }
   
-  .note {
+  .tagList {
     /* border: 1px solid red; */
+    width: 90vw;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .submitQueryButton {
+    display: none;
+  }
+
+  .gallery {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 100%);
+    grid-gap: 1rem 2rem;
+    align-items: top;
+    justify-content: center;
+  }
   
+  .thoughtCard {
+    height: fit-content;
+    width: 100%;
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 0.5rem;
-  
-    padding: 0.75rem;
-    border: 5px solid #27272725;
+
+    background: #161616;
+    border: 1px solid #272727;
     border-radius: 25px;
+    padding: 1rem;
+    gap: 1rem;
   }
 }
 

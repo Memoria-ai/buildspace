@@ -321,19 +321,29 @@ button {
     justify-content: center;
   }
 
-  .preview {
-    width: 90%;
-  
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-    gap: 2rem;
+  .demoVid {
+    width: 350px;
+    height: 220px;
+    border-radius: 1rem;
   }
-  
-  .preview p {
-    color: #272727;
-    font-size: 16pt;
-    align-self: center;
+
+  .gallery {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 100%);
+    grid-gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery img {
+    height: auto;
+    width: 100%;
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    filter: none;
   }
 }
 
@@ -371,7 +381,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1% 0;
+  padding: 1rem 0;
 }
 
 .footer p {
