@@ -198,6 +198,19 @@ button {
     color: #272727;
   }
 
+  .submitQueryButton {
+    display: none;
+  }
+
+  .filterTagList {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    overflow-x: scroll;
+  }
+
   .tagList {
     width: 100%;
     display: flex;
@@ -205,10 +218,6 @@ button {
     gap: 0.5rem;
     margin-top: 0.5rem;
     align-items: center;
-  }
-
-  .submitQueryButton {
-    display: none;
   }
 
   .gallery {
@@ -344,20 +353,29 @@ button {
   
     /* border: 1px solid blue; */
   }
+
+  .filterTagList {
+    width: calc(100vw - 2rem);
+    min-height: 3rem;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 0.5rem;
+    align-items: center;
+    overflow: auto;
+  }
   
   .tagList {
     /* border: 1px solid red; */
-    width: 90vw;
+    width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.5rem;
     align-items: center;
     min-width: 0;
-  }
-
-  .submitQueryButton {
-    display: none;
   }
 
   .gallery {

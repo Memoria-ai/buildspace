@@ -135,7 +135,7 @@ button {
   align-self: center;
 }
 
-@media screen and (min-width: 481px) {
+@media screen and (min-width: 641px) {
   h1 {    
     font-size: 40pt;
     font-weight: 700;
@@ -224,6 +224,10 @@ button {
     align-self: center;
   }
 
+  .demoVid {
+    border-radius: 1rem;
+  }
+
   .gallery {
     width: 75%;
     display: grid;
@@ -244,7 +248,7 @@ button {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 640px) {
   h1 {    
     font-size: 32pt;
     font-weight: 700;
@@ -322,8 +326,8 @@ button {
   }
 
   .demoVid {
-    width: 350px;
-    height: 220px;
+    width: 90vw;
+    height: calc(90vw * 0.6);
     border-radius: 1rem;
   }
 

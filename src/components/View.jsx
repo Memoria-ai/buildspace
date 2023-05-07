@@ -75,7 +75,7 @@ const View = ({ session }) => {
 
   return (
     <div className={styles.body}>
-      <div className={styles.tagList}>
+      <div className={styles.filterTagList}>
         <p>Filter:</p>
         {userTags.map((tag) => (
           <div className={selectedTags.includes(tag) ? styles.selected : ''}>

@@ -151,14 +151,16 @@ etc...
     
     .body {
       width: 100vw;
+      height: 100vh;
       
       padding: 5rem 2rem 4rem;
   
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       align-items: center;
       gap: 1rem;
+
+      background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%), #FFFFFF;
     }
   }
   
@@ -207,5 +209,6 @@ etc...
       align-items: center;
   
       overflow: scroll;
+      background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%), #FFFFFF;
     }
   }
