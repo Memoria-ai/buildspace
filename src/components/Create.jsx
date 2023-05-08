@@ -22,7 +22,7 @@ const Create = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
 
@@ -240,7 +240,7 @@ const Create = ({ session }) =>{
 
   return (
     <div className={styles.body}>
-      <h2>Click the Mic to record your thoughts!</h2>
+      <h2>Click the mic to record your thoughts!</h2>
         <div>
           <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}><Img.MicIcon/></button>
         </div>

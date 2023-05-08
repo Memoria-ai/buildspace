@@ -8,12 +8,12 @@ import * as Feat from "./imgs/feature-cards"
 export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
-  const [isListening, setIsListening] = useState(false);
 
+  // E-mail log in
   const handleLogin = async (event) => {
     event.preventDefault()
 
-    setLoading(true)
+    setLoading(true);
     const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://memoria-ai.github.io/buildspace/" } });
 
     if (error) {
@@ -21,20 +21,22 @@ export default function Auth() {
     } else {
       alert('Check your email for the login link!')
     }
-    setLoading(false)
+    setLoading(false);
   }
 
   async function signInWithTwitter() {
+    setLoading(true);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'http://localhost:3000/buildspace',
-        // 'https://memoria-ai.github.io/buildspace/',
+        redirectTo: 'https://memoria-ai.github.io/buildspace/',
+        // 'http://localhost:3000/buildspace',
       }
     })
   }
 
   async function signInWithGoogle() {
+    setLoading(true);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -67,6 +69,9 @@ export default function Auth() {
             <div className={styles.roundedGradientBorder}>
               <button onClick={signInWithTwitter} className={styles.signInButton}><p>Sign in with Twitter</p><Img.TwitterIcon/></button>
             </div>
+          </div>
+          <div className={loading ? '' : styles.hidden} >
+            <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
           </div>
           <iframe className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/mgALvWdFxPY" title="Memoria Demo (April 30th)" frameborder="0" allowfullscreen></iframe>
           <h3>Features:</h3>

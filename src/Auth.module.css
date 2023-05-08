@@ -70,6 +70,15 @@ button {
   cursor: pointer;
 }
 
+.loading {
+  height: 100%;
+  width: auto;
+}
+
+.hidden {
+  display: none;
+}
+
 /* DEFAULT STYLING ENDS */
 
 /* GLOBAL STYLING START */
