@@ -75,6 +75,7 @@ const View = ({ session }) => {
 
   return (
     <div className={styles.body}>
+      <h2>My Thoughts</h2>
       <div className={styles.filterTagList}>
         <p>Filter:</p>
         {userTags.map((tag) => (

@@ -29,8 +29,8 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'https://memoria-ai.github.io/buildspace/',
-        // 'http://localhost:3000/buildspace',
+        redirectTo: 'http://localhost:3000/buildspace',
+        // 'https://memoria-ai.github.io/buildspace/',
       }
     })
   }
@@ -59,8 +59,8 @@ export default function Auth() {
         </div>
         <div className={styles.inner}>
           <div className={styles.headline}>
-            <h1>Welcome to Memoria.</h1>
-            <h2>Save, organize, and develop thoughts on your phone with voice</h2>
+            <h1>Welcome to Memoria</h1>
+            <h2>Never forget yours thoughts again.</h2>
           </div>
           <div className={styles.signInMenu}>
             <div className={styles.roundedGradientBorder}>
