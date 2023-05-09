@@ -133,11 +133,19 @@ img {
 }
 
 .micButton, .micButtonActive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
   width: 200px;
   height: 200px;
 
   border-radius: 100px;
 }
+
 .micButton {
   border: 5px solid #272727;
   background: rgba(39, 39, 39, 0.25);
@@ -169,6 +177,14 @@ img {
 
   border-radius: 100px;
   border: 1px solid #272727;
+}
+
+.timer {
+  display: flex;
+  position: absolute;
+  top: 150px;
+
+  color: #272727;
 }
 
 @media screen and (min-width: 871px) {

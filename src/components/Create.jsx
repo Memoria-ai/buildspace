@@ -25,6 +25,9 @@ const Create = ({ session }) =>{
   const current = server;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [timerInterval, setTimerInterval] = useState(null);
+
 
   useEffect(() => {
     handleListen();
@@ -58,6 +61,7 @@ const Create = ({ session }) =>{
     else{
       addNote(userTitle);
     }  
+    setSeconds(0);
     setShowNote(false);
   };
 
@@ -74,6 +78,7 @@ const Create = ({ session }) =>{
     setUserTitle("");
     setNote("");
     setTags([]);
+    setSeconds(0);
     setShowNote(false);
   };
 
@@ -184,15 +189,35 @@ const Create = ({ session }) =>{
     if (showNote) {  
       setShowNote(false);
     }
+
     setIsListening(prevState => !prevState);
     console.log("handling listen change")
+
     if(isListening){
+      handleTimerChange(true);
       setLoad(true);
       await getGPTTitle();
       await getTags();
       setLoad(false);
       setShowNote(true);
       console.log('here')
+    }
+    else {
+      handleTimerChange(false);
+      if (seconds != 0) {
+        setSeconds(0);
+      }
+    }
+  }
+
+  const handleTimerChange = (state) => {
+    if (!state) {
+      setTimerInterval(setInterval(() => {
+        setSeconds(seconds => seconds + 1)
+      }, 1000));
+    } else {
+      clearInterval(timerInterval);
+      setTimerInterval(null);
     }
   }
 
@@ -242,7 +267,7 @@ const Create = ({ session }) =>{
     <div className={styles.body}>
       <h2>Click the mic to record your thoughts!</h2>
         <div>
-          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}><Img.MicIcon/></button>
+          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <Img.StopIcon/> : <Img.MicIcon/> } <p className={styles.timer}>{seconds}s</p></button>
         </div>
         <div className={load ? styles.loading : styles.hidden}>
           <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>

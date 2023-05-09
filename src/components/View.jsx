@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from './Search.module.css';
+import styles from './View.module.css';
 import { useNavigate } from 'react-router-dom';
 import Create from './Create'
 // import Search from './Search'

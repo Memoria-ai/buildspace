@@ -5,6 +5,7 @@ import Create from './Create'
 // import Search from './Search'
 import Search from './Search';
 import View from './View';
+import * as Img from '../imgs'
 
 const Home = ({ session }) => {
   const [page, setPage] = useState("Create")
@@ -61,13 +62,13 @@ const Home = ({ session }) => {
       }
       <div className={styles.mobilePageSelector}>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Create</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>{ page=="Create" ? <Img.CreateActive/> : <Img.CreateIcon/> }</button>
         </div>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Search</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>{ page=="Search" ? <Img.AskActive/> : <Img.AskIcon/> }</button>
         </div>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>View</button>
+          <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>{ page=="View" ? <Img.SearchActive/> : <Img.SearchIcon/> }</button>
         </div>
       </div>
     </div>

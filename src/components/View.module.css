@@ -280,7 +280,7 @@ button {
     overflow-x: hidden;
     
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 2rem;
     align-items: center;
 
