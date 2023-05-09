@@ -92,7 +92,7 @@ export default function Account() {
         <label htmlFor="email" className={styles.gradientText1}>Email</label>
         <input id="email" type="text" value={session.user.email} disabled />
       </div>
-      <div>
+      {/* <div>
         <label htmlFor="username" className={styles.gradientText1}>Name</label>
         <input
           id="username"
@@ -115,7 +115,7 @@ export default function Account() {
         <button className={styles.button1} type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Update'}
         </button>
-      </div>
+      </div> */}
       <div className={styles.roundedGradientBorder}>
         <button className={styles.button1} type="button" onClick={()=>signOut()}>
           Sign Out

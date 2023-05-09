@@ -32,7 +32,7 @@ const Home = ({ session }) => {
     <div className={styles.body}>
       <div className={styles.nav}>
           <h2>Memoria</h2>
-          <div className={styles.navItems}>
+          <div className={styles.webNavItems}>
             <div className={styles.roundedGradientBorder}>
               <a className={styles.button1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About</a>
             </div>
@@ -40,6 +40,8 @@ const Home = ({ session }) => {
               <button onClick={handleGoToProfile} className={styles.button1}>Profile</button>
             </div>
           </div>
+          <a className={styles.mobileAboutItem} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"><Img.AboutIcon/></a>
+          <button onClick={handleGoToProfile} className={styles.mobileProfileItem}><Img.ProfileIcon/></button>
       </div>
       <div className={styles.webPageSelector}>
         <div className={styles.pageSelectDiv}>

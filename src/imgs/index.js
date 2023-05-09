@@ -14,3 +14,5 @@ export { ReactComponent as AskActive } from "./ask-active-icon.svg";
 export { ReactComponent as AskIcon } from "./ask-icon.svg";
 export { ReactComponent as SearchActive } from "./search-active-icon.svg";
 export { ReactComponent as SearchIcon } from "./search-icon.svg";
+export { ReactComponent as AboutIcon } from "./about-icon.svg";
+export { ReactComponent as ProfileIcon } from "./profile-icon.svg";

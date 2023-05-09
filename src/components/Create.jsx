@@ -22,7 +22,7 @@ const Create = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
   const [seconds, setSeconds] = useState(0);
