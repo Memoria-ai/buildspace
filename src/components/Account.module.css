@@ -120,7 +120,7 @@ etc...
 
     
   input {
-    width: 100% !important;
+    width: 300px;
   }
   
   @media screen and (min-width: 481px) {

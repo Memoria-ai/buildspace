@@ -271,7 +271,7 @@ button {
   }
 
   .body {
-    padding: 0 1rem 100px;
+    padding: 0 1rem 2rem;
     margin-bottom: env(safe-area-inset-bottom) !important;
 
     height: 100%;

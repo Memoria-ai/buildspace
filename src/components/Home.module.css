@@ -235,6 +235,12 @@ button {
 
     z-index: 1;
   }
+
+  .pageContent {
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  }
 }
 
 @media screen and (max-width: 870px) {
@@ -390,4 +396,10 @@ button {
 
     z-index: 1;
   }
+
+  .pageContent {
+  height: calc(100% - 10rem);
+  width: 100vw;
+  display: flex;
+}
 }
