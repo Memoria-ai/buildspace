@@ -18,34 +18,32 @@ const Create = ({ session }) =>{
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState('Title');
   const [tags, setTags] = useState([]);
-  const navigate = useNavigate();
-  const userId = session.id;
-  const local = "http://localhost:8000/";
-  const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
 
+  const local = "http://localhost:8000/";
+  const server = 'https://memoria-ai.herokuapp.com/';
+  const current = local;
+
 
   useEffect(() => {
     handleListen();
+    console.log("what");
   }, [isListening]);
-  
-  useEffect(() => {  
-    console.log("useeffect ran")
-    fetchUserNotes();
-  }, [session]);
 
+  // Every time a user changes the transcript, this is run.
   const handleInputChange = (event) => {
     setNote(event.target.value);
   };
 
+  // Every time a user changes the title, this is run.
   const handleTitleChange = (event) => {
     setUserTitle(event.target.value);
   }
 
+  // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
     event.preventDefault();
     if(isListening){
@@ -65,16 +63,9 @@ const Create = ({ session }) =>{
     setShowNote(false);
   };
 
+  // When user clicks discard, everything is reset to original state, and the card is hidden.
   const handleDiscardClick = async (event) => {
     event.preventDefault();
-    if(isListening){
-      console.log("was listening, now stopping")
-      setIsListening(false);
-      mic.stop();
-      mic.onend = () => {
-        console.log('Stopped Mic on Click');
-      }
-    }
     setUserTitle("");
     setNote("");
     setTags([]);
@@ -82,8 +73,10 @@ const Create = ({ session }) =>{
     setShowNote(false);
   };
 
+  // Adds note to database.
   const addNote = async (title) => {
-    if (!note) return;
+    if (!note) return; // if there is no transcript, aka no words, then do nothing
+
     const response = await fetch(current+'addNote', {
       method: 'POST',
       headers: {
@@ -104,10 +97,10 @@ const Create = ({ session }) =>{
       setNote('');
       setUserTitle('Title');
       setTags([]);
-      fetchUserNotes();
     }
   };
 
+  // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
     console.log("sending tags" + tags)
     console.log("DSSDFSDFJHGSDFJHGDSJHFGDJFHSGSJDHFG")
@@ -123,20 +116,7 @@ const Create = ({ session }) =>{
     });
   };
 
-  const fetchUserNotes = async () => {
-    const userId = session.user.id;
-    const response = await fetch(current+'fetchUserNotes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId })
-    });
-    const notes = await response.json();
-    setUserNotes(notes);
-  };
-
-
+  // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens){
     console.log(message)
 
@@ -155,6 +135,7 @@ const Create = ({ session }) =>{
     return data;
   }
 
+  // Activating the users mic & other behaviour.
   const handleListen = () => {
     if(isListening) {
         mic.start();
@@ -185,6 +166,8 @@ const Create = ({ session }) =>{
   }
 
   // MOVE to backend
+
+  // When mic is clicked, this is run
   const handleListenChange = async () => {
     if (showNote) {  
       setShowNote(false);
@@ -193,13 +176,19 @@ const Create = ({ session }) =>{
     setIsListening(prevState => !prevState);
     console.log("handling listen change")
 
-    if(isListening){
+    if(isListening) {
+      console.log("listening")
       handleTimerChange(true);
       setLoad(true);
       await getGPTTitle();
       await getTags();
       setLoad(false);
-      setShowNote(true);
+      if (!note) {
+        setSeconds(0);
+      }
+      else {
+        setShowNote(true)
+      }
       console.log('here')
     }
     else {
@@ -210,6 +199,7 @@ const Create = ({ session }) =>{
     }
   }
 
+  // Timer that is shown when recording.
   const handleTimerChange = (state) => {
     if (!state) {
       setTimerInterval(setInterval(() => {
@@ -222,6 +212,8 @@ const Create = ({ session }) =>{
   }
 
   // move all logic to the backend test
+
+  // GPT prompt for Title
   const getGPTTitle = async () => {
     console.log("getGPTTitle");
     if (isListening && note !== '') {
@@ -232,6 +224,7 @@ const Create = ({ session }) =>{
     }
   };
 
+  // Get the user tags from the database.
   const getUserTags = async () => {
     const userId = session.user.id;
     const response = await fetch(current+'getUserTags', {
@@ -246,6 +239,7 @@ const Create = ({ session }) =>{
     return tags;
   };
 
+  // Get tags to assign to each new note.
   const getTags = async () => {
     console.log("getTags");
     if (isListening && note !== '') {
@@ -260,8 +254,6 @@ const Create = ({ session }) =>{
       return arr;
     }
   };
-
-
 
   return (
     <div className={styles.body}>

@@ -8,70 +8,70 @@ import * as Img from "../imgs"
 
 const View = ({ session }) => {
     const [userNotes, setUserNotes] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [queryResponse, setQueryResponse] = useState('');
-    const navigate = useNavigate();
-    const userId = session.id;
-    const local = "http://localhost:8000/";
-    const server = 'https://memoria-ai.herokuapp.com/';
-    const current = server;
     const [userTags, setUserTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
 
+    const local = "http://localhost:8000/";
+    const server = 'https://memoria-ai.herokuapp.com/';
+    const current = local;
+
+    // Every time this is rendered, useEffect is called.
     useEffect(() => {
         fetchUserNotes();
         getUserTags().then(tags => setUserTags(tags));
       }, [session])
     
-      const handleTagSelection = (tag) => {
-        if (selectedTags.includes(tag)) {
-          setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
-        } else {
-          setSelectedTags([...selectedTags, tag]);
-        }
-        console.log(selectedTags);
-      };
-      
-    
-      const fetchUserNotes = async () => {
-        const userId = session.user.id;
-        const response = await fetch(current+'fetchUserNotes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ userId })
-        });
-        const notes = await response.json();
-        setUserNotes(notes);
-        console.log("SKDJFHSDKFJHSDKFJH")
-        console.log(notes);
-      };
-    
-      const getUserTags = async () => {
-        const userId = session.user.id;
-        const response = await fetch(current+'getUserTags', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ userId })
-        });
-        const tags = await response.json();
-        console.log(tags);
-        return tags;
-      };
-    
-      const deleteNote = async (id) => {
-        const response = await fetch(current+'deleteNote', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ id })
-        });
-        fetchUserNotes();
-      };
+    const handleTagSelection = (tag) => {
+      if (selectedTags.includes(tag)) {
+        setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+      } else {
+        setSelectedTags([...selectedTags, tag]);
+      }
+      console.log(selectedTags);
+    }; 
+  
+    // Get notes from database and show it to user.
+    const fetchUserNotes = async () => {
+      const userId = session.user.id;
+      const response = await fetch(current+'fetchUserNotes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+      });
+      const notes = await response.json();
+      setUserNotes(notes);
+      console.log("SKDJFHSDKFJHSDKFJH")
+      console.log(notes);
+    };
+  
+    // Get all tags from database and show it to user.
+    const getUserTags = async () => {
+      const userId = session.user.id;
+      const response = await fetch(current+'getUserTags', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+      });
+      const tags = await response.json();
+      console.log(tags);
+      return tags;
+    };
+  
+    // Deletes 'id' note.
+    const deleteNote = async (id) => {
+      const response = await fetch(current+'deleteNote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+      });
+      fetchUserNotes();
+    };
 
   return (
     <div className={styles.body}>

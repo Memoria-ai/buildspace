@@ -301,6 +301,10 @@ button {
     border-bottom: solid 1px #272727;
   }
 
+  .nav h2 {
+    font-size: 24pt !important;
+  }
+
   .nav .roundedGradientBorder, .nav .button1 {
     display: none;
   }

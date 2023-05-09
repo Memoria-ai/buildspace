@@ -8,6 +8,10 @@ import * as Feat from "./imgs/feature-cards"
 export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
+  const localhost = 'http://localhost:3000/buildspace';
+  const backToApp = 'https://memoria-ai.github.io/buildspace/';
+  const current = backToApp;
+
 
   // E-mail log in
   const handleLogin = async (event) => {
@@ -29,8 +33,7 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
-        redirectTo: 'https://memoria-ai.github.io/buildspace/',
-        // 'http://localhost:3000/buildspace',
+        redirectTo: current,
       }
     })
   }
@@ -40,7 +43,7 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'https://memoria-ai.github.io/buildspace/',
+        redirectTo: current,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',

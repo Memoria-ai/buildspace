@@ -62,6 +62,10 @@ button {
   cursor: pointer;
 }
 
+.hidden {
+  display: none;
+}
+
 /* DEFAULT STYLING ENDS */
 
 /* GLOBAL STYLING START */
@@ -240,7 +244,7 @@ button {
     background: #161616;
     border: 1px solid #272727;
     border-radius: 25px;
-    padding: 1rem;
+    padding: 1.5rem;
     gap: 1rem;
   }
 }
@@ -396,7 +400,7 @@ button {
     background: #161616;
     border: 1px solid #272727;
     border-radius: 25px;
-    padding: 1rem;
+    padding: 1.5rem;
     gap: 1rem;
   }
 }

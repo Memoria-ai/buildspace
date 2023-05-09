@@ -6,18 +6,17 @@ import styles from './Search.module.css';
 import * as Img from "../imgs" 
 
 const Search = ({ session }) => {
-  const [userNotes, setUserNotes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [queryResponse, setQueryResponse] = useState('');
-  const navigate = useNavigate();
-  const userId = session.id;
+  const [load, setLoad] = useState(false);
+  const [showNote, setShowNote] = useState(false);
+
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
-  const [userTags, setUserTags] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
+  const current = local;
   
   const handleQuery = async () => {
+    setLoad(true);
     const userId = session.user.id;
     const response = await fetch(current+'queryUserThoughts', {
       method: 'POST',
@@ -27,7 +26,9 @@ const Search = ({ session }) => {
       body: JSON.stringify({ userId, searchTerm })
     });
     const gptResponse = await response.json();
+    setLoad(false);
     setQueryResponse(gptResponse);
+    setShowNote(true);
   };
 
   const handleKeyDown = (event) => {
@@ -40,7 +41,7 @@ const Search = ({ session }) => {
     <div className={styles.body}>    
       <div className={styles.queryFilterBar}>
         <div className={styles.headline}>
-          <h3>Query your thoughts, powered by GPT.</h3>
+          <h3>Talk to your thoughts, powered by GPT.</h3>
         </div>
         <div className={styles.roundedGradientBorder}>
           <input               
@@ -54,9 +55,12 @@ const Search = ({ session }) => {
         </div>
         <p>Press enter to submit query!</p>
         <button onClick={handleQuery} className={`${styles.submitQueryButton} ${styles.button1}`}>Submit Query!</button>
+        <div className={load ? styles.loading : styles.hidden}>
+          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+        </div>
       </div>
-      <div className={styles.headline}>
-      {queryResponse}
+      <div className={showNote ? styles.thoughtCard : styles.hidden}>
+        {queryResponse}
       </div>
     </div>
   )
