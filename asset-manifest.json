@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/buildspace/static/css/main.7d32ea1a.css",
+    "main.css": "/buildspace/static/css/main.a7e5cd76.css",
     "main.js": "/buildspace/static/js/main.c6f53c7e.js",
     "static/js/787.f7005703.chunk.js": "/buildspace/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/buildspace/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
@@ -27,12 +27,12 @@
     "static/media/stopicon.svg": "/buildspace/static/media/stopicon.ffd702e5ebf97fe307ffd1049809208c.svg",
     "static/media/about-icon.svg": "/buildspace/static/media/about-icon.dfcc70011320b55ef0607023d773ce9d.svg",
     "static/media/trash_full.svg": "/buildspace/static/media/trash_full.74d842520073dd67c20a3eb3fe92f554.svg",
-    "main.7d32ea1a.css.map": "/buildspace/static/css/main.7d32ea1a.css.map",
+    "main.a7e5cd76.css.map": "/buildspace/static/css/main.a7e5cd76.css.map",
     "main.c6f53c7e.js.map": "/buildspace/static/js/main.c6f53c7e.js.map",
     "787.f7005703.chunk.js.map": "/buildspace/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7d32ea1a.css",
+    "static/css/main.a7e5cd76.css",
     "static/js/main.c6f53c7e.js"
   ]
 }
