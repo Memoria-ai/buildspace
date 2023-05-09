@@ -271,8 +271,7 @@ button {
   }
 
   .body {
-    padding: 0 1rem 2rem;
-    margin-bottom: env(safe-area-inset-bottom) !important;
+    padding: 2rem 1rem 8rem;
 
     height: 100%;
     width: 100vw;
@@ -281,7 +280,7 @@ button {
     overflow-x: hidden;
     
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 2rem;
     align-items: center;
 
