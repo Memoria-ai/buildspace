@@ -13,7 +13,7 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = local;
+    const current = server;
 
     // Every time this is rendered, useEffect is called.
     useEffect(() => {
