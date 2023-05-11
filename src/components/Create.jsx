@@ -131,8 +131,7 @@ const Create = ({ session }) =>{
     }else{
       handleStartRecording();
     }
-    
-  
+
     if (mediaRecorder !== null) {
       mediaRecorder.addEventListener("dataavailable", (event) => {
         chunksRef.current.push(event.data);
@@ -194,9 +193,7 @@ const Create = ({ session }) =>{
     if (showNote) {  
       setShowNote(false);
     }
-    //why but ok ig
     setIsListening(prevState => !prevState);
-
     if(isListening){
       handleTimerChange(true);
       setLoad(true);
@@ -248,6 +245,7 @@ const Create = ({ session }) =>{
   };
 
   const getTags = async () => {
+    console.log("getTags is running")
     if (isListening && note !== '') {
       const currentTags = await getUserTags();
       const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return 3 one-word tags that are related to the note, and list them as the following example does - 'notes, plans, cooking'. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 20);
