@@ -9,7 +9,7 @@ const Create = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [note, setNote] = useState("");
+  const [note, setNote] = useState(" ");
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState('Title');
   const [tags, setTags] = useState([]);
@@ -69,7 +69,7 @@ const Create = ({ session }) =>{
       console.error(response.statusText);
     } else {
       await sendTags();
-      setNote('');
+      setNote(' ');
       setUserTitle('Title');
       setTags([]);
     }
@@ -121,10 +121,11 @@ const Create = ({ session }) =>{
       mediaRecorder.addEventListener("dataavailable", (event) => {
         chunksRef.current.push(event.data);
       });
-      mediaRecorder.addEventListener("stop", () => {
+      mediaRecorder.addEventListener("stop", async () => {
+        console.log("MEDIA RECORDER IS STOPPING");
         const blob = new Blob(chunksRef.current, { type: "audio/wav" });
         setAudioBlob(blob);
-        handleStopRecording();
+        await handleStopRecording();
       });
     }
   }, [isListening]);
@@ -138,6 +139,7 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async () => {
+    console.log("handleStopRecording is running LKJSDFLKJDSFLKJSDLFKJSDFLKJSDLFKJ");
     const audioBlob = new Blob(chunksRef.current, { type: "audio/wav" });
     const formData = new FormData();
     formData.append('audio', audioBlob, 'audio.wav');
@@ -165,7 +167,7 @@ const Create = ({ session }) =>{
       setIsListening(false);
     }
     setUserTitle("");
-    setNote("");
+    setNote(" ");
     setTags([]);
     setSeconds(0);
     setShowNote(false);
@@ -173,27 +175,18 @@ const Create = ({ session }) =>{
     setChunks([]);
   };
 
-  // MOVE to backend
-
   // When mic is clicked, this is run
   const handleListenChange = async () => {
+    
     setIsListening(prevState => !prevState);
+    // set a 3 second timeout
+  
     if (showNote) {  
       setShowNote(false);
     }
     if(isListening){
-      handleTimerChange(true);
-      setLoad(true);
-      await getGPTTitle();
-      await getTags();
-      setLoad(false);
-      if (!note) {
-        setSeconds(0);
-      }
-      else {
-        setShowNote(true)
-      }
-      console.log('here')
+
+      await stoppedListeningFunction();
     }
     else {
       handleTimerChange(false);
@@ -213,6 +206,22 @@ const Create = ({ session }) =>{
       clearInterval(timerInterval);
       setTimerInterval(null);
     }
+  }
+
+  const stoppedListeningFunction = async () => {
+    handleTimerChange(true);
+    setLoad(true);
+    await getGPTTitle();
+    await getTags();
+    setLoad(false);
+    console.log('note' + note)
+    if (!note) {
+      setSeconds(0);
+    }
+    else {
+      setShowNote(true)
+    }
+    console.log('here')
   }
 
   // move all logic to the backend test
