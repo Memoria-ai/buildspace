@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Account from './Account';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import styles from './Create.module.css';
 import * as Img from "../imgs" 
 
-const SpeechRecognition = window.webkitSpeechRecognition;
-const mic = new SpeechRecognition();
-
-mic.continuous = true;
-mic.interimResults = true;
-mic.lang = 'en-US';
-
 const Create = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
   const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState('Title');
@@ -22,19 +17,16 @@ const Create = ({ session }) =>{
   const userId = session.id;
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
-
-
-  useEffect(() => {
-    handleListen();
-  }, [isListening]);
+  const [chunks, setChunks] = useState([]);
+  const chunksRef = useRef([]);
   
+
   useEffect(() => {  
-    console.log("useeffect ran")
     fetchUserNotes();
   }, [session]);
 
@@ -49,35 +41,13 @@ const Create = ({ session }) =>{
   const handleCommitClick = async (event) => {
     event.preventDefault();
     if(isListening){
-      console.log("was listening, now stopping")
       setIsListening(false);
-      mic.stop();
-      mic.onend = () => {
-        console.log('Stopped Mic on Click');
-      }
       const title = await getGPTTitle();
       addNote(title);
     }
     else{
       addNote(userTitle);
     }  
-    setSeconds(0);
-    setShowNote(false);
-  };
-
-  const handleDiscardClick = async (event) => {
-    event.preventDefault();
-    if(isListening){
-      console.log("was listening, now stopping")
-      setIsListening(false);
-      mic.stop();
-      mic.onend = () => {
-        console.log('Stopped Mic on Click');
-      }
-    }
-    setUserTitle("");
-    setNote("");
-    setTags([]);
     setSeconds(0);
     setShowNote(false);
   };
@@ -109,8 +79,6 @@ const Create = ({ session }) =>{
   };
 
   const sendTags = async () => {
-    console.log("sending tags" + tags)
-    console.log("DSSDFSDFJHGSDFJHGDSJHFGDJFHSGSJDHFG")
     const response = await fetch(current+'addTags', {
       method: 'POST',
       headers: {
@@ -138,8 +106,6 @@ const Create = ({ session }) =>{
 
 
   async function processMessageToChatGPT(message, max_tokens){
-    console.log(message)
-
     const response = await fetch(current+'gpt', {  
       method: 'POST',
       headers: {
@@ -150,48 +116,86 @@ const Create = ({ session }) =>{
         max_tokens: max_tokens,
       })
     });
-    console.log(response)
     const data = await response.json();
     return data;
   }
 
-  const handleListen = () => {
-    if(isListening) {
-        mic.start();
-        mic.onend = () => {
-            console.log('continue..');
-            mic.start();
-        }
-    } else {
-        mic.stop();
-        mic.onend = () => {
-            console.log("stopped mic onclick")
-        }
+  useEffect(() => {
+    console.log("MAIN USEEFFECT IS RUNNING")
+    if(!isListening){
+      console.log('handleStopRecording is running')
+      // check if the mediaRecorder is running
+      if(mediaRecorder !== null){
+        mediaRecorder.stop();
+      }
+    }else{
+      handleStartRecording();
     }
     
-    mic.onstart = () => {
-        console.log('Mics on');
+  
+    if (mediaRecorder !== null) {
+      mediaRecorder.addEventListener("dataavailable", (event) => {
+        chunksRef.current.push(event.data);
+      });
+      mediaRecorder.addEventListener("stop", () => {
+        const blob = new Blob(chunksRef.current, { type: "audio/wav" });
+        setAudioBlob(blob);
+        handleStopRecording();
+      });
     }
+  }, [isListening]);
+  
+  const handleStartRecording = async () => {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const recorder = new MediaRecorder(stream);
+      recorder.start();
+      setMediaRecorder(recorder);
+    });
+  };
+  
+  const handleStopRecording = async () => {
+    const audioBlob = new Blob(chunksRef.current, { type: "audio/wav" });
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'audio.wav');
+    try {
+      const response = await fetch(`${current}audio`, {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setNote(data.text);
+    } catch (error) {
+      console.log(error.data.error);
+    }
+    chunksRef.current = [];
+  };
+  
 
-    mic.onresult = event => {
-        const transcript = Array.from(event.results).map(result => result[0]).map(result => result.transcript).join('')
-        console.log(transcript);
-        setNote(transcript);
-        mic.onerror = event => {
-            console.log(event.error);
-        }
-        
+  const handleDiscardClick = async (event) => {
+    event.preventDefault();
+    if(isListening){
+      setIsListening(false);
     }
-  }
+    setUserTitle("");
+    setNote("");
+    setTags([]);
+    setSeconds(0);
+    setShowNote(false);
+    setAudioBlob(null);
+    setChunks([]);
+  };
 
   // MOVE to backend
   const handleListenChange = async () => {
     if (showNote) {  
       setShowNote(false);
     }
-
+    //why but ok ig
     setIsListening(prevState => !prevState);
-    console.log("handling listen change")
 
     if(isListening){
       handleTimerChange(true);
@@ -200,7 +204,6 @@ const Create = ({ session }) =>{
       await getTags();
       setLoad(false);
       setShowNote(true);
-      console.log('here')
     }
     else {
       handleTimerChange(false);
@@ -223,7 +226,6 @@ const Create = ({ session }) =>{
 
   // move all logic to the backend test
   const getGPTTitle = async () => {
-    console.log("getGPTTitle");
     if (isListening && note !== '') {
       const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20);
       const formattedTitle = title.replace(/"/g, '');
@@ -242,26 +244,27 @@ const Create = ({ session }) =>{
       body: JSON.stringify({ userId })
     });
     const tags = await response.json();
-    console.log(tags);
     return tags;
   };
 
   const getTags = async () => {
-    console.log("getTags");
     if (isListening && note !== '') {
       const currentTags = await getUserTags();
-      console.log(currentTags)
       const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return 3 one-word tags that are related to the note, and list them as the following example does - 'notes, plans, cooking'. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 20);
       const Tags = title.replace(/"/g, '');
       const arr = Tags.split(', ');
       setTags(arr);
-      console.log('array is here')
-      console.log(arr);
       return arr;
     }
   };
 
-
+  const handlePlayRecording = () => {
+    if (audioBlob !== null) {
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audioElement = new Audio(audioUrl);
+      audioElement.play();
+    }
+  };
 
   return (
     <div className={styles.body}>
