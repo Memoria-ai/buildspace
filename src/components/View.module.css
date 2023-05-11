@@ -102,6 +102,8 @@ button {
   background: #27272725;
   border-radius: 100px;
   border: 1px solid #272727;
+
+  min-width: fit-content;
 }
 
 .button1:hover {
@@ -121,10 +123,6 @@ button {
   background-color: #161616;
 }
 
-.button1 * {
-  font-weight: 700;
-}
-
 .button2 {
   display: flex;
   flex-direction: row;
@@ -136,7 +134,11 @@ button {
   background: #27272725;
   /* box-shadow: 0px 0px 10px #161616; */
   border-radius: 20px;
-  border: 2px solid #272727;
+  border: 2px solid #4f4f4f;
+}
+
+.seeMore {
+  color:#4a4a4a;
 }
 
 @media screen and (min-width: 871px) {
@@ -171,7 +173,7 @@ button {
     
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     align-items: center;
     padding: 3rem 5rem 2rem;
   }
@@ -203,12 +205,11 @@ button {
   }
 
   .filterTagList {
-    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     align-items: center;
-    overflow-x: scroll;
+    flex-wrap: wrap;
   }
 
   .tagList {
@@ -281,7 +282,7 @@ button {
     
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     align-items: center;
 
     position: relative;
@@ -354,14 +355,14 @@ button {
 
   .filterTagList {
     width: calc(100vw - 2rem);
-    min-height: 3rem;
 
     display: flex;
     flex-direction: row;
 
     gap: 0.5rem;
     align-items: center;
-    overflow: auto;
+    align-content: center;
+    flex-wrap: wrap;
   }
   
   .tagList {
