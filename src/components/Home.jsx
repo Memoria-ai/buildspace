@@ -70,7 +70,7 @@ const Home = ({ session }) => {
           <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>{ page=="Search" ? <Img.AskActive/> : <Img.AskIcon/> }</button>
         </div>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>{ page=="View" ? <Img.SearchActive/> : <Img.SearchIcon/> }</button>
+          <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>{ page=="View" ? <Img.ViewActive/> : <Img.ViewIcon/> }</button>
         </div>
       </div>
     </div>

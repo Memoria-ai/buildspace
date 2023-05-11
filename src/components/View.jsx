@@ -1,83 +1,97 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import styles from './View.module.css';
-import { useNavigate } from 'react-router-dom';
-import Create from './Create'
 // import Search from './Search'
-import Search from './Search';
-import * as Img from "../imgs" 
+import * as Img from "../imgs";
 
 const View = ({ session }) => {
     const [userNotes, setUserNotes] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [queryResponse, setQueryResponse] = useState('');
-    const navigate = useNavigate();
-    const userId = session.id;
+    const [userTags, setUserTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [showAllTags, setShowAllTags] = useState(false);
+    const [expandedNotes, setExpandedNotes] = useState([]);
+
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
     const current = local;
-    const [userTags, setUserTags] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
 
+    const visibleTags = showAllTags ? userTags : userTags.slice(0, 5);
+
+    // Every time this is rendered, useEffect is called.
     useEffect(() => {
         fetchUserNotes();
         getUserTags().then(tags => setUserTags(tags));
       }, [session])
     
-      const handleTagSelection = (tag) => {
-        if (selectedTags.includes(tag)) {
-          setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
-        } else {
-          setSelectedTags([...selectedTags, tag]);
-        }
-        console.log(selectedTags);
-      };
-      
-    
-      const fetchUserNotes = async () => {
-        const userId = session.user.id;
-        const response = await fetch(current+'fetchUserNotes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ userId })
-        });
-        const notes = await response.json();
-        setUserNotes(notes);
-        console.log("SKDJFHSDKFJHSDKFJH")
-        console.log(notes);
-      };
-    
-      const getUserTags = async () => {
-        const userId = session.user.id;
-        const response = await fetch(current+'getUserTags', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ userId })
-        });
-        const tags = await response.json();
-        console.log(tags);
-        return tags;
-      };
-    
-      const deleteNote = async (id) => {
-        const response = await fetch(current+'deleteNote', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ id })
-        });
-        fetchUserNotes();
-      };
+    const handleTagSelection = (tag) => {
+      if (selectedTags.includes(tag)) {
+        setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+      } else {
+        setSelectedTags([...selectedTags, tag]);
+      }
+      console.log(selectedTags);
+    }; 
+  
+    // Get notes from database and show it to user.
+    const fetchUserNotes = async () => {
+      const userId = session.user.id;
+      const response = await fetch(current+'fetchUserNotes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+      });
+      const notes = await response.json();
+      setUserNotes(notes);
+      console.log("SKDJFHSDKFJHSDKFJH")
+      console.log(notes);
+    };
+  
+    // Get all tags from database and show it to user.
+    const getUserTags = async () => {
+      const userId = session.user.id;
+      const response = await fetch(current+'getUserTags', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+      });
+      const tags = await response.json();
+      console.log(tags);
+      return tags;
+    };
+  
+    // Deletes 'id' note.
+    const deleteNote = async (id) => {
+      const response = await fetch(current+'deleteNote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+      });
+      fetchUserNotes();
+    };
+
+  const handleTagViewChange = () => {
+    setShowAllTags((prevState) => !prevState);
+  }
+
+  const toggleContent = (noteId) => {
+    if (expandedNotes?.includes(noteId)) {
+      setExpandedNotes((prevNotes) => prevNotes.filter((id) => id !== noteId));
+    } else {
+      setExpandedNotes((prevNotes) => [...prevNotes, noteId]);
+    }
+  };
 
   return (
     <div className={styles.body}>
+      <h2>My Thoughts</h2>
       <div className={styles.filterTagList}>
         <p>Filter:</p>
-        {userTags.map((tag) => (
+        {visibleTags.map((tag) => (
           <div className={selectedTags.includes(tag) ? styles.selected : ''}>
             <div
               className={styles.button1}
@@ -88,6 +102,11 @@ const View = ({ session }) => {
           </div>
         ))}
       </div>
+      {userTags.length > 3 && (
+        <button onClick={handleTagViewChange}>
+          <p className={styles.seeMore}>{!showAllTags ? '+ See All Tags' : '- See Less'}</p>
+        </button>
+      )}
       <div className={styles.gallery}>
       {userNotes.filter((note) => {
         if (selectedTags.length === 0) {
@@ -101,8 +120,25 @@ const View = ({ session }) => {
         <div>
         <div className={styles.thoughtCard} key={note?.id}>
           <h3>{note?.title}</h3>
-          <p>{note?.content}</p>
-          <button className={styles.button1} onClick={() => deleteNote(note?.id)}><Img.TrashIcon/></button>
+          <p>
+            {!expandedNotes?.includes(note?.id) && (note?.content.length > 120) 
+              ? note?.content.slice(0, 120)
+              : note?.content }
+            { note?.content.length > 120 ? ( 
+              <button 
+                onClick={() => toggleContent(note?.id)}
+              >
+              <p className={styles.seeMore} >
+                {!expandedNotes?.includes(note?.id) ? '...See More' : '...See Less'}
+              </p> 
+              </button> 
+            ) : (
+              ''
+            )} 
+          </p>
+          <button className={styles.button1} onClick={() => deleteNote(note?.id)}>
+            <Img.TrashIcon/>
+          </button>
         </div>
         <div className={styles.tagList}>
         {note?.Tags?.map((tag) => (

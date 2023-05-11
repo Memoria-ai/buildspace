@@ -6,18 +6,25 @@ import styles from './Search.module.css';
 import * as Img from "../imgs" 
 
 const Search = ({ session }) => {
-  const [userNotes, setUserNotes] = useState([]);
+  const [load, setLoad] = useState(false);
+  const [showNote, setShowNote] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [queryResponse, setQueryResponse] = useState('');
-  const navigate = useNavigate();
-  const userId = session.id;
+  const [messages, setMessages] = useState([]);
+
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = local;
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   
-  const handleQuery = async () => {
+  const sendQuestion = async () => {
+    setLoad(true);
+
+    const userMessage = { text: searchTerm, role: 'user' };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setSearchTerm('');
+
     const userId = session.user.id;
     const response = await fetch(current+'queryUserThoughts', {
       method: 'POST',
@@ -26,13 +33,20 @@ const Search = ({ session }) => {
       },
       body: JSON.stringify({ userId, searchTerm })
     });
+
     const gptResponse = await response.json();
+    const botMessage = { text: gptResponse, role: 'Memoria' };
+    
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+    setLoad(false);
     setQueryResponse(gptResponse);
+    setShowNote(true);
   };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      handleQuery();
+      sendQuestion();
     }
   };
 
@@ -40,7 +54,7 @@ const Search = ({ session }) => {
     <div className={styles.body}>    
       <div className={styles.queryFilterBar}>
         <div className={styles.headline}>
-          <h3>Query your thoughts, powered by GPT.</h3>
+          <h3>Talk to your thoughts, powered by GPT.</h3>
         </div>
         <div className={styles.roundedGradientBorder}>
           <input               
@@ -53,11 +67,18 @@ const Search = ({ session }) => {
           />
         </div>
         <p>Press enter to submit query!</p>
-        <button onClick={handleQuery} className={`${styles.submitQueryButton} ${styles.button1}`}>Submit Query!</button>
+        <button onClick={sendQuestion} className={`${styles.submitQueryButton} ${styles.button1}`}>Submit Query!</button>
+        <div className={load ? styles.loading : styles.hidden}>
+          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+        </div>
       </div>
-      <div className={styles.headline}>
-      {queryResponse}
-      </div>
+      <div className={styles.chatHistory}>
+          {messages.map((message, index) => (
+            <div key={index} className={message.role == 'user' ? styles.userQuestion : styles.memoriaResponse}>
+              {message.text}
+            </div>
+          ))}
+        </div>
     </div>
   )
 }

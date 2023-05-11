@@ -24,20 +24,17 @@ const Create = ({ session }) =>{
   const [timerInterval, setTimerInterval] = useState(null);
   const [chunks, setChunks] = useState([]);
   const chunksRef = useRef([]);
-  
-
-  useEffect(() => {  
-    fetchUserNotes();
-  }, [session]);
 
   const handleInputChange = (event) => {
     setNote(event.target.value);
   };
 
+  // Every time a user changes the title, this is run.
   const handleTitleChange = (event) => {
     setUserTitle(event.target.value);
   }
 
+  // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
     event.preventDefault();
     if(isListening){
@@ -53,7 +50,8 @@ const Create = ({ session }) =>{
   };
 
   const addNote = async (title) => {
-    if (!note) return;
+    if (!note) return; // if there is no transcript, aka no words, then do nothing
+
     const response = await fetch(current+'addNote', {
       method: 'POST',
       headers: {
@@ -74,10 +72,10 @@ const Create = ({ session }) =>{
       setNote('');
       setUserTitle('Title');
       setTags([]);
-      fetchUserNotes();
     }
   };
 
+  // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
     const response = await fetch(current+'addTags', {
       method: 'POST',
@@ -91,20 +89,7 @@ const Create = ({ session }) =>{
     });
   };
 
-  const fetchUserNotes = async () => {
-    const userId = session.user.id;
-    const response = await fetch(current+'fetchUserNotes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId })
-    });
-    const notes = await response.json();
-    setUserNotes(notes);
-  };
-
-
+  // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens){
     const response = await fetch(current+'gpt', {  
       method: 'POST',
@@ -189,18 +174,26 @@ const Create = ({ session }) =>{
   };
 
   // MOVE to backend
+
+  // When mic is clicked, this is run
   const handleListenChange = async () => {
+    setIsListening(prevState => !prevState);
     if (showNote) {  
       setShowNote(false);
     }
-    setIsListening(prevState => !prevState);
     if(isListening){
       handleTimerChange(true);
       setLoad(true);
       await getGPTTitle();
       await getTags();
       setLoad(false);
-      setShowNote(true);
+      if (!note) {
+        setSeconds(0);
+      }
+      else {
+        setShowNote(true)
+      }
+      console.log('here')
     }
     else {
       handleTimerChange(false);
@@ -210,6 +203,7 @@ const Create = ({ session }) =>{
     }
   }
 
+  // Timer that is shown when recording.
   const handleTimerChange = (state) => {
     if (!state) {
       setTimerInterval(setInterval(() => {
@@ -222,6 +216,8 @@ const Create = ({ session }) =>{
   }
 
   // move all logic to the backend test
+
+  // GPT prompt for Title
   const getGPTTitle = async () => {
     if (isListening && note !== '') {
       const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20);
@@ -231,6 +227,7 @@ const Create = ({ session }) =>{
     }
   };
 
+  // Get the user tags from the database.
   const getUserTags = async () => {
     const userId = session.user.id;
     const response = await fetch(current+'getUserTags', {
@@ -244,6 +241,7 @@ const Create = ({ session }) =>{
     return tags;
   };
 
+  // Get tags to assign to each new note.
   const getTags = async () => {
     console.log("getTags is running")
     if (isListening && note !== '') {

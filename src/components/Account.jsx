@@ -9,6 +9,7 @@ export default function Account() {
   const [username, setUsername] = useState(null);
   const [website, setWebsite] = useState(null);
   const [avatar_url, setAvatarUrl] = useState(null);
+  
   const location = useLocation();
   const navigate = useNavigate();
 
