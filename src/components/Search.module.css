@@ -267,7 +267,8 @@ button {
 
   .userQuestion {
     height: fit-content;
-    width: 600px;
+    width: fit-content;
+    max-width: 600px;
 
     background: rgba(255, 255, 255, 0.15);
     border: 2px solid #272727;
@@ -282,7 +283,8 @@ button {
 
   .memoriaResponse {
     height: fit-content;
-    width: 600px;
+    width: fit-content;
+    max-width: 600px;
 
     background: #161616;
     border: 2px solid #272727;
