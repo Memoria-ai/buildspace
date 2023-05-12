@@ -367,10 +367,8 @@ button {
 
 input {
   padding: 12px 16px;
-  border: 1px solid #272727;
   border-radius: 30px;
   color: #FFFFFF;
-  background: #27272725;
   box-sizing: border-box;
   outline: none;
 

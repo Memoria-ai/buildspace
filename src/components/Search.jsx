@@ -17,6 +17,8 @@ const Search = ({ session }) => {
   const current = server;
   
   const sendQuestion = async () => {
+    if (!searchTerm.trim()) { return };
+
     setLoad(true);
 
     const userMessage = { text: searchTerm, role: 'user' };
@@ -55,17 +57,18 @@ const Search = ({ session }) => {
           <h3>Talk to your thoughts, powered by GPT.</h3>
         </div>
         <div className={styles.roundedGradientBorder}>
-          <input               
-            type="text"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            className={styles.titleInput}
-            placeholder='Query your thoughts here...'
-            onKeyDown={handleKeyDown}
-          />
+          <div className={styles.queryBar}>
+            <input               
+              type="text"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              className={styles.titleInput}
+              placeholder='Send a question...'
+              onKeyDown={handleKeyDown}
+            />
+            <button onClick={sendQuestion} className={styles.submitQueryButton}><Img.SendIcon/></button>
+          </div>
         </div>
-        <p>Press enter to submit query!</p>
-        <button onClick={sendQuestion} className={`${styles.submitQueryButton} ${styles.button1}`}>Submit Query!</button>
         <div className={load ? styles.loading : styles.hidden}>
           <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
         </div>

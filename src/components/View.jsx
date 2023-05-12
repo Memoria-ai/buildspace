@@ -14,7 +14,7 @@ const View = ({ session }) => {
     const server = 'https://memoria-ai.herokuapp.com/';
     const current = server;
 
-    const visibleTags = showAllTags ? userTags : userTags.slice(0, 5);
+    const visibleTags = showAllTags ? userTags : userTags.slice(0, 3);
 
     // Every time this is rendered, useEffect is called.
     useEffect(() => {

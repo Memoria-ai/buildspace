@@ -60,6 +60,9 @@ html {
 
 button {
   cursor: pointer;
+  display: flex;
+
+  align-items: center;
 }
 
 .hidden {
@@ -166,7 +169,13 @@ button {
   input {
     width: 50vw;
     height: 2.3rem;
-    align-self: center;
+  }
+
+  .queryBar {
+    display: flex;
+    flex-direction: row;
+
+    padding-right: 16px;
   }
   
   .body {
@@ -200,10 +209,6 @@ button {
   .queryFilterBar p {
     align-self: center;
     color: #272727;
-  }
-
-  .submitQueryButton {
-    display: none;
   }
 
   .filterTagList {
@@ -249,9 +254,15 @@ button {
   }
 
   .chatHistory {
+    width: 80%;
+    min-width: 600px;
+
     display: flex;
     flex-direction: column-reverse;
     gap: 1rem;
+
+    border: 1px solid red;
+    position: relative;
   }
 
   .userQuestion {
@@ -264,6 +275,9 @@ button {
     border-bottom-right-radius: 5px;
     padding: 1rem 1.25rem;
     gap: 1rem;
+    position: relative;
+    left: 100%;
+    transform: translateX(-100%);
   }
 
   .memoriaResponse {
@@ -300,8 +314,15 @@ button {
   }
 
   input {
-    width: 300px;
+    width: 280px !important;
     height: 2.2rem;
+  }
+
+  .queryBar {
+    display: flex;
+    flex-direction: row;
+
+    padding-right: 16px;
   }
 
   .body {
