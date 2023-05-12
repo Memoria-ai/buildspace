@@ -261,7 +261,7 @@ button {
     flex-direction: column-reverse;
     gap: 1rem;
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
     position: relative;
   }
 
