@@ -154,6 +154,7 @@ const Create = ({ session }) =>{
       }
       const data = await response.json();
       setNote(data.text);
+      await stoppedListeningFunction(data.text);
     } catch (error) {
       console.log(error.data.error);
     }
@@ -177,16 +178,17 @@ const Create = ({ session }) =>{
 
   // When mic is clicked, this is run
   const handleListenChange = async () => {
-    
+    const prev = note;
     setIsListening(prevState => !prevState);
     // set a 3 second timeout
-  
+    
     if (showNote) {  
       setShowNote(false);
     }
     if(isListening){
-
-      await stoppedListeningFunction();
+      
+      // await stoppedListeningFunction(note);
+      
     }
     else {
       handleTimerChange(false);
@@ -208,11 +210,12 @@ const Create = ({ session }) =>{
     }
   }
 
-  const stoppedListeningFunction = async () => {
+  const stoppedListeningFunction = async (note) => {
+    console.log("PASSED IN NOTE IS " + note)
     handleTimerChange(true);
     setLoad(true);
-    await getGPTTitle();
-    await getTags();
+    await getTags(note);
+    await getGPTTitle(note);
     setLoad(false);
     console.log('note' + note)
     if (!note) {
@@ -227,11 +230,15 @@ const Create = ({ session }) =>{
   // move all logic to the backend test
 
   // GPT prompt for Title
-  const getGPTTitle = async () => {
-    if (isListening && note !== '') {
+  const getGPTTitle = async (note) => {
+    console.log("THIS IS FIRST")
+    console.log(note)
+    if (note !== '') {
+      console.log("THIS IS SECOND")
       const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20);
       const formattedTitle = title.replace(/"/g, '');
       setUserTitle(formattedTitle);
+      console.log("THE TITLE IS" + formattedTitle)
       return formattedTitle;
     }
   };
@@ -251,12 +258,14 @@ const Create = ({ session }) =>{
   };
 
   // Get tags to assign to each new note.
-  const getTags = async () => {
+  const getTags = async (note1) => {
     console.log("getTags is running")
-    if (isListening && note !== '') {
+    if (note1 !== '') {
+      console.log("IN THE GETTAGS, THE NOTE IS " + note1)
       const currentTags = await getUserTags();
-      const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return 3 one-word tags that are related to the note, and list them as the following example does - 'notes, plans, cooking'. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 20);
-      const Tags = title.replace(/"/g, '');
+      const preTags = await processMessageToChatGPT("This is an idea I have: " + note1 + ". Return 3 one-word tags that are related to the note, and list them as the following example does - notes, plans, cooking. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 50);
+      console.log(preTags)
+      const Tags = preTags.replace(/"/g, '');
       const arr = Tags.split(', ');
       setTags(arr);
       return arr;
