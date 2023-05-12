@@ -15,6 +15,8 @@ const Search = ({ session }) => {
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = server;
+  const [userTags, setUserTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   
   const sendQuestion = async () => {
     if (!searchTerm.trim()) { return };
