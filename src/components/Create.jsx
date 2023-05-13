@@ -27,12 +27,6 @@ const Create = ({ session }) =>{
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = server;
 
-
-  useEffect(() => {
-    handleListen();
-    console.log("what");
-  }, [isListening]);
-
   // Every time a user changes the transcript, this is run.
   const handleInputChange = (event) => {
     setNote(event.target.value);
@@ -122,8 +116,77 @@ const Create = ({ session }) =>{
     return data;
   }
 
+  // MOVE to backend
+
+  // When mic is clicked, this is run
+  // const handleListenChange = async () => {
+  //   if (showNote) {  
+  //     setShowNote(false);
+  //   }
+
+  //   setIsListening(prevState => !prevState);
+  //   console.log("handling listen change");
+
+  //   if(isListening) {
+  //     console.log("listening");
+  //     handleTimerChange(true);
+  //     setLoad(true);
+  //     await getGPTTitle();
+  //     await getTags();
+  //     setLoad(false);
+  //     if (!note) {
+  //       setSeconds(0);
+  //     }
+  //     else {
+  //       setShowNote(true)
+  //     }
+  //     console.log('here')
+  //   }
+  //   else {
+  //     handleTimerChange(false);
+  //     if (seconds != 0) {
+  //       setSeconds(0);
+  //     }
+  //   }
+  // }
+
+  const handleListenChange = async () => {
+    if (showNote) {  
+      setShowNote(false);
+    }
+
+    console.log("A Mic is now: " + isListening);
+
+    // Because it's asynchronous, this doesn't finish executing before next thing is handled.
+    setIsListening(prevIsListening => !prevIsListening);
+    
+    // Therefore this will still be false when we click the mic to turn it on.
+    if (isListening) {
+      console.log("B Mic is now: " + isListening);
+      console.log("Timer trigger false");
+      handleTimerChange(false);
+      if (note) {
+        setLoad(true);
+        await getGPTTitle();
+        await getTags();
+        setLoad(false);
+        setShowNote(true);
+      } else {
+        setSeconds(0);
+      }
+    } else {
+      console.log("Timer trigger true");
+      handleTimerChange(true);
+    }
+  }
+
+  useEffect(() => {
+    handleListen();
+  }, [isListening]);
+
   // Activating the users mic & other behaviour.
   const handleListen = () => {
+    console.log("C Mic is now: " + isListening);
     if(isListening) {
         mic.start();
         mic.onend = () => {
@@ -152,43 +215,9 @@ const Create = ({ session }) =>{
     }
   }
 
-  // MOVE to backend
-
-  // When mic is clicked, this is run
-  const handleListenChange = async () => {
-    if (showNote) {  
-      setShowNote(false);
-    }
-
-    setIsListening(prevState => !prevState);
-    console.log("handling listen change");
-
-    if(isListening) {
-      console.log("listening");
-      handleTimerChange(true);
-      setLoad(true);
-      await getGPTTitle();
-      await getTags();
-      setLoad(false);
-      if (!note) {
-        setSeconds(0);
-      }
-      else {
-        setShowNote(true)
-      }
-      console.log('here')
-    }
-    else {
-      handleTimerChange(false);
-      if (seconds != 0) {
-        setSeconds(0);
-      }
-    }
-  }
-
   // Timer that is shown when recording.
   const handleTimerChange = (state) => {
-    if (!state) {
+    if (state) {
       setTimerInterval(setInterval(() => {
         setSeconds(seconds => seconds + 1)
       }, 1000));
