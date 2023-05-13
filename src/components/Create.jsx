@@ -46,19 +46,7 @@ const Create = ({ session }) =>{
   // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
     event.preventDefault();
-    if(isListening){
-      console.log("was listening, now stopping")
-      setIsListening(false);
-      mic.stop();
-      mic.onend = () => {
-        console.log('Stopped Mic on Click');
-      }
-      const title = await getGPTTitle();
-      addNote(title);
-    }
-    else{
-      addNote(userTitle);
-    }  
+    addNote(userTitle);
     setSeconds(0);
     setShowNote(false);
   };
@@ -103,7 +91,6 @@ const Create = ({ session }) =>{
   // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
     console.log("sending tags" + tags)
-    console.log("DSSDFSDFJHGSDFJHGDSJHFGDJFHSGSJDHFG")
     const response = await fetch(current+'addTags', {
       method: 'POST',
       headers: {
@@ -174,10 +161,10 @@ const Create = ({ session }) =>{
     }
 
     setIsListening(prevState => !prevState);
-    console.log("handling listen change")
+    console.log("handling listen change");
 
     if(isListening) {
-      console.log("listening")
+      console.log("listening");
       handleTimerChange(true);
       setLoad(true);
       await getGPTTitle();
@@ -217,7 +204,8 @@ const Create = ({ session }) =>{
   const getGPTTitle = async () => {
     console.log("getGPTTitle");
     if (isListening && note !== '') {
-      const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20);
+      // const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return a title for the note that is a maximum of three words long. Return only the title, nothing else", 20);
+      const title = await processMessageToChatGPT("Return a 3 word title for this following note: " + note, 20);
       const formattedTitle = title.replace(/"/g, '');
       setUserTitle(formattedTitle);
       return formattedTitle;
@@ -245,7 +233,8 @@ const Create = ({ session }) =>{
     if (isListening && note !== '') {
       const currentTags = await getUserTags();
       console.log(currentTags)
-      const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return 3 one-word tags that are related to the note, and list them as the following example does - 'notes, plans, cooking'. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 20);
+      // const title = await processMessageToChatGPT("This is an idea I have: " + note + ". Return 3 one-word tags that are related to the note, and list them as the following example does - 'notes, plans, cooking'. If applicable, use the following tags if they relate to the note:" + currentTags + "Return only the tags, nothing else", 20);
+      const title = await processMessageToChatGPT("Return a 3 individual keywords separated by commas that are related to this note: " + note + ". If any of these keywords are applicable, use them: " + currentTags, 20);
       const Tags = title.replace(/"/g, '');
       const arr = Tags.split(', ');
       setTags(arr);
