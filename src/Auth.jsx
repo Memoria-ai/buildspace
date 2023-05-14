@@ -76,7 +76,7 @@ export default function Auth() {
           <div className={loading ? '' : styles.hidden} >
             <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
           </div>
-          <iframe className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/mgALvWdFxPY" title="Memoria Demo (April 30th)" frameborder="0" allowfullscreen></iframe>
+          <iframe className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=28" title="Memoria Demo" frameborder="0" allowfullscreen></iframe>
           <h3>Features:</h3>
           <div className={styles.gallery}>
             <img src={Feat.Feature1}/> 

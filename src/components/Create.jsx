@@ -16,7 +16,7 @@ const Create = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
   const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState('Title');
+  const [userTitle, setUserTitle] = useState();
   const [tags, setTags] = useState([]);
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
@@ -211,7 +211,6 @@ const Create = ({ session }) =>{
         mic.onerror = event => {
             console.log(event.error);
         }
-        
     }
   }
 
