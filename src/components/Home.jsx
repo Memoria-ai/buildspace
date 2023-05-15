@@ -54,6 +54,7 @@ const Home = ({ session }) => {
           <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>View</button>
         </div>
       </div>
+      <div className={styles.homeContent}>
       {page == "Create" ? (
         <Create session={session} />
       ) : page == "Search" ? (
@@ -62,6 +63,7 @@ const Home = ({ session }) => {
         <View session={session} /> 
       )
       }
+      </div>
       <div className={styles.mobilePageSelector}>
         <div className={styles.pageSelectDiv}>
           <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>{ page=="Create" ? <Img.CreateActive/> : <Img.CreateIcon/> }</button>

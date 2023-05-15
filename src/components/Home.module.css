@@ -238,6 +238,15 @@ button {
 }
 
 @media screen and (max-width: 870px) {
+  .homeContent {
+    display: flex;
+
+    margin-bottom: env(safe-area-inset-bottom) !important;
+    padding-left: env(safe-area-inset-left) !important;
+    padding-right: env(safe-area-inset-right) !important;
+    padding-bottom: 80px;
+  }  
+
   h1 {    
     font-size: 32pt;
     font-weight: 700;
