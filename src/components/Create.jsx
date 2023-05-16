@@ -272,7 +272,7 @@ const Create = ({ session }) =>{
     }
   };
 
-  const handlePlayRecording = () => {
+  const handlePlayRecording = async () => {
     if (audioBlob !== null) {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(audioUrl);
@@ -301,6 +301,9 @@ const Create = ({ session }) =>{
             <div className={styles.roundedGradientBorder}>
               <button onClick={handleCommitClick} className={styles.thoughtActionButton2}>Commit</button>
             </div>
+          </div>
+          <div>
+            <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
           </div>
         </div>
     </div>
