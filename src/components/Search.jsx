@@ -26,25 +26,32 @@ const Search = ({ session }) => {
     const userMessage = { text: searchTerm, role: 'user' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setSearchTerm('');
-
-    const userId = session.user.id;
-    const response = await fetch(current+'queryUserThoughts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId, searchTerm })
-    });
-
-    const gptResponse = await response.json();
-    const botMessage = { text: gptResponse, role: 'Memoria' };
-    
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
-
-    setLoad(false);
-    setQueryResponse(gptResponse);
-    setShowNote(true);
   };
+
+  // This waits for messages var to be updated before sending the request to backend
+  useEffect(() => {
+    const fetchData = async () => {
+      if (load) {
+        const userId = session.user.id;
+        const response = await fetch(current+'queryUserThoughts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId, messages })
+        });
+        const gptResponse = await response.json();
+        const botMessage = { text: gptResponse, role: 'assistant' };
+        
+        setLoad(false);
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+        setQueryResponse(gptResponse);
+        setShowNote(true);
+      }
+    };
+  
+    fetchData();
+  }, [messages]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
