@@ -57,7 +57,7 @@ export default function Auth() {
         <div className={styles.nav}>
           <h2>Memoria</h2>
           <div className={styles.roundedGradientBorder}>
-            <a className={styles.button1} target="_blank" href="">About Us</a>
+            <a className={styles.button1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About Us</a>
           </div>
         </div>
         <div className={styles.inner}>
