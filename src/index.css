@@ -7,7 +7,93 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+  /* border: 0.1px solid rgba(255, 0, 0, 0.25) !important; */
+  border: none;
+  background: none;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 12pt;
+  text-decoration: none;
+}
+
+html {
+  min-height: 100%;
+  height: fit-content;
+  width: 100vw;
+
+  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%), #FFFFFF;
+}
+
+.roundedGradientBorder {
+  border: double 1.5px transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(#161616,#161616), linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  display: flex;
+
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.gradientText1, h1, h2, h3 {
+  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media screen and (min-width: 871px) {
+  .logo {
+    font-weight: 700;
+  }
+
+  h1 {    
+    font-size: 40pt;
+  }
+  
+  h2 {  
+    font-size: 24pt;
+  }
+  
+  h3 {
+    font-size: 16pt;
+  }
+  
+  h1, h2, h3 {
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+}
+
+@media screen and (max-width: 870px) {
+  h1 {    
+    font-size: 32pt;
+  }
+  
+  h2 {  
+    font-size: 24pt;
+  }
+  
+  h3 {
+    font-size: 16pt;
+  }
+  
+  h1, h2, h3 {
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
 }

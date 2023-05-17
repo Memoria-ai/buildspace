@@ -18,6 +18,8 @@ const Create = ({ session }) =>{
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState();
   const [tags, setTags] = useState([]);
+  const navigate = useNavigate();
+  const userId = session.id;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -27,7 +29,6 @@ const Create = ({ session }) =>{
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = server;
 
-  // Every time a user changes the transcript, this is run.
   const handleInputChange = (event) => {
     setNote(event.target.value);
   };

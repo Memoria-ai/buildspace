@@ -15,6 +15,9 @@ const Search = ({ session }) => {
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = server;
+
+  const [userTags, setUserTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   
   const sendQuestion = async () => {
     if (!searchTerm.trim()) { return };
@@ -52,34 +55,30 @@ const Search = ({ session }) => {
 
   return (
     <div className={styles.body}>    
-      <div className={styles.queryFilterBar}>
-        <div className={styles.headline}>
-          <h3>Talk to your thoughts, powered by GPT.</h3>
-        </div>
-        <div className={styles.roundedGradientBorder}>
-          <div className={styles.queryBar}>
-            <input               
-              type="text"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              className={styles.titleInput}
-              placeholder='Send a question...'
-              onKeyDown={handleKeyDown}
-            />
-            <button onClick={sendQuestion} className={styles.submitQueryButton}><Img.SendIcon/></button>
-          </div>
-        </div>
-        <div className={load ? styles.loading : styles.hidden}>
-          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
-        </div>
+      <div className={styles.headline}>
+        <h3>Talk to your thoughts, powered by GPT.</h3>
+      </div>
+      <div className={load ? styles.loading : styles.hidden}>
+        <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
       </div>
       <div className={styles.chatHistory}>
-          {messages.map((message, index) => (
-            <div key={index} className={message.role == 'user' ? styles.userQuestion : styles.memoriaResponse}>
-              {message.text}
-            </div>
-          ))}
-        </div>
+        {messages.map((message, index) => (
+          <div key={index} className={message.role == 'user' ? styles.userQuestion : styles.memoriaResponse}>
+            {message.text}
+          </div>
+        ))}
+      </div>
+      <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
+        <input               
+          type="text"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          className={styles.titleInput}
+          placeholder='Send a question...'
+          onKeyDown={handleKeyDown}
+        />
+        <button onClick={sendQuestion} className={styles.submitQueryButton}><Img.SendIcon/></button>
+      </div>
     </div>
   )
 }

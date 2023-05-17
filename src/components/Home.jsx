@@ -6,6 +6,7 @@ import Create from './Create'
 import Search from './Search';
 import View from './View';
 import * as Img from '../imgs'
+import { motion, AnimatePresence} from "framer-motion"
 
 const Home = ({ session }) => {
   const [page, setPage] = useState("Create")
@@ -31,14 +32,20 @@ const Home = ({ session }) => {
   return (
     <div className={styles.body}>
       <div className={styles.nav}>
-          <h2>Memoria</h2>
+          <h2 className={styles.logo}>Memoria</h2>
           <div className={styles.webNavItems}>
-            <div className={styles.roundedGradientBorder}>
-              <a className={styles.button1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About</a>
-            </div>
-            <div className={styles.roundedGradientBorder}>
-              <button onClick={handleGoToProfile} className={styles.button1}>Profile</button>
-            </div>
+            <motion.a             
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.navButton1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">
+              About
+            </motion.a>
+            <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleGoToProfile} className={styles.navButton1}>
+              Profile
+            </motion.button>
           </div>
           <a className={styles.mobileAboutItem} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"><Img.AboutIcon/></a>
           <button onClick={handleGoToProfile} className={styles.mobileProfileItem}><Img.ProfileIcon/></button>

@@ -4,6 +4,7 @@ import styles from './Auth.module.css'
 import Memoria from './imgs/Memoria.png'
 import * as Img from "./imgs" 
 import * as Feat from "./imgs/feature-cards"
+import { motion } from "framer-motion"
 
 export default function Auth() {
   const [loading, setLoading] = useState(false)
@@ -54,35 +55,71 @@ export default function Auth() {
 
   return (
     <div className={styles.body}>
-        <div className={styles.nav}>
-          <h2>Memoria</h2>
-          <div className={styles.roundedGradientBorder}>
-            <a className={styles.button1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About Us</a>
-          </div>
+        <div className={styles.authNav}>
+          <h2 className={styles.logo}>Memoria</h2>
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }} >
+            <a className={styles.navButton1} target="_blank" href="">About Us</a>
+          </motion.div>
         </div>
         <div className={styles.inner}>
-          <div className={styles.headline}>
-            <h1>Welcome to Memoria</h1>
-            <h2>Never forget yours thoughts again.</h2>
-          </div>
-          <div className={styles.signInMenu}>
-            <div className={styles.roundedGradientBorder}>
-              <button onClick={signInWithGoogle} className={styles.signInButton}><p>Sign in with Google</p><Img.GoogleIcon/></button>
-            </div>
-            <div className={styles.roundedGradientBorder}>
+          <motion.div     
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className={styles.headline}>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1}}
+              transition={{ duration: 1, 
+                ease: "linear",
+                scale: {
+                  type: "spring",
+                  damping: 5,
+                  stiffness: 120,
+                  restDelta: 0.001
+                } }}
+              whileHover={{ scale: 1.1 }}
+              className={styles.headlineButton}>
+                Introducing Your Second Brain...
+            </motion.div>
+            <h1 className={styles.memoriaName}>Memoria</h1>
+            <h2 className={styles.memoriaTagline}>Never forget yours thoughts again.</h2>
+          </motion.div>
+          <motion.div     
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className={styles.signInMenu}>
+            <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.roundedGradientBorder}>
+              <button     
+              onClick={signInWithGoogle} className={styles.signInButton}>
+                <p>Sign in with Google</p><Img.GoogleIcon/>
+              </button>
+            </motion.div>
+            <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.roundedGradientBorder}>
               <button onClick={signInWithTwitter} className={styles.signInButton}><p>Sign in with Twitter</p><Img.TwitterIcon/></button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           <div className={loading ? '' : styles.hidden} >
             <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
           </div>
-          <iframe className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=28" title="Memoria Demo" frameborder="0" allowfullscreen></iframe>
+          <motion.iframe             
+          whileHover={{ scale: 1.05 }}
+          className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=29" title="Memoria Demo (April 30th)" frameborder="0" allowfullscreen></motion.iframe>
           <h3>Features:</h3>
           <div className={styles.gallery}>
-            <img src={Feat.Feature1}/> 
-            <img src={Feat.Feature2}/> 
-            <img src={Feat.Feature3}/> 
-            <img src={Feat.Feature4}/> 
+            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature1}/> 
+            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature2}/> 
+            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature3}/> 
+            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature4}/> 
           </div>
         </div>
         <div className={styles.footer}>
