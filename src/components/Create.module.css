@@ -295,7 +295,7 @@ img {
 @media screen and (max-width: 870px) {
   .body {
     width: 100vw;
-    height: 80%;
+    height: calc(100vh - 70px - 5.25rem);
     
     padding: 3rem 1rem;
 

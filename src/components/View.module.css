@@ -215,7 +215,7 @@ button {
   .body {
     padding: 2rem 1rem;
 
-    height: calc(100% - 70px - 5.25rem);
+    height: calc(100vh - 70px - 5.25rem);
     width: 100vw;
 
     overflow-y: scroll;
