@@ -295,7 +295,7 @@ img {
 @media screen and (max-width: 870px) {
   .body {
     width: 100vw;
-    height: calc(100vh - 70px - 5.25rem);
+    height: fit-content;
     
     padding: 3rem 1rem;
 

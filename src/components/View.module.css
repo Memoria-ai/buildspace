@@ -213,7 +213,7 @@ button {
   }
 
   .body {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 8rem;
 
     height: calc(100vh - 70px - 5.25rem);
     width: 100vw;

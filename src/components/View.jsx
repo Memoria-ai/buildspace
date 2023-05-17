@@ -125,18 +125,14 @@ const View = ({ session }) => {
               ? note?.content.slice(0, 120)
               : note?.content }
             { note?.content.length > 120 ? ( 
-              <button 
-                onClick={() => toggleContent(note?.id)}
-              >
-              <p className={styles.seeMore} >
+              <span onClick={() => toggleContent(note?.id)} className={styles.seeMore} >
                 {!expandedNotes?.includes(note?.id) ? '...See More' : '...See Less'}
-              </p> 
-              </button> 
+              </span> 
             ) : (
               ''
             )} 
           </p>
-          <button className={styles.button1} onClick={() => deleteNote(note?.id)}>
+          <button onClick={() => deleteNote(note?.id)}>
             <Img.TrashIcon/>
           </button>
         </div>
