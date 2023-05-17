@@ -184,13 +184,13 @@ button {
     padding-right: 12px;
 
     position: absolute;
-    bottom: calc(3rem + 70px);
+    bottom: calc(2rem);
   }
 
   .body {
-    padding: 2rem 1rem 8rem;
+    padding: 2rem 1rem;
 
-    height: calc(100% - 70px);
+    height: calc(100% - 70px - 5.25rem);
     width: 100vw;
 
     overflow-y: scroll;
