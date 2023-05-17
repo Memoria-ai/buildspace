@@ -61,6 +61,8 @@ button {
   background: url(../imgs/noise.png), radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
   background-blend-mode: screen, normal;
 
+  position: relative;
+
   margin-bottom: env(safe-area-inset-bottom) !important;
 }
 

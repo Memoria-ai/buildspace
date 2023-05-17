@@ -58,6 +58,17 @@ const Search = ({ session }) => {
       <div className={styles.headline}>
         <h3>Talk to your thoughts, powered by GPT.</h3>
       </div>
+      <div className={`${styles.mobileQueryBar} ${styles.roundedGradientBorder}`}>
+        <input               
+          type="text"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          className={styles.titleInput}
+          placeholder='Send a question...'
+          onKeyDown={handleKeyDown}
+        />
+        <button onClick={sendQuestion} className={styles.submitQueryButton}><Img.SendIcon/></button>
+      </div>
       <div className={load ? styles.loading : styles.hidden}>
         <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
       </div>
@@ -68,7 +79,7 @@ const Search = ({ session }) => {
           </div>
         ))}
       </div>
-      <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
+      <div className={`${styles.webQueryBar} ${styles.roundedGradientBorder}`}>
         <input               
           type="text"
           value={searchTerm}
