@@ -11,7 +11,7 @@ export default function Auth() {
   const [email, setEmail] = useState('')
   const localhost = 'http://localhost:3000/buildspace';
   const backToApp = 'https://memoria-ai.github.io/buildspace/';
-  const current = backToApp;
+  const current = localhost;
 
 
   // E-mail log in
