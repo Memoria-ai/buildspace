@@ -215,7 +215,7 @@ button {
   .body {
     padding: 2rem 1rem 8rem;
 
-    height: 100%;
+    height: calc(100% - 70px);
     width: 100vw;
 
     overflow-y: scroll;
@@ -227,6 +227,8 @@ button {
     align-items: center;
 
     position: relative;
+
+    margin-bottom: env(safe-area-inset-bottom) !important;
   }
 
   .roundedGradientBorder {

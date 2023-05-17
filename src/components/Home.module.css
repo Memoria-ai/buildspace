@@ -188,7 +188,30 @@ button {
   }
 }
 
-@media screen and (max-width: 870px) {  
+@media screen and (max-width: 870px) {
+  h1 {    
+    font-size: 32pt;
+    font-weight: 700;
+  }
+  
+  h2 {  
+    font-size: 24pt;
+    font-weight: 700;
+  }
+  
+  h3 {
+    font-size: 16pt;
+  }
+  
+  h1, h2, h3 {
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  
+  input {
+    width: 300px;
+  }
+
   .button1 {
     display: flex;
     flex-direction: row;
