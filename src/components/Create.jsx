@@ -172,31 +172,33 @@ const Create = ({ session }) =>{
   // When mic is clicked, this is run
   const handleListenChange = async () => {
     const prev = note;
-    setIsListening(prevState => !prevState);
-    // console.log("handleListenChange: " + isListening)
+    setIsListening(prevState => !prevState); // This lags 1 cycle, bc its async
+    console.log("handleListenChange: " + isListening)
     // set a 3 second timeout
     if (showNote) {  
       setShowNote(false);
     }
+
     if(isListening){
-      handleTimerChange(false);
       // await stoppedListeningFunction(note);
     }
     else {
-      handleTimerChange(true);
       if (seconds != 0) {
         setSeconds(0);
       }
+      handleTimerChange(true);
     }
   }
 
   // Timer that is shown when recording.
   const handleTimerChange = (state) => {
     if (state) {
+      console.log("start timer");
       setTimerInterval(setInterval(() => {
         setSeconds(seconds => seconds + 1)
       }, 1000));
     } else {
+      console.log("stop timer");
       clearInterval(timerInterval);
       setTimerInterval(null);
     }
@@ -204,7 +206,7 @@ const Create = ({ session }) =>{
 
   const stoppedListeningFunction = async (note) => {
     console.log("PASSED IN NOTE IS " + note)
-    handleTimerChange(true);
+    handleTimerChange(false);
     setLoad(true);
     await getTags(note);
     await getGPTTitle(note);
