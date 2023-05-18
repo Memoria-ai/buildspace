@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/buildspace/static/css/main.a2e65ade.css",
-    "main.js": "/buildspace/static/js/main.78cfdd36.js",
+    "main.js": "/buildspace/static/js/main.db00fe5d.js",
     "static/js/787.f7005703.chunk.js": "/buildspace/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/buildspace/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
     "static/media/memoria-create-wire.png": "/buildspace/static/media/memoria-create-wire.89e22ce989a3503202d1.png",
@@ -30,11 +30,11 @@
     "static/media/about-icon.svg": "/buildspace/static/media/about-icon.dfcc70011320b55ef0607023d773ce9d.svg",
     "static/media/trash_full.svg": "/buildspace/static/media/trash_full.74d842520073dd67c20a3eb3fe92f554.svg",
     "main.a2e65ade.css.map": "/buildspace/static/css/main.a2e65ade.css.map",
-    "main.78cfdd36.js.map": "/buildspace/static/js/main.78cfdd36.js.map",
+    "main.db00fe5d.js.map": "/buildspace/static/js/main.db00fe5d.js.map",
     "787.f7005703.chunk.js.map": "/buildspace/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a2e65ade.css",
-    "static/js/main.78cfdd36.js"
+    "static/js/main.db00fe5d.js"
   ]
 }
