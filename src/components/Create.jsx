@@ -71,7 +71,6 @@ const Create = ({ session }) =>{
 
   // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
-    console.log("sending tags" + tags)
     const response = await fetch(current+'addTags', {
       method: 'POST',
       headers: {
@@ -155,7 +154,6 @@ const Create = ({ session }) =>{
     }
     chunksRef.current = [];
   };
-  
 
   const handleDiscardClick = async (event) => {
     event.preventDefault();
@@ -175,18 +173,17 @@ const Create = ({ session }) =>{
   const handleListenChange = async () => {
     const prev = note;
     setIsListening(prevState => !prevState);
+    // console.log("handleListenChange: " + isListening)
     // set a 3 second timeout
-    
     if (showNote) {  
       setShowNote(false);
     }
     if(isListening){
-      
+      handleTimerChange(false);
       // await stoppedListeningFunction(note);
-      
     }
     else {
-      handleTimerChange(false);
+      handleTimerChange(true);
       if (seconds != 0) {
         setSeconds(0);
       }
