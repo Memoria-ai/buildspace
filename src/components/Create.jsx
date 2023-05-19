@@ -26,6 +26,47 @@ const Create = ({ session }) =>{
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = server;
 
+  useEffect(() => {
+    console.log("MAIN USEEFFECT IS RUNNING")
+    if(!isListening){
+      console.log('handleStopRecording is running')
+      // check if the mediaRecorder is running
+      if(mediaRecorder !== null){
+        mediaRecorder.stop();
+      }
+    }else{
+      handleStartRecording();
+    }
+
+    if (mediaRecorder !== null) {
+      mediaRecorder.addEventListener("dataavailable", (event) => {
+        chunksRef.current.push(event.data);
+      });
+      mediaRecorder.addEventListener("stop", async () => {
+        console.log("MEDIA RECORDER IS STOPPING");
+        const blob = new Blob(chunksRef.current, { type: "audio/wav" });
+        setAudioBlob(blob);
+        await handleStopRecording();
+      });
+    }
+  }, [isListening]);
+  
+    // Our GPT Prompt
+  async function processMessageToChatGPT(message, max_tokens){
+    const response = await fetch(current+'gpt', {  
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: message,
+        max_tokens: max_tokens,
+      })
+    });
+    const data = await response.json();
+    return data;
+  }
+
   const handleInputChange = (event) => {
     setNote(event.target.value);
   };
@@ -83,47 +124,6 @@ const Create = ({ session }) =>{
     });
   };
 
-  // Our GPT Prompt
-  async function processMessageToChatGPT(message, max_tokens){
-    const response = await fetch(current+'gpt', {  
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: message,
-        max_tokens: max_tokens,
-      })
-    });
-    const data = await response.json();
-    return data;
-  }
-
-  useEffect(() => {
-    console.log("MAIN USEEFFECT IS RUNNING")
-    if(!isListening){
-      console.log('handleStopRecording is running')
-      // check if the mediaRecorder is running
-      if(mediaRecorder !== null){
-        mediaRecorder.stop();
-      }
-    }else{
-      handleStartRecording();
-    }
-
-    if (mediaRecorder !== null) {
-      mediaRecorder.addEventListener("dataavailable", (event) => {
-        chunksRef.current.push(event.data);
-      });
-      mediaRecorder.addEventListener("stop", async () => {
-        console.log("MEDIA RECORDER IS STOPPING");
-        const blob = new Blob(chunksRef.current, { type: "audio/wav" });
-        setAudioBlob(blob);
-        await handleStopRecording();
-      });
-    }
-  }, [isListening]);
-  
   const handleStartRecording = async () => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const recorder = new MediaRecorder(stream);
@@ -178,11 +178,7 @@ const Create = ({ session }) =>{
     if (showNote) {  
       setShowNote(false);
     }
-
-    if(isListening){
-      // await stoppedListeningFunction(note);
-    }
-    else {
+    if(!isListening) {
       if (seconds != 0) {
         setSeconds(0);
       }
@@ -220,8 +216,6 @@ const Create = ({ session }) =>{
     }
     console.log('here')
   }
-
-  // move all logic to the backend test
 
   // GPT prompt for Title
   const getGPTTitle = async (note) => {
