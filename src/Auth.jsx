@@ -10,7 +10,7 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const localhost = 'http://localhost:3000/buildspace';
-  const backToApp = 'https://memoria-ai.github.io/buildspace/';
+  const backToApp = 'https://memoria.live/';
   const current = backToApp;
 
 
@@ -19,7 +19,7 @@ export default function Auth() {
     event.preventDefault()
 
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://memoria-ai.github.io/buildspace/" } });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://memoria.live/" } });
 
     if (error) {
       alert(error.error_description || error.message)
