@@ -269,7 +269,7 @@ const Create = ({ session }) =>{
     if (note1 !== '') {
       console.log("IN THE GETTAGS, THE NOTE IS " + note1)
       const currentTags = await getUserTags();
-      const preTags = await processMessageToChatGPT("Return a 3 individual keywords separated by commas that are related to this note: " + note + ". If any of these keywords are applicable, use them: " + currentTags, 20);
+      const preTags = await processMessageToChatGPT("Return a 3 individual keywords separated by commas that are related to this note: " + note1 + ". If any of these keywords are applicable, use them: " + currentTags, 20);
       console.log(preTags)
       const Tags = preTags.replace(/"/g, '');
       const arr = Tags.split(', ');
