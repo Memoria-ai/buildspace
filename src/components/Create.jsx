@@ -51,7 +51,7 @@ const Create = ({ session }) =>{
     }
   }, [isListening]);
   
-    // Our GPT Prompt
+  // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens){
     const response = await fetch(current+'gpt', {  
       method: 'POST',
@@ -178,11 +178,17 @@ const Create = ({ session }) =>{
     if (showNote) {  
       setShowNote(false);
     }
+
+    // When the mic is listening, isListening will be false within this function
     if(!isListening) {
       if (seconds != 0) {
         setSeconds(0);
       }
       handleTimerChange(true);
+    }
+    else {
+      handleTimerChange(false);
+      setLoad(true);
     }
   }
 
@@ -202,8 +208,6 @@ const Create = ({ session }) =>{
 
   const stoppedListeningFunction = async (note) => {
     console.log("PASSED IN NOTE IS " + note)
-    handleTimerChange(false);
-    setLoad(true);
     await getTags(note);
     await getGPTTitle(note);
     setLoad(false);
