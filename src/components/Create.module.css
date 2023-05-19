@@ -161,7 +161,7 @@ img {
 
 @media screen and (min-width: 871px) {
   .body {
-    height: fit-content;
+    height: 100%;
     width: 100vw;
     
     padding: 3rem 2rem;
@@ -289,6 +289,27 @@ img {
     flex-direction: row;
     grid-gap: 0.5rem;
     width: 100%;
+  }
+
+  .confirmationPopup {
+    position: absolute;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px 24px;
+    border-radius: 16px;
+    opacity: 0.5;
+    letter-spacing: -0.04em;
+  }
+
+  .confirmationPopup:hover {
+    background: rgba(255, 255, 255, 0.10);
+    padding: 16px 24px;
+    border-radius: 16px;
+    opacity: 1;
+    letter-spacing: -0.04em;
   }
 }
 

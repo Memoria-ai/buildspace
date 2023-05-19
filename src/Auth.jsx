@@ -60,7 +60,7 @@ export default function Auth() {
           <motion.div 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }} >
-            <a className={styles.navButton1} target="_blank" href="">About Us</a>
+            <a className={styles.navButton1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About Us</a>
           </motion.div>
         </div>
         <div className={styles.inner}>
@@ -113,7 +113,7 @@ export default function Auth() {
           </div>
           <motion.iframe             
           whileHover={{ scale: 1.05 }}
-          className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=29" title="Memoria Demo (April 30th)" frameborder="0" allowfullscreen></motion.iframe>
+          className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=29" title="Memoria Demo" frameborder="0" allowfullscreen></motion.iframe>
           <h3>Features:</h3>
           <div className={styles.gallery}>
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature1}/> 

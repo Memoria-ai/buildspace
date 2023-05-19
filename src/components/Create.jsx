@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import styles from './Create.module.css';
 import * as Img from "../imgs" 
+import { motion } from "framer-motion"
 
 const Create = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
@@ -21,6 +22,7 @@ const Create = ({ session }) =>{
   const [timerInterval, setTimerInterval] = useState(null);
   const [chunks, setChunks] = useState([]);
   const chunksRef = useRef([]);
+  const [confirmation, setConfirmation] = useState(false);
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
@@ -79,10 +81,22 @@ const Create = ({ session }) =>{
   // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
     event.preventDefault();
-    addNote(userTitle);
+    // addNote(userTitle);
     setSeconds(0);
     setShowNote(false);
+    thoughtCommitConfirmation();
   };
+
+  const thoughtCommitConfirmation = () => {
+    // Give feedback to the user
+    console.log("Thought was committed: " + confirmation)
+    setConfirmation(true);
+    console.log("Thought was committed: " + confirmation)
+    const timer = setTimeout(() => {
+      setConfirmation(false);
+      console.log("Confirmation popup: " + confirmation)
+    }, 2000);
+  }
 
   const addNote = async (title) => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
@@ -272,8 +286,28 @@ const Create = ({ session }) =>{
     }
   };
 
+  const popUpTransitions = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.2 } },
+    fadeOut: { opacity: 0, transition: { duration: 0.2 } },
+    exit: { opacity: 0, transition: { duration: 0.1 } }
+  };
+
   return (
     <div className={styles.body}>
+      <div style={{ display: 'block'}}>
+      <span onClick={() => setConfirmation(false)}>
+      <motion.button 
+      variants={popUpTransitions}
+      initial="hidden"
+      animate={confirmation ? "visible" : "fadeOut"}
+      exit="exit"
+      transition={{ duration: 0.2, delay: 1.0 }}
+      className={styles.confirmationPopup}>
+        <p>Thought was committed</p>
+      </motion.button>
+      </span>
+      </div>
       <h2>Click the mic to record your thoughts!</h2>
         <div>
           <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <Img.StopIcon/> : <Img.MicIcon/> } <p className={styles.timer}>{seconds}s</p></button>
