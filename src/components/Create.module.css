@@ -459,6 +459,27 @@ img {
     font-size: 8pt;
     padding: 8px 16px;;
   }
+
+  .confirmationPopup {
+    position: absolute;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    border-radius: 16px;
+    opacity: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .confirmationPopup:hover {
+    background: rgba(255, 255, 255, 0.10);
+    padding: 8px 16px;
+    border-radius: 16px;
+    opacity: 0.5;
+    letter-spacing: -0.04em;
+  }
 }
 
 .footer p {
