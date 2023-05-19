@@ -442,6 +442,7 @@ img {
     white-space: pre-wrap;
     overflow-wrap: break-word;
     resize: none;
+    font-size: 10pt;
   }
 
   .transcript::placeholder {

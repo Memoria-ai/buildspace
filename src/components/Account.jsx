@@ -3,6 +3,8 @@ import { supabase } from '../supabaseClient'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './Account.module.css';
+import * as Img from '../imgs'
+import { motion } from "framer-motion"
 
 export default function Account() {
   const [loading, setLoading] = useState(true);
@@ -83,52 +85,49 @@ export default function Account() {
 
   return (
     <div className={styles.body}>
-    {session ? (
-    
-    <form onSubmit={updateProfile} className={styles.body}>
-      <div className={styles.roundedGradientBorder}>
-        <button onClick={() => navigate('/')} className={styles.button1}>Go Home</button>
+      <div className={styles.nav}>
+        <h2 className={styles.logo}>Memoria</h2>
+          <div className={styles.webNavItems}>
+            <motion.a             
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.navButton1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">
+              About
+            </motion.a>
+            <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/')}
+            className={styles.navButton1}>
+              Go Back Home
+            </motion.button>
+          </div>
+          <button onClick={() => navigate('/')} className={styles.mobileAboutItem}>Back!</button>
       </div>
-      <div>
-        <label htmlFor="email" className={styles.gradientText1}>Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
+      <div className={styles.inner}>
+      { session ? (
+      <form onSubmit={updateProfile}>
+        <div className={styles.formField}>
+          <label htmlFor="email" className={styles.gradientText1}>Email: </label>
+          <input id="email" type="text" value={session.user.email} disabled />
+        </div>
+        <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.roundedGradientBorder}>
+              <button     
+              onClick={()=>signOut()} className={styles.button1}>
+                Sign Out
+              </button>
+          </motion.div>
+      </form>
+      ) : (
+        <div>
+          Loading
+        </div>
+      )
+      }
       </div>
-      {/* <div>
-        <label htmlFor="username" className={styles.gradientText1}>Name</label>
-        <input
-          id="username"
-          type="text"
-          required
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website" className={styles.gradientText1}>Website:</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
-      <div className={styles.roundedGradientBorder}>
-        <button className={styles.button1} type="submit" disabled={loading}>
-          {loading ? 'Loading...' : 'Update'}
-        </button>
-      </div> */}
-      <div className={styles.roundedGradientBorder}>
-        <button className={styles.button1} type="button" onClick={()=>signOut()}>
-          Sign Out
-        </button>
-      </div>
-    </form>
-    ) : (
-      <div>
-        Loading
-      </div>
-    )
-    }
     </div>
   )
 }
