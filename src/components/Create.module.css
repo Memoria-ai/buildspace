@@ -159,7 +159,7 @@ img {
   color: #272727;
 }
 
-@media screen and (min-width: 871px) {
+@media screen and (min-width: 1101px) {
   .body {
     height: 100%;
     width: 100vw;
@@ -274,7 +274,7 @@ img {
     background: none;
 
     color: white;
-    text-align: center;
+    text-align: left;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     resize: none;
@@ -313,7 +313,7 @@ img {
   }
 }
 
-@media screen and (max-width: 870px) {
+@media screen and (max-width: 1100px) {
   .body {
     width: 100vw;
     height: fit-content;
@@ -438,11 +438,11 @@ img {
     background: none;
 
     color: white;
-    text-align: center;
+    text-align: left;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     resize: none;
-    font-size: 10pt;
+    font-size: 11pt;
   }
 
   .transcript::placeholder {

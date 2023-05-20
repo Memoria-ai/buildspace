@@ -109,7 +109,7 @@ export default function Account() {
       <form onSubmit={updateProfile}>
         <div className={styles.formField}>
           <label htmlFor="email" className={styles.gradientText1}>Email: </label>
-          <input id="email" type="text" value={session.user.email} disabled />
+          <input id="email" type="text" style={{border: "1px solid #272727", borderradius: "1rem"}} value={session.user.email} disabled />
         </div>
         <motion.div 
             whileHover={{ scale: 1.05 }}
