@@ -106,17 +106,20 @@ button {
     bottom: 3rem;
 
     padding-right: 16px;
+
+    z-index: 999;
   }
   
   .body {
     height: 100%;
+    max-height: calc(100vh - 5.25rem);
     width: 100vw;
     
     display: flex;
     flex-direction: column;
     gap: 2rem;
     align-items: center;
-    padding: 3rem 5rem 2rem;
+    padding: 3rem 5rem 3rem;
 
     /* border: 1px solid blue !important; */
   }
@@ -129,15 +132,19 @@ button {
   }
 
   .chatHistory {
-    width: 70%;
+    width: calc(70% - 1rem);
     min-width: 600px;
+    height: 100%;
 
     display: flex;
-    flex-direction: column-reverse;
+    align-items: first baseline;
+    flex-direction: column;
     gap: 1rem;
+    padding-bottom: 4rem;
 
     /* border: 1px solid red; */
-    position: relative;
+
+    overflow: scroll;
   }
 
   .userQuestion {
@@ -187,6 +194,8 @@ button {
     flex-direction: row;
 
     padding-right: 12px;
+
+    z-index: 999;
   }
 
   .body {
@@ -245,6 +254,10 @@ button {
     border-bottom-left-radius: 5px;
     padding: 1rem 1.25rem;
     gap: 1rem;
+  }
+
+  .loading {
+    background: none;
   }
 }
 

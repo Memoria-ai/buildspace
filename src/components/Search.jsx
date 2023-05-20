@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Account from './Account';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
@@ -11,6 +11,7 @@ const Search = ({ session }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [queryResponse, setQueryResponse] = useState('');
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null)
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
@@ -60,6 +61,14 @@ const Search = ({ session }) => {
     }
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+
   return (
     <div className={styles.body}>    
       <div className={styles.headline}>
@@ -76,15 +85,16 @@ const Search = ({ session }) => {
         />
         <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>
       </div>
-      <div className={load ? styles.loading : styles.hidden}>
-        <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
-      </div>
       <div className={styles.chatHistory}>
         {messages.map((message, index) => (
           <div key={index} className={message.role == 'user' ? styles.userQuestion : styles.memoriaResponse}>
             {message.text}
           </div>
         ))}
+        <div className={load ? styles.loading : styles.hidden}>
+          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+        </div>
+        <div ref={messagesEndRef} />
       </div>
     </div>
   )
