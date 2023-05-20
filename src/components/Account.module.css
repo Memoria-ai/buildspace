@@ -194,9 +194,6 @@ input {
   input {
     width: 100%;
     padding: 12px 16px;
-
-    border: 1px solid #272727;
-    border-radius: 1rem;
   }
 }
   
@@ -274,8 +271,6 @@ input {
     width: 100%;
     padding: 12px 16px;
 
-    border: 1px solid #272727;
-    border-radius: 1rem;
     font-size: 10pt;
   }
 }

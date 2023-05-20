@@ -94,7 +94,7 @@ const View = ({ session }) => {
         {visibleTags.map((tag) => (
           <div className={selectedTags.includes(tag) ? styles.selected : ''}>
             <div
-              className={styles.button1}
+              className={styles.tag}
               onClick={() => handleTagSelection(tag)}
             > 
               {tag}
@@ -119,8 +119,8 @@ const View = ({ session }) => {
       }).map((note) => (
         <div>
         <div className={styles.thoughtCard} key={note?.id}>
-          <h3>{note?.title}</h3>
-          <p>
+          <h3 className={styles.noteTitle}>{note?.title}</h3>
+          <p className={styles.transcript}>
             {!expandedNotes?.includes(note?.id) && (note?.content.length > 120) 
               ? note?.content.slice(0, 120)
               : note?.content }
@@ -132,7 +132,7 @@ const View = ({ session }) => {
               ''
             )} 
           </p>
-          <button onClick={() => deleteNote(note?.id)}>
+          <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
             <Img.TrashIcon/>
           </button>
         </div>
