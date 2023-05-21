@@ -81,7 +81,7 @@ const Create = ({ session }) =>{
   // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
     event.preventDefault();
-    // addNote(userTitle);
+    addNote(userTitle);
     setSeconds(0);
     setShowNote(false);
     thoughtCommitConfirmation();
