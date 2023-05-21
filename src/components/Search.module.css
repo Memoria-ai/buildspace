@@ -24,11 +24,6 @@ etc...
 
 */
 
-@font-face { font-family: "Inter";
-  src:  url("../fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
-  font-family: "Inter";
-}
-
 /* PSUEDO STYLING */
 ::-webkit-scrollbar {
     display: none;
@@ -266,6 +261,7 @@ button {
     border-bottom-left-radius: 5px;
     padding: 1rem 1.25rem;
     gap: 1rem;
+    white-space: pre-line;
   }
 
   .loading {

@@ -1,3 +1,10 @@
+/* @font-face { font-family: "Inter";
+  src:  url("./fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
+  font-family: "Inter", Helvetica, sans-serif;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,7 +23,7 @@ body {
   border: none;
   background: none;
   color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", Helvetica, sans-serif;
   font-weight: 550;
   text-decoration: none;
 }
