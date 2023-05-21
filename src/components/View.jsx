@@ -86,6 +86,17 @@ const View = ({ session }) => {
     }
   };
 
+  const sortedNotes = userNotes
+  .filter((note) => {
+    if (selectedTags.length === 0) {
+      return true; // Show all notes if no tags selected
+    }
+    if (!note) {
+      return false;
+    }
+    return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
+  }).sort((a, b) => (b?.timestamp.localeCompare(a?.timestamp)));
+
   return (
     <div className={styles.body}>
       <h3>My Thoughts</h3>
@@ -108,16 +119,7 @@ const View = ({ session }) => {
         </span>
       </div>
       <div className={styles.gallery}>
-      {userNotes.filter((note) => {
-        if (selectedTags.length === 0) {
-          return true; // Show all notes if no tags selected
-        }
-        if (!note) {
-          return false;
-        }
-        return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
-      }).map((note) => (
-        <div>
+      {sortedNotes.map((note) => (
         <div className={styles.thoughtCard} key={note?.id}>
           <h3 className={styles.noteTitle}>{note?.title}</h3>
           <p className={styles.transcript}>
@@ -137,10 +139,12 @@ const View = ({ session }) => {
                 <div className={styles.tag}>{tag}</div>
               ))}
           </div>
-          <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
-            <Img.TrashIcon/>
-          </button>
-        </div>
+          <div className={styles.cardBottom}>
+            <p className={styles.description}>{new Date(note?.timestamp).toLocaleDateString()}</p>
+            <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
+              <Img.TrashIcon/>
+            </button>
+          </div>
         </div>
       ))}
       </div>  

@@ -310,7 +310,7 @@ const Create = ({ session }) =>{
       </div>
       <div className={styles.titleDesc}>
         <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
-        <p className={styles.description}>Click the mic below to get started. <br/> We will transcribe your thought into clear text</p>
+        <p className={`${styles.description} ${showNote ? styles.hidden : ""}`}>Click the mic below to get started. <br/> We will transcribe your thought into clear text</p>
       </div>
       <div className={styles.micContainer}>
         <button 

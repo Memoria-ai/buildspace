@@ -99,6 +99,18 @@ button {
   color:#4a4a4a;
 }
 
+.description {
+  color: #272727;
+}
+
+.cardBottom {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 @media screen and (min-width: 1101px) {  
   .body {
     height: fit-content;
@@ -197,7 +209,6 @@ button {
 
   .deleteButton {
     display: flex;
-    align-self: last baseline;
   }
 }
 
@@ -356,7 +367,6 @@ button {
 
   .deleteButton {
     display: flex;
-    align-self: last baseline;
     padding: 0.5rem 0 0;
   }
 }
