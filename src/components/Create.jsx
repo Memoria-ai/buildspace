@@ -31,7 +31,6 @@ const Create = ({ session }) =>{
   useEffect(() => {
     console.log("MAIN USEEFFECT IS RUNNING")
     if(!isListening){
-      console.log('handleStopRecording is running')
       // check if the mediaRecorder is running
       if(mediaRecorder !== null){
         mediaRecorder.stop();
@@ -45,7 +44,6 @@ const Create = ({ session }) =>{
         chunksRef.current.push(event.data);
       });
       mediaRecorder.addEventListener("stop", async () => {
-        console.log("MEDIA RECORDER IS STOPPING");
         const blob = new Blob(chunksRef.current, { type: "audio/wav" });
         setAudioBlob(blob);
         await handleStopRecording();
@@ -89,12 +87,9 @@ const Create = ({ session }) =>{
 
   const thoughtCommitConfirmation = () => {
     // Give feedback to the user
-    console.log("Thought was committed: " + confirmation)
     setConfirmation(true);
-    console.log("Thought was committed: " + confirmation)
     const timer = setTimeout(() => {
       setConfirmation(false);
-      console.log("Confirmation popup: " + confirmation)
     }, 2000);
   }
 
@@ -186,7 +181,7 @@ const Create = ({ session }) =>{
   const handleListenChange = async () => {
     const prev = note;
     setIsListening(prevState => !prevState); // This lags 1 cycle, bc its async
-    console.log("handleListenChange: " + isListening)
+
     // set a 3 second timeout
     if (showNote) {  
       setShowNote(false);
