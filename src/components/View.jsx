@@ -30,7 +30,7 @@ const View = ({ session }) => {
       } else {
         setSelectedTags([...selectedTags, tag]);
       }
-      console.log(selectedTags);
+
     }; 
   
     // Get notes from database and show it to user.
@@ -45,8 +45,7 @@ const View = ({ session }) => {
       });
       const notes = await response.json();
       setUserNotes(notes);
-      console.log("SKDJFHSDKFJHSDKFJH")
-      console.log(notes);
+
     };
   
     // Get all tags from database and show it to user.
@@ -63,10 +62,10 @@ const View = ({ session }) => {
       setUserTags(tags.tags);
       setCountedTags(tags.counts);
       if (showAllTags) {
-        console.log("SHOW ALL TAGS" + tags.tags)
+
         setVisibleTags(tags.tags);
       } else {
-        console.log("SHOW 3 TAGS" + tags.tags.slice(0, 3))
+
         setVisibleTags(tags.tags.slice(0, 3));
       }
       return tags;
