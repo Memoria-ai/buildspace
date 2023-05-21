@@ -88,7 +88,7 @@ const View = ({ session }) => {
 
   return (
     <div className={styles.body}>
-      <h2>My Thoughts</h2>
+      <h3>My Thoughts</h3>
       <div className={styles.filterTagList}>
         <p>Filter:</p>
         {visibleTags.map((tag) => (
@@ -101,12 +101,12 @@ const View = ({ session }) => {
           </div>
           </div>
         ))}
+        <span className={styles.centerOnMobile}>
+          {userTags.length > 3 && (
+              <button onClick={handleTagViewChange} className={styles.seeMore}>{!showAllTags ? '+ See All' : '- See Less'}</button>
+          )}
+        </span>
       </div>
-      {userTags.length > 3 && (
-        <button onClick={handleTagViewChange}>
-          <p className={styles.seeMore}>{!showAllTags ? '+ See All Tags' : '- See Less'}</p>
-        </button>
-      )}
       <div className={styles.gallery}>
       {userNotes.filter((note) => {
         if (selectedTags.length === 0) {
@@ -132,14 +132,14 @@ const View = ({ session }) => {
               ''
             )} 
           </p>
+          <div className={styles.tagList}>
+            {note?.Tags?.map((tag) => (
+                <div className={styles.tag}>{tag}</div>
+              ))}
+          </div>
           <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
             <Img.TrashIcon/>
           </button>
-        </div>
-        <div className={styles.tagList}>
-        {note?.Tags?.map((tag) => (
-            <div className={styles.tag}>{tag}</div>
-          ))}
         </div>
         </div>
       ))}

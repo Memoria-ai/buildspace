@@ -52,10 +52,10 @@ const Home = ({ session }) => {
       </div>
       <div className={styles.webPageSelector}>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Create</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>Record</button>
         </div>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Ask</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>Chat</button>
         </div>
         <div className={styles.pageSelectDiv}>
           <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>View</button>
@@ -71,10 +71,10 @@ const Home = ({ session }) => {
       }
       <div className={styles.mobilePageSelector}>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>{ page=="Create" ? <Img.CreateActive/> : <Img.CreateIcon/> }</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Create" ? styles.pageSelectActive : styles.pageSelectButton }`} onClick={handleGoToCreate}>{ page=="Create" ? <Img.RecordActive/> : <Img.RecordIcon/> }</button>
         </div>
         <div className={styles.pageSelectDiv}>
-          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>{ page=="Search" ? <Img.AskActive/> : <Img.AskIcon/> }</button>
+          <button className={`${styles.pageSelectButton} ${ page=="Search" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToSearch}>{ page=="Search" ? <Img.ChatActive/> : <Img.ChatIcon/> }</button>
         </div>
         <div className={styles.pageSelectDiv}>
           <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>{ page=="View" ? <Img.ViewActive/> : <Img.ViewIcon/> }</button>

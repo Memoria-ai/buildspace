@@ -48,7 +48,6 @@ const Search = ({ session }) => {
         setLoad(false);
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         setQueryResponse(gptResponse);
-        setShowNote(true);
       }
     };
   
@@ -71,8 +70,9 @@ const Search = ({ session }) => {
 
   return (
     <div className={styles.body}>    
-      <div className={styles.headline}>
-        <h3>Talk to your thoughts, powered by GPT.</h3>
+      <div className={styles.titleDesc}>
+        <h3>Chat with your thoughts</h3>
+        <p className={styles.description}>Ask questions. Brainstorm. Get summaries & reminders. <br/> Experience perfect memory.</p>
       </div>
       <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
         <input               
@@ -80,7 +80,7 @@ const Search = ({ session }) => {
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           className={styles.titleInput}
-          placeholder='Send a question...'
+          placeholder='Summarize all my thoughts from this past week...'
           onKeyDown={handleKeyDown}
         />
         <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>

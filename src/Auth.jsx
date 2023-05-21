@@ -57,11 +57,20 @@ export default function Auth() {
     <div className={styles.body}>
         <div className={styles.authNav}>
           <h2 className={styles.logo}>Memoria</h2>
-          <motion.div 
+          <div className={styles.webNavItems}>
+            <motion.a             
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }} >
-            <a className={styles.navButton1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">About Us</a>
-          </motion.div>
+            whileTap={{ scale: 0.95 }}
+            className={styles.navButton1} target="_blank" href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4">
+              About
+            </motion.a>
+            <motion.a 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.navButton1} target="_blank" href="mailto:hello@memoria.live">
+              Contact
+            </motion.a>
+          </div>
         </div>
         <div className={styles.inner}>
           <motion.div     
@@ -85,7 +94,7 @@ export default function Auth() {
                 Introducing Your Second Brain...
             </motion.div>
             <h1 className={styles.memoriaName}>Memoria</h1>
-            <h2 className={styles.memoriaTagline}>Never forget yours thoughts again.</h2>
+            <h2 className={styles.memoriaTagline}>Record, Transcribe and Chat with your thoughts, powered by AI.</h2>
           </motion.div>
           <motion.div     
           initial={{ opacity: 0, scale: 0.5 }}
@@ -114,16 +123,39 @@ export default function Auth() {
           <motion.iframe             
           whileHover={{ scale: 1.05 }}
           className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=29" title="Memoria Demo" frameborder="0" allowfullscreen></motion.iframe>
-          <h3>Features:</h3>
-          <div className={styles.gallery}>
-            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature1}/> 
-            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature2}/> 
-            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature3}/> 
-            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature4}/> 
+          <div className={styles.featureGallery}>
+            <h3>Features:</h3>
+            <div className={styles.gallery}>
+              <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature1}/> 
+              <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature2}/> 
+              <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature3}/> 
+              <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature4}/> 
+            </div>
           </div>
         </div>
         <div className={styles.footer}>
-          <p>Made with love from California & Canada</p>
+          <p>Made with love in California & Canada</p>
+          <motion.a 
+            whileHover={{ scale: 1.05 }} 
+            target="_blank" 
+            href="https://marcelocm.notion.site/Privacy-Policy-36f06b276579426ab6b88f182ea0c70e" 
+            className={styles.navButton1}>
+              Privacy Policy
+          </motion.a>
+          <motion.a 
+            whileHover={{ scale: 1.05 }}  
+            target="_blank" 
+            href="https://marcelocm.notion.site/Terms-and-Conditions-c878d809e76a43e8b98b89acd9bd2553" 
+            className={styles.navButton1}>
+              Terms and Conditions
+          </motion.a>
+          <motion.a 
+            whileHover={{ scale: 1.05 }}
+            className={styles.navButton1} 
+            target="_blank" 
+            href="mailto:hello@memoria.live">
+              Contact Us
+            </motion.a>
         </div>
     </div>
   )
