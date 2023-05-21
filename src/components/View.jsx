@@ -126,7 +126,7 @@ const View = ({ session }) => {
               className={styles.tag}
               onClick={() => handleTagSelection(tag)}
             > 
-              {tag} ({countedTags[tag]})
+              {tag} <span className={styles.tagCount}>({countedTags[tag]})</span>
           </div>
           </div>
         ))}

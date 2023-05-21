@@ -167,11 +167,16 @@ button {
     justify-content: center;
     align-items: center;
     align-self: center;
+    gap: 0.2em;
     padding: 8px 16px;
   
     border-radius: 100px;
     border: 1px solid #272727;
     background-color: #161616;
+  }
+
+  .tagCount {
+    font-size: 8pt;
   }
 
   .gallery {
@@ -319,11 +324,16 @@ button {
     align-items: center;
     align-self: center;
     padding: 8px 16px;
+    gap: 0.2em;
   
     border-radius: 100px;
     border: 1px solid #272727;
     background-color: #161616;
     font-size: 10pt;
+  }
+
+  .tagCount {
+    font-size: 8pt;
   }
 
   .gallery {
