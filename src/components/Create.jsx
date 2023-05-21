@@ -24,6 +24,7 @@ const Create = ({ session }) =>{
   const chunksRef = useRef([]);
   const [confirmation, setConfirmation] = useState(false);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [stream, setStream] = useState(null);
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
@@ -42,6 +43,7 @@ const Create = ({ session }) =>{
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         setPermissionGranted(true);
         localStorage.setItem('microphonePermission', 'granted');
+        setStream(mediaStream);
         stream.getTracks()[0].stop();
       } catch (error) {
         console.error('Error requesting microphone permission:', error);
@@ -157,13 +159,20 @@ const Create = ({ session }) =>{
   };
 
   const handleStartRecording = async () => {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const recorder = new MediaRecorder(stream);
-      recorder.start();
-      setMediaRecorder(recorder);
-    });
-  };
+    if (!stream) {
+      try {
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        setStream(mediaStream);
+      } catch (error) {
+        console.error('Error requesting microphone permission:', error);
+        return;
+      }
+    }
   
+    const recorder = new MediaRecorder(stream);
+    recorder.start();
+    setMediaRecorder(recorder);
+  };
   const handleStopRecording = async () => {
     const audioBlob = new Blob(chunksRef.current, { type: "audio/mp3" });
     const formData = new FormData();
