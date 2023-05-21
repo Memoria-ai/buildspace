@@ -23,10 +23,33 @@ const Create = ({ session }) =>{
   const [chunks, setChunks] = useState([]);
   const chunksRef = useRef([]);
   const [confirmation, setConfirmation] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
   const current = server;
+
+
+  useEffect(() => {
+    const handlePermission = async () => {
+      const hasPermission = localStorage.getItem('microphonePermission');
+      if (hasPermission === 'granted') {
+        setPermissionGranted(true);
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        setPermissionGranted(true);
+        localStorage.setItem('microphonePermission', 'granted');
+        stream.getTracks()[0].stop();
+      } catch (error) {
+        console.error('Error requesting microphone permission:', error);
+      }
+    };
+
+    handlePermission();
+  }, []);
 
   useEffect(() => {
     console.log("MAIN USEEFFECT IS RUNNING")
