@@ -67,7 +67,7 @@ const Create = ({ session }) =>{
         chunksRef.current.push(event.data);
       });
       mediaRecorder.addEventListener("stop", async () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/wav" });
+        const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
         await handleStopRecording();
       });
@@ -165,9 +165,9 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async () => {
-    const audioBlob = new Blob(chunksRef.current, { type: "audio/wav" });
+    const audioBlob = new Blob(chunksRef.current, { type: "audio/mp3" });
     const formData = new FormData();
-    formData.append('audio', audioBlob, 'audio.wav');
+    formData.append('audio', audioBlob, 'audio.mp3');
     try {
       const response = await fetch(`${current}audio`, {
         method: 'POST',
