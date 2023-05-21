@@ -48,8 +48,8 @@ button {
 }
 
 .hidden {
-  display: none;
-  height: 0;
+  display: none !important;
+  height: 0 !important;
 }
 
 img {
@@ -156,10 +156,32 @@ img {
   position: absolute;
   top: 150px;
 
-  color: #272727;
+  color: #ffffff;
 }
 
-@media screen and (min-width: 871px) {
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.titleDesc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.description {
+  color: #272727;
+  text-align: center;
+}
+
+.micContainer {
+  width: fit-content;
+  height: fit-content;
+}
+
+@media screen and (min-width: 1101px) {
   .body {
     height: 100%;
     width: 100vw;
@@ -274,10 +296,11 @@ img {
     background: none;
 
     color: white;
-    text-align: center;
+    text-align: left;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     resize: none;
+    font-weight: 550;
   }
 
   .transcript::placeholder {
@@ -289,6 +312,9 @@ img {
     flex-direction: row;
     grid-gap: 0.5rem;
     width: 100%;
+    align-items: center;
+    padding-left: 0.5rem;
+    color: #272727;
   }
 
   .confirmationPopup {
@@ -313,12 +339,12 @@ img {
   }
 }
 
-@media screen and (max-width: 870px) {
+@media screen and (max-width: 1100px) {
   .body {
     width: 100vw;
-    height: fit-content;
+    height: 100%;
     
-    padding: 3rem 1rem;
+    padding: 3rem 1rem 8rem;
 
     display: flex;
     flex-direction: column;
@@ -438,10 +464,12 @@ img {
     background: none;
 
     color: white;
-    text-align: center;
+    text-align: left;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     resize: none;
+    font-size: 11pt;
+    font-weight: 550;
   }
 
   .transcript::placeholder {
@@ -453,11 +481,9 @@ img {
     flex-wrap: wrap;
     gap: 0.5rem;
     width: 100%;
-  }
-
-  .tag {
-    font-size: 8pt;
-    padding: 8px 16px;;
+    align-items: center;
+    padding-left: 0.5rem;
+    color: #272727;
   }
 
   .confirmationPopup {

@@ -26,7 +26,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
 
   useEffect(() => {
     console.log("MAIN USEEFFECT IS RUNNING")
@@ -147,7 +147,6 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async () => {
-    console.log("handleStopRecording is running LKJSDFLKJDSFLKJSDLFKJSDFLKJSDLFKJ");
     const audioBlob = new Blob(chunksRef.current, { type: "audio/wav" });
     const formData = new FormData();
     formData.append('audio', audioBlob, 'audio.wav');
@@ -304,34 +303,47 @@ const Create = ({ session }) =>{
       exit="exit"
       transition={{ duration: 0.2, delay: 1.0 }}
       className={styles.confirmationPopup}>
-        <p>Thought was committed</p>
+        <p>Saved</p>
       </motion.button>
       </span>
       </div>
-      <h2>Click the mic to record your thoughts!</h2>
+      <div className={styles.titleDesc}>
+        <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
+        <p className={`${styles.description} ${showNote ? styles.hidden : ""}`}>Click the mic below to get started. <br/> We will transcribe your thought into clear text</p>
+      </div>
+      <div className={styles.micContainer}>
+        <button 
+          onClick={handleListenChange} 
+          className={`${isListening ? styles.micButtonActive : styles.micButton} ${showNote ? styles.hidden : ""}`}>
+          {isListening ? <Img.StopIcon/> : <Img.MicIcon/> } 
+          <p 
+            className={ isListening ? `${styles.timer} ${"gradientText1"}` : styles.hidden}>
+              {seconds}s
+          </p>
+        </button>
+      </div>
+      <div className={load ? styles.loading : styles.hidden}>
+        <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+        <p>Transcribing...</p>
+      </div>
+      <div className={showNote ? styles.thoughtCard : styles.hidden}>
+        <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
+        <textarea value={note} onChange={handleInputChange} placeholder='Thought Transcription' className={styles.transcript}/>
+        {tags.length > 0 && 
+          <div className={styles.tagList}>
+            Tags:
+            {tags.map((tag) => <span className={styles.tag}> {tag}</span>)}
+          </div>}
+        <div className={styles.thoughtActionMenu}>
+          <button onClick={handleDiscardClick} className={styles.thoughtActionButton1}>Discard</button> 
+          <div className={styles.roundedGradientBorder}>
+            <button onClick={handleCommitClick} className={styles.thoughtActionButton2}>Save</button>
+          </div>
+        </div>
         <div>
-          <button onClick={handleListenChange} className={isListening ? styles.micButtonActive : styles.micButton}>{isListening ? <Img.StopIcon/> : <Img.MicIcon/> } <p className={styles.timer}>{seconds}s</p></button>
+          <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
         </div>
-        <div className={load ? styles.loading : styles.hidden}>
-          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
-        </div>
-        <div className={showNote ? styles.thoughtCard : styles.hidden}>
-          <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
-          <textarea value={note} onChange={handleInputChange} placeholder='Thought Transcription' className={styles.transcript}/>
-          {tags.length > 0 && 
-            <div className={styles.tagList}>
-              {tags.map((tag) => <span className={styles.tag}> {tag}</span>)}
-            </div>}
-          <div className={styles.thoughtActionMenu}>
-            <button onClick={handleDiscardClick} className={styles.thoughtActionButton1}>Discard</button> 
-            <div className={styles.roundedGradientBorder}>
-              <button onClick={handleCommitClick} className={styles.thoughtActionButton2}>Commit</button>
-            </div>
-          </div>
-          <div>
-            <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
-          </div>
-        </div>
+      </div>
     </div>
   );
 }

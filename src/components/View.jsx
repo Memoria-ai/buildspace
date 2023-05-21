@@ -14,7 +14,7 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = local;
+    const current = server;
 
     // const visibleTags = userTags === undefined ? [] : (showAllTags ? userTags : userTags.slice(0, 3));
 
@@ -104,43 +104,45 @@ const View = ({ session }) => {
     }
   };
 
+  const sortedNotes = userNotes
+  .filter((note) => {
+    if (selectedTags.length === 0) {
+      return true; // Show all notes if no tags selected
+    }
+    if (!note) {
+      return false;
+    }
+    return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
+  }).sort((a, b) => (b?.timestamp.localeCompare(a?.timestamp)));
+
   return (
     <div className={styles.body}>
-      <h2>My Thoughts</h2>
+      <h3>My Thoughts</h3>
       <div className={styles.filterTagList}>
         <p>Filter:</p>
         {visibleTags.map((tag) => (
           <div className={selectedTags.includes(tag) ? styles.selected : ''}>
             <div
-              className={styles.button1}
+              className={styles.tag}
               onClick={() => handleTagSelection(tag)}
             > 
               {tag} ({countedTags[tag]})
           </div>
           </div>
         ))}
+        <span className={styles.centerOnMobile}>
+          {userTags.length > 3 && (
+              <button onClick={handleTagViewChange} className={styles.seeMore}>{!showAllTags ? '+ See All' : '- See Less'}</button>
+          )}
+        </span>
       </div>
-      
-      {userTags.length > 3 && (
-        <button onClick={handleTagViewChange}>
-          <p className={styles.seeMore}>{!showAllTags ? '+ See All Tags' : '- See Less'}</p>
-        </button>
-      )}
+
       
       <div className={styles.gallery}>
-      {userNotes.filter((note) => {
-        if (selectedTags.length === 0) {
-          return true; // Show all notes if no tags selected
-        }
-        if (!note) {
-          return false;
-        }
-        return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
-      }).map((note) => (
-        <div>
+      {sortedNotes.map((note) => (
         <div className={styles.thoughtCard} key={note?.id}>
-          <h3>{note?.title}</h3>
-          <p>
+          <h3 className={styles.noteTitle}>{note?.title}</h3>
+          <p className={styles.transcript}>
             {!expandedNotes?.includes(note?.id) && (note?.content.length > 120) 
               ? note?.content.slice(0, 120)
               : note?.content }
@@ -152,15 +154,17 @@ const View = ({ session }) => {
               ''
             )} 
           </p>
-          <button onClick={() => deleteNote(note?.id)}>
-            <Img.TrashIcon/>
-          </button>
-        </div>
-        <div className={styles.tagList}>
-        {note?.Tags?.map((tag) => (
-            <div className={styles.tag}>{tag}</div>
-          ))}
-        </div>
+          <div className={styles.tagList}>
+            {note?.Tags?.map((tag) => (
+                <div className={styles.tag}>{tag}</div>
+              ))}
+          </div>
+          <div className={styles.cardBottom}>
+            <p className={styles.description}>{new Date(note?.timestamp).toLocaleDateString()}</p>
+            <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
+              <Img.TrashIcon/>
+            </button>
+          </div>
         </div>
       ))}
       </div>  

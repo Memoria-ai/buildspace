@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Account from './Account';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
@@ -11,10 +11,11 @@ const Search = ({ session }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [queryResponse, setQueryResponse] = useState('');
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null)
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
   
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -47,7 +48,6 @@ const Search = ({ session }) => {
         setLoad(false);
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         setQueryResponse(gptResponse);
-        setShowNote(true);
       }
     };
   
@@ -60,10 +60,19 @@ const Search = ({ session }) => {
     }
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+
   return (
     <div className={styles.body}>    
-      <div className={styles.headline}>
-        <h3>Talk to your thoughts, powered by GPT.</h3>
+      <div className={styles.titleDesc}>
+        <h3>Chat with your thoughts</h3>
+        <p className={styles.description}>Ask questions. Brainstorm. Get summaries & reminders. <br/> Experience perfect memory.</p>
       </div>
       <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
         <input               
@@ -71,13 +80,10 @@ const Search = ({ session }) => {
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           className={styles.titleInput}
-          placeholder='Send a question...'
+          placeholder='Summarize all my thoughts from this past week...'
           onKeyDown={handleKeyDown}
         />
         <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>
-      </div>
-      <div className={load ? styles.loading : styles.hidden}>
-        <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
       </div>
       <div className={styles.chatHistory}>
         {messages.map((message, index) => (
@@ -85,6 +91,10 @@ const Search = ({ session }) => {
             {message.text}
           </div>
         ))}
+        <div className={load ? styles.loading : styles.hidden}>
+          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+        </div>
+        <div ref={messagesEndRef} />
       </div>
     </div>
   )
