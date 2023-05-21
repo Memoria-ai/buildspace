@@ -9,9 +9,9 @@ import { motion } from "framer-motion"
 export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
-  const localhost = 'http://localhost:3000/buildspace';
+  const localhost = 'http://localhost:3000/';
   const backToApp = 'https://memoria.live/';
-  const current = backToApp;
+  const current = localhost;
 
 
   // E-mail log in
