@@ -64,6 +64,31 @@ button {
   font-weight: 700;
 }
 
+form {
+  width: 100%;
+}
+
+input[type=radio] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  width: 20px;
+  height: 10px;
+  border-radius: 25px;
+  border: 1px solid #272727;
+  accent-color: #ffffff;
+  background-color: transparent;
+  padding: 10px;
+}
+
+/* appearance for checked radiobutton */
+input[type="radio"]:checked {
+  background: linear-gradient(-45deg, #5271EA 0%, #C0EAFF 50%, #D977CC 200%), #FFFFFF;
+}
+
+
 @media screen and (min-width: 1101px) {
   .button1 {
     display: flex;
@@ -103,6 +128,7 @@ button {
     border-radius: 16px;
     opacity: 0.5;
     letter-spacing: -0.04em;
+    width: fit-content;
   }
 
   .navButton1:hover {
@@ -183,6 +209,35 @@ button {
     border-radius: 1px;
 
     z-index: 1;
+  }
+
+  .feedbackForm {
+    width: 400px;
+    display: flex;
+
+    background: #161616;
+    border: 1px solid #272727;
+    border-radius: 25px;
+    padding: 1rem;
+    gap: 1rem;
+
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+
+    opacity: 0.25;
+  }
+
+  .formField {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .feedbackForm:hover {
+    opacity: 1;
   }
 }
 
@@ -342,5 +397,9 @@ button {
     border-radius: 1px;
 
     z-index: 1;
+  }
+  
+  .feedbackForm {
+    display: none;
   }
 }

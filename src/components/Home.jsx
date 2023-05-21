@@ -61,6 +61,36 @@ const Home = ({ session }) => {
           <button className={`${styles.pageSelectButton} ${ page=="View" ? styles.pageSelectActive : styles.pageSelectButton }`}  onClick={handleGoToView}>View</button>
         </div>
       </div>
+      {/* <form className={styles.feedbackForm}>
+      How are we doing from 1-5?
+        <div className={styles.formField}>
+          <div className={styles.formField}>          
+            <label>1</label>
+            <input type="radio" name="rating" value="1"/>
+          </div>
+          <div className={styles.formField}>          
+            <label>2</label>
+            <input type="radio" name="rating" value="2"/>
+          </div>
+          <div className={styles.formField}>          
+            <label>3</label>
+            <input type="radio" name="rating" value="3"/>
+          </div>
+          <div className={styles.formField}>          
+            <label>4</label>
+            <input type="radio" name="rating" value="4"/>
+          </div>
+          <div className={styles.formField}>          
+            <label>5</label>
+            <input type="radio" name="rating" value="5"/>
+          </div>
+        </div>
+        <div className={styles.formField}>
+          <label>Why: </label>
+          <input type="text" style={{border: "1px solid #272727", borderradius: "1rem"}} placeholder="because..."/>
+        </div>
+        <input className={styles.navButton1} type="submit" value="Submit"/>
+      </form> */}
       {page == "Create" ? (
         <Create session={session} />
       ) : page == "Search" ? (
