@@ -9,18 +9,20 @@ const View = ({ session }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [showAllTags, setShowAllTags] = useState(false);
     const [expandedNotes, setExpandedNotes] = useState([]);
+    const [countedTags, setCountedTags] = useState({});
+    const [visibleTags, setVisibleTags] = useState([]);
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
     const current = server;
 
-    const visibleTags = showAllTags ? userTags : userTags.slice(0, 3);
+    // const visibleTags = userTags === undefined ? [] : (showAllTags ? userTags : userTags.slice(0, 3));
 
     // Every time this is rendered, useEffect is called.
     useEffect(() => {
         fetchUserNotes();
-        getUserTags().then(tags => setUserTags(tags));
-      }, [session])
+        getUserTags();
+    }, [session])
     
     const handleTagSelection = (tag) => {
       if (selectedTags.includes(tag)) {
@@ -58,24 +60,40 @@ const View = ({ session }) => {
         body: JSON.stringify({ userId })
       });
       const tags = await response.json();
-      console.log(tags);
+      setUserTags(tags.tags);
+      setCountedTags(tags.counts);
+      if (showAllTags) {
+        console.log("SHOW ALL TAGS" + tags.tags)
+        setVisibleTags(tags.tags);
+      } else {
+        console.log("SHOW 3 TAGS" + tags.tags.slice(0, 3))
+        setVisibleTags(tags.tags.slice(0, 3));
+      }
       return tags;
     };
   
     // Deletes 'id' note.
     const deleteNote = async (id) => {
+      const userId = session.user.id;
       const response = await fetch(current+'deleteNote', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id })
+        body: JSON.stringify({ id, userId })
       });
-      fetchUserNotes();
+      const result = await response.json();
+      await fetchUserNotes();
+      await getUserTags();
     };
 
   const handleTagViewChange = () => {
     setShowAllTags((prevState) => !prevState);
+    if (!showAllTags) {
+      setVisibleTags(userTags);
+    } else {
+      setVisibleTags(userTags.slice(0, 3));
+    }
   }
 
   const toggleContent = (noteId) => {
@@ -108,7 +126,7 @@ const View = ({ session }) => {
               className={styles.tag}
               onClick={() => handleTagSelection(tag)}
             > 
-              {tag}
+              {tag} ({countedTags[tag]})
           </div>
           </div>
         ))}
@@ -118,6 +136,8 @@ const View = ({ session }) => {
           )}
         </span>
       </div>
+
+      
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
         <div className={styles.thoughtCard} key={note?.id}>
