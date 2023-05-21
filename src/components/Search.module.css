@@ -185,6 +185,7 @@ button {
     border-bottom-left-radius: 5px;
     padding: 1rem 1.25rem;
     gap: 1rem;
+    white-space: pre-line;
   }
 }
 
