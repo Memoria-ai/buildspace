@@ -26,7 +26,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     console.log("MAIN USEEFFECT IS RUNNING")
@@ -46,7 +46,7 @@ const Create = ({ session }) =>{
       });
       mediaRecorder.addEventListener("stop", async () => {
         console.log("MEDIA RECORDER IS STOPPING");
-        const blob = new Blob(chunksRef.current, { type: "audio/wav" });
+        const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
         await handleStopRecording();
       });
@@ -106,6 +106,7 @@ const Create = ({ session }) =>{
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
         user_id: session.user.id,
         title: title,
@@ -147,13 +148,14 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async () => {
-    const audioBlob = new Blob(chunksRef.current, { type: "audio/wav" });
+    const audioBlob = new Blob(chunksRef.current, { type: "audio/mp3" });
     const formData = new FormData();
-    formData.append('audio', audioBlob, 'audio.wav');
+    formData.append('audio', audioBlob, 'audio.mp3');
     try {
       const response = await fetch(`${current}audio`, {
         method: 'POST',
         body: formData,
+        credentials: 'include'
       });
   
       if (!response.ok) {
