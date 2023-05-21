@@ -43,7 +43,7 @@ const Create = ({ session }) =>{
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         setPermissionGranted(true);
         localStorage.setItem('microphonePermission', 'granted');
-        setStream(mediaStream);
+        setStream(stream);
         stream.getTracks()[0].stop();
       } catch (error) {
         console.error('Error requesting microphone permission:', error);
