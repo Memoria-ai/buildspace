@@ -31,27 +31,27 @@ const Create = ({ session }) =>{
   const current = server;
 
 
-  // useEffect(() => {
-  //   const handlePermission = async () => {
-  //     const hasPermission = localStorage.getItem('microphonePermission');
-  //     if (hasPermission === 'granted') {
-  //       setPermissionGranted(true);
-  //       return;
-  //     }
+  useEffect(() => {
+    const handlePermission = async () => {
+      const hasPermission = localStorage.getItem('microphonePermission');
+      if (hasPermission === 'granted') {
+        setPermissionGranted(true);
+        return;
+      }
 
-  //     try {
-  //       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  //       setPermissionGranted(true);
-  //       localStorage.setItem('microphonePermission', 'granted');
-  //       setStream(stream);
-  //       stream.getTracks()[0].stop();
-  //     } catch (error) {
-  //       console.error('Error requesting microphone permission:', error);
-  //     }
-  //   };
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        setPermissionGranted(true);
+        localStorage.setItem('microphonePermission', 'granted');
+        setStream(stream);
+        stream.getTracks()[0].stop();
+      } catch (error) {
+        console.error('Error requesting microphone permission:', error);
+      }
+    };
 
-  //   handlePermission();
-  // }, []);
+    handlePermission();
+  }, []);
 
   useEffect(() => {
     console.log("MAIN USEEFFECT IS RUNNING")
