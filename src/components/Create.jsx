@@ -69,6 +69,7 @@ const Create = ({ session }) =>{
         chunksRef.current.push(event.data);
       });
       mediaRecorder.addEventListener("stop", async () => {
+        console.log("MEDIA RECORDER IS STOPPING");
         const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
         await handleStopRecording();
@@ -126,6 +127,7 @@ const Create = ({ session }) =>{
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
         user_id: session.user.id,
         title: title,
@@ -181,6 +183,7 @@ const Create = ({ session }) =>{
       const response = await fetch(`${current}audio`, {
         method: 'POST',
         body: formData,
+        credentials: 'include'
       });
   
       if (!response.ok) {
