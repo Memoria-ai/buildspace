@@ -181,7 +181,7 @@ const Create = ({ session }) =>{
       const response = await fetch(`${current}audio`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        //credentials: 'include'
       });
   
       if (!response.ok) {
