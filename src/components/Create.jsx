@@ -127,7 +127,7 @@ const Create = ({ session }) =>{
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include',
+      //credentials: 'include',
       body: JSON.stringify({
         user_id: session.user.id,
         title: title,
