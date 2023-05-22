@@ -170,6 +170,11 @@ const Create = ({ session }) =>{
   
   const handleStopRecording = async () => {
     const audioBlob = new Blob(chunksRef.current, { type: "audio/mp3" });
+    console.log(chunksRef.current)
+    // verify the blob is not empty
+    if(audioBlob.size === 0){
+      return;
+    }
     const formData = new FormData();
     formData.append('audio', audioBlob, 'audio.mp3');
     try {
