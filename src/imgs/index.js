@@ -17,3 +17,4 @@ export { ReactComponent as ViewIcon } from "./view-icon.svg";
 export { ReactComponent as AboutIcon } from "./about-icon.svg";
 export { ReactComponent as ProfileIcon } from "./profile-icon.svg";
 export { ReactComponent as SendIcon } from "./send-icon.svg";
+export { ReactComponent as PlayIcon } from "./play_button.svg";

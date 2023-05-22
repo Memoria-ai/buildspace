@@ -11,6 +11,7 @@ const View = ({ session }) => {
     const [expandedNotes, setExpandedNotes] = useState([]);
     const [countedTags, setCountedTags] = useState({});
     const [visibleTags, setVisibleTags] = useState([]);
+    const [audioUrl, setAudioUrl] = useState('');
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
@@ -87,6 +88,27 @@ const View = ({ session }) => {
       await getUserTags();
     };
 
+    const playNote = async (path) => {
+      console.log("playing note")
+      fetch(current + 'fetchNoteAudio',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ path: path })
+      })
+      .then(response => response.arrayBuffer())
+      .then(audioBuffer => {
+        const audioBlob = new Blob([audioBuffer], { type: 'audio/mp3' })
+        console.log(audioBlob)
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audioElement = new Audio(audioUrl);
+        audioElement.play();
+      });
+
+      console.log("got throught the audio play")
+    };
+
   const handleTagViewChange = () => {
     setShowAllTags((prevState) => !prevState);
     if (!showAllTags) {
@@ -161,13 +183,20 @@ const View = ({ session }) => {
           </div>
           <div className={styles.cardBottom}>
             <p className={styles.description}>{new Date(note?.timestamp).toLocaleDateString()}</p>
+            { note?.thought_recording != null ? (
+              <button className={styles.deleteButton} onClick={() => playNote(note?.thought_recording)}>
+                <Img.PlayIcon/>
+              </button>
+            ) : (
+              ''
+            )}
             <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
               <Img.TrashIcon/>
             </button>
           </div>
         </div>
       ))}
-      </div>  
+      </div>
     </div>
   )
 }
