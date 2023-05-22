@@ -70,7 +70,7 @@ const Create = ({ session }) =>{
       });
       mediaRecorder.addEventListener("stop", async () => {
         console.log("MEDIA RECORDER IS STOPPING");
-        const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
+        const blob = new Blob(chunksRef.current, { type: "audio/mp4" });
         setAudioBlob(blob);
         await handleStopRecording();
       });
