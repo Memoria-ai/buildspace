@@ -31,27 +31,27 @@ const Create = ({ session }) =>{
   const current = server;
 
 
-  useEffect(() => {
-    const handlePermission = async () => {
-      const hasPermission = localStorage.getItem('microphonePermission');
-      if (hasPermission === 'granted') {
-        setPermissionGranted(true);
-        return;
-      }
+  // useEffect(() => {
+  //   const handlePermission = async () => {
+  //     const hasPermission = localStorage.getItem('microphonePermission');
+  //     if (hasPermission === 'granted') {
+  //       setPermissionGranted(true);
+  //       return;
+  //     }
 
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        setPermissionGranted(true);
-        localStorage.setItem('microphonePermission', 'granted');
-        setStream(stream);
-        stream.getTracks()[0].stop();
-      } catch (error) {
-        console.error('Error requesting microphone permission:', error);
-      }
-    };
+  //     try {
+  //       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  //       setPermissionGranted(true);
+  //       localStorage.setItem('microphonePermission', 'granted');
+  //       setStream(stream);
+  //       stream.getTracks()[0].stop();
+  //     } catch (error) {
+  //       console.error('Error requesting microphone permission:', error);
+  //     }
+  //   };
 
-    handlePermission();
-  }, []);
+  //   handlePermission();
+  // }, []);
 
   useEffect(() => {
     console.log("MAIN USEEFFECT IS RUNNING")
@@ -161,20 +161,13 @@ const Create = ({ session }) =>{
   };
 
   const handleStartRecording = async () => {
-    if (!stream) {
-      try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        setStream(mediaStream);
-      } catch (error) {
-        console.error('Error requesting microphone permission:', error);
-        return;
-      }
-    }
-  
-    const recorder = new MediaRecorder(stream);
-    recorder.start();
-    setMediaRecorder(recorder);
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const recorder = new MediaRecorder(stream);
+      recorder.start();
+      setMediaRecorder(recorder);
+    });
   };
+  
   const handleStopRecording = async () => {
     const audioBlob = new Blob(chunksRef.current, { type: "audio/mp3" });
     const formData = new FormData();
