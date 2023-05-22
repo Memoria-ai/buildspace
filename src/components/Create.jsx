@@ -169,9 +169,9 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async () => {
-    const audioBlob = new Blob(chunksRef.current, { type: "audio/mp3" });
+    const audioBlob = new Blob(chunksRef.current, { type: "audio/wav" });
     const formData = new FormData();
-    formData.append('audio', audioBlob, 'audio.mp3');
+    formData.append('audio', audioBlob, 'audio.wav');
     try {
       const response = await fetch(`${current}audio`, {
         method: 'POST',
