@@ -122,7 +122,7 @@ export default function Auth() {
           </div>
           <motion.iframe             
           whileHover={{ scale: 1.05 }}
-          className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=29" title="Memoria Demo" frameborder="0" allowfullscreen></motion.iframe>
+          className={styles.demoVid} width="627" height="405" src="https://www.youtube.com/embed/WCYqqdjtyE0?start=29" title="Memoria Demo" frameBorder="0" allowFullScreen></motion.iframe>
           <div className={styles.featureGallery}>
             <h3>Features:</h3>
             <div className={styles.gallery}>

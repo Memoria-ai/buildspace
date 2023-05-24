@@ -12,7 +12,7 @@ const Create = ({ session }) =>{
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [note, setNote] = useState(" ");
   const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState();
+  const [userTitle, setUserTitle] = useState('');
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const userId = session.id;
@@ -363,7 +363,7 @@ const Create = ({ session }) =>{
         {tags.length > 0 && 
           <div className={styles.tagList}>
             Tags:
-            {tags.map((tag) => <span className={styles.tag}> {tag}</span>)}
+            {tags.map((tag, index) => <span key={index} className={styles.tag}> {tag}</span>)}
           </div>}
         <div className={styles.thoughtActionMenu}>
           <button onClick={handleDiscardClick} className={styles.thoughtActionButton1}>Discard</button> 
