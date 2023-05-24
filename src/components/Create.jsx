@@ -25,6 +25,7 @@ const Create = ({ session }) =>{
   const [confirmation, setConfirmation] = useState(false);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [stream, setStream] = useState(null);
+  const [sentBlob, setSentBlob] = useState(null);
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
@@ -72,6 +73,7 @@ const Create = ({ session }) =>{
         console.log("MEDIA RECORDER IS STOPPING");
         const blob = new Blob(chunksRef.current, { type: "audio/mp4" });
         setAudioBlob(blob);
+        setSentBlob(blob);
         await handleStopRecording(blob);
       });
     }
@@ -308,7 +310,7 @@ const Create = ({ session }) =>{
 
   const handlePlayRecording = async () => {
     if (audioBlob !== null) {
-      const audioUrl = URL.createObjectURL(audioBlob);
+      const audioUrl = URL.createObjectURL(sentBlob);
       const audioElement = new Audio(audioUrl);
       audioElement.play();
     }
