@@ -142,7 +142,7 @@ const View = ({ session }) => {
       <div className={styles.filterTagList}>
         <p>Filter:</p>
         {visibleTags.map((tag) => (
-          <div className={selectedTags.includes(tag) ? styles.selected : ''}>
+          <div className={selectedTags.includes(tag) ? styles.selected : ''} key={tag}>
             <div
               className={styles.tag}
               onClick={() => handleTagSelection(tag)}
@@ -177,7 +177,7 @@ const View = ({ session }) => {
           </p>
           <div className={styles.tagList}>
             {note?.Tags?.map((tag) => (
-                <div className={styles.tag}>{tag}</div>
+                <div className={styles.tag} key={tag}>{tag}</div>
               ))}
           </div>
           <div className={styles.cardBottom}>
