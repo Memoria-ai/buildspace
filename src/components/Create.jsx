@@ -72,7 +72,7 @@ const Create = ({ session }) =>{
         console.log("MEDIA RECORDER IS STOPPING");
         const blob = new Blob(chunksRef.current, { type: "audio/mp4" });
         setAudioBlob(blob);
-        await handleStopRecording();
+        await handleStopRecording(blob);
       });
     }
   }, [isListening]);
@@ -168,15 +168,16 @@ const Create = ({ session }) =>{
     });
   };
   
-  const handleStopRecording = async () => {
-    const audioBlob = new Blob(chunksRef.current, { type: "audio/mp4" });
-    console.log(chunksRef.current)
+  const handleStopRecording = async (blob) => {
+    
+    // const audioBlob = new Blob(chunksRef.current, { type: "audio/mp4" });
+    // console.log(chunksRef.current)
     // verify the blob is not empty
-    if(audioBlob.size === 0){
+    if(blob.size === 0){
       return;
     }
     const formData = new FormData();
-    formData.append('audio', audioBlob, 'audio.mp4');
+    formData.append('audio', blob, 'audio.mp4');
     try {
       const response = await fetch(`${current}audio`, {
         method: 'POST',
