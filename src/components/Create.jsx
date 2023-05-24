@@ -197,7 +197,7 @@ const Create = ({ session }) =>{
       setNote(data.text);
       await stoppedListeningFunction(data.text);
     } catch (error) {
-      console.log(error.data.error);
+      console.log(error);
     }
     chunksRef.current = [];
   };
