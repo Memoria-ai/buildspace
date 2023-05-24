@@ -181,9 +181,12 @@ const Create = ({ session }) =>{
     const formData = new FormData();
     formData.append('audio', blob, 'audio.mp4');
     try {
+      const headers = new Headers();
+      headers.append('Content-Type', 'multipart/form-data');
       const response = await fetch(`${current}audio`, {
         method: 'POST',
         body: formData,
+        headers: headers
         //credentials: 'include'
       });
   
