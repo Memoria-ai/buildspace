@@ -57,7 +57,7 @@ const View = ({ session }) => {
     const calcSavedTime = async(notes) => {
       const num_queries = await fetchNumQueries();
       const num_words = calcNumWords(notes);
-      setSavedTime(Math.round(10 * ( (num_queries * 3.34) + (0.03 * num_words))) / 10);
+      setSavedTime(Math.round(10 * ( (num_queries * 2.31) + (0.019 * num_words))) / 10);
       setShowSavedTime(true);
     }
 
