@@ -71,7 +71,7 @@ const Create = ({ session }) =>{
       });
       mediaRecorder.addEventListener("stop", async () => {
         console.log("MEDIA RECORDER IS STOPPING");
-        const blob = new Blob(chunksRef.current, { type: "audio/mp4" });
+        const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
         setSentBlob(blob);
         await handleStopRecording(blob);
@@ -171,35 +171,34 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async (blob) => {
-    
-    // const audioBlob = new Blob(chunksRef.current, { type: "audio/mp4" });
-    // console.log(chunksRef.current)
-    // verify the blob is not empty
-    if(blob.size === 0){
+    if (blob.size === 0) {
       return;
     }
     const formData = new FormData();
-    formData.append('audio', blob, 'audio.mp4');
+    formData.append('audio', blob, 'audio.mp3');
+  
     try {
-      const headers = new Headers();
-      headers.append('Content-Type', 'multipart/form-data');
-      const response = await fetch(`${current}audio`, {
+      const response = await fetch(current+'transcribe', {
         method: 'POST',
         body: formData,
-        //headers: headers
-        //credentials: 'include'
       });
   
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+  
       const data = await response.json();
-      setNote(data.text);
-      await stoppedListeningFunction(data.text);
+      // const transcript = data.transcription;
+      const transcript = data.transcription;
+      console.log('Transcription:', data.transcription);
+      setNote(data.transcription);
+      stoppedListeningFunction(transcript);
     } catch (error) {
-      console.log(error);
+      console.log('Error:', error.message);
     }
+  
     chunksRef.current = [];
+    
   };
 
   const handleDiscardClick = async (event) => {
@@ -298,7 +297,7 @@ const Create = ({ session }) =>{
 
   // Get tags to assign to each new note.
   const getTags = async (note1) => {
-    console.log("getTags is running")
+    console.log("getTags is running" + note1)
     if (note1 !== '') {
       console.log("IN THE GETTAGS, THE NOTE IS " + note1)
       const currentTags = await getUserTags();
