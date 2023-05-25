@@ -178,7 +178,7 @@ const Create = ({ session }) =>{
     formData.append('audio', blob, 'audio.mp3');
   
     try {
-      const response = await fetch(current+'transcribe', {
+      const response = await fetch(current+'audio', {
         method: 'POST',
         body: formData,
       });
@@ -188,10 +188,10 @@ const Create = ({ session }) =>{
       }
   
       const data = await response.json();
-      const transcript = data.transcription;
-      console.log('Transcription:', data.transcription);
-      setNote(data.transcription);
-      stoppedListeningFunction(transcript);
+      // const transcript = data.transcription;
+      console.log('Transcription:', data.text);
+      setNote(data.text);
+      stoppedListeningFunction(data.text);
     } catch (error) {
       console.log('Error:', error.message);
     }
@@ -296,7 +296,7 @@ const Create = ({ session }) =>{
 
   // Get tags to assign to each new note.
   const getTags = async (note1) => {
-    console.log("getTags is running")
+    console.log("getTags is running" + note1)
     if (note1 !== '') {
       console.log("IN THE GETTAGS, THE NOTE IS " + note1)
       const currentTags = await getUserTags();
