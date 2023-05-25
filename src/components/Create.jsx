@@ -361,19 +361,6 @@ const Create = ({ session }) =>{
 
   return (
     <div className={styles.body}>
-      <div style={{ display: 'block'}}>
-      <span onClick={() => setConfirmation(false)}>
-      <motion.button 
-      variants={popUpTransitions}
-      initial="hidden"
-      animate={confirmation ? "visible" : "fadeOut"}
-      exit="exit"
-      transition={{ duration: 0.2, delay: 1.0 }}
-      className={styles.confirmationPopup}>
-        <p>Saved</p>
-      </motion.button>
-      </span>
-      </div>
       <div className={styles.titleDesc}>
         <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
         <p className={`${styles.description} ${showNote ? styles.hidden : ""}`}>Click the mic below to get started. <br/> We will transcribe your thought into clear text</p>
@@ -421,6 +408,19 @@ const Create = ({ session }) =>{
         <div>
           <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
         </div>
+      </div>
+      <div style={{ display: 'block'}}>
+        <span onClick={() => setConfirmation(false)}>
+        <motion.button 
+        variants={popUpTransitions}
+        initial="hidden"
+        animate={confirmation ? "visible" : "fadeOut"}
+        exit="exit"
+        transition={{ duration: 0.2, delay: 1.0 }}
+        className={styles.confirmationPopup}>
+          <p>Saved</p>
+        </motion.button>
+        </span>
       </div>
     </div>
   );

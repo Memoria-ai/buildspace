@@ -95,7 +95,7 @@ button {
 }
 
 .description {
-  color: #272727;
+  color: #494949;
 }
 
 .cardBottom {
@@ -236,7 +236,7 @@ button {
   }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (min-width: 900px) and (max-width: 1300px) {
   .gallery {
     width: 100%;
     display: grid;
@@ -266,8 +266,7 @@ button {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, 100%);
-    grid-gap: 1rem 2rem;
-    align-items: top;
+    grid-gap: 1rem;
     justify-content: center;
   }
   
@@ -289,11 +288,16 @@ button {
 }
 
 @media screen and (max-width: 1100px) {
+  @supports (margin-bottom: env(safe-area-inset-bottom)) {
+    body {
+      margin-bottom: env(safe-area-inset-bottom) !important;
+    }
+  }
 
   .body {
-    padding: 2rem 1rem 8rem;
+    padding: 90px 1rem;
 
-    height: calc(100vh - 70px - 5.25rem);
+    height: fit-content;
     width: 100vw;
 
     overflow-y: scroll;
@@ -305,8 +309,6 @@ button {
     align-items: center;
 
     position: relative;
-
-    margin-bottom: env(safe-area-inset-bottom) !important;
   }
 
   .roundedGradientBorder {

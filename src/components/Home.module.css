@@ -58,6 +58,7 @@ button {
   position: relative;
 
   margin-bottom: env(safe-area-inset-bottom) !important;
+  margin-top: env(safe-area-inset-top) !important;
 }
 
 .logo {
@@ -294,9 +295,12 @@ input[type="radio"]:checked {
     gap: 0.5rem;
     padding: 16px 32px;
 
-    position: relative;
+    position: fixed;
+    top: 0;
+    z-index: 1;
   
     border-bottom: solid 1px #27272750;
+    background: #111111;
 
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
