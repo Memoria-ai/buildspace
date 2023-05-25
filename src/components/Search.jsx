@@ -59,7 +59,6 @@ const Search = ({ session }) => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setSearchTerm('');
     incrNumQueries();
-    console.log("running incrNumQueries");
   };
 
   // This waits for messages var to be updated before sending the request to backend
@@ -100,11 +99,22 @@ const Search = ({ session }) => {
     scrollToBottom()
   }, [messages]);
 
+  const askSuggested = async(question) => {
+    const userMessage = { text: {question}, role: 'user' };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    incrNumQueries();
+  }
+
   return (
     <div className={styles.body}>    
       <div className={styles.titleDesc}>
         <h3>Chat with your thoughts</h3>
         <p className={styles.description}>Ask questions. Brainstorm. Get summaries & reminders. <br/> Experience perfect memory.</p>
+      </div>
+      <div className={styles.suggestList}>
+        <button onClick={askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>Summarize this week's thoughts</button>
+        <button onClick={askSuggested("What do I talk about most?")} className={styles.suggestQuestion}>What do I talk about most?</button>
+        <button onClick={askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion}>I'm bored, what should I do?</button>
       </div>
       <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
         <input               

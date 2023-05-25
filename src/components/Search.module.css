@@ -54,7 +54,7 @@ button {
 
 /* GLOBAL STYLING START */
 
-.roundedGradientBorder, .selected {
+.roundedGradientBorder, .selected, .suggestList * {
   width: 100%;
   border: double 1.5px transparent;
   border-radius: 50px;
@@ -181,6 +181,28 @@ button {
     padding: 1rem 1.25rem;
     gap: 1rem;
     white-space: pre-line;
+  }
+
+  .suggestList {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .suggestQuestion {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    align-self: center;
+    gap: 0.2em;
+    padding: 8px 16px;
+  
+    border-radius: 100px;
+    background-color: #161616;
+    font-size: 10pt;
   }
 }
 
