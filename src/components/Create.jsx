@@ -71,7 +71,7 @@ const Create = ({ session }) =>{
       });
       mediaRecorder.addEventListener("stop", async () => {
         console.log("MEDIA RECORDER IS STOPPING");
-        const blob = new Blob(chunksRef.current, { type: "audio/mp4" });
+        const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
         setSentBlob(blob);
         await handleStopRecording(blob);
@@ -175,7 +175,7 @@ const Create = ({ session }) =>{
       return;
     }
     const formData = new FormData();
-    formData.append('audio', blob, 'audio.mp4');
+    formData.append('audio', blob, 'audio.mp3');
   
     try {
       const response = await fetch(current+'transcribe', {
