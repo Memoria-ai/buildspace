@@ -104,6 +104,12 @@ img {
   border: 2px solid #272727;
 }
 
+.buttonUpload {
+  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .micButton, .micButtonActive {
   display: flex;
   flex-direction: column;
