@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.f3c8dcf8.css",
+    "main.css": "/static/css/main.0f05eb0b.css",
     "main.js": "/static/js/main.703af5f0.js",
     "static/js/787.f7005703.chunk.js": "/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
@@ -30,12 +30,12 @@
     "static/media/about-icon.svg": "/static/media/about-icon.dfcc70011320b55ef0607023d773ce9d.svg",
     "static/media/play_button.svg": "/static/media/play_button.d7d25c235e85cbe32d71513cab5d9683.svg",
     "static/media/trash_full.svg": "/static/media/trash_full.74d842520073dd67c20a3eb3fe92f554.svg",
-    "main.f3c8dcf8.css.map": "/static/css/main.f3c8dcf8.css.map",
+    "main.0f05eb0b.css.map": "/static/css/main.0f05eb0b.css.map",
     "main.703af5f0.js.map": "/static/js/main.703af5f0.js.map",
     "787.f7005703.chunk.js.map": "/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f3c8dcf8.css",
+    "static/css/main.0f05eb0b.css",
     "static/js/main.703af5f0.js"
   ]
 }
