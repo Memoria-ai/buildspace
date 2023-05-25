@@ -112,7 +112,7 @@ button {
 
 @media screen and (min-width: 1101px) {  
   .body {
-    height: fit-content;
+    height: auto;
     width: 100vw;
     
     display: flex;
@@ -120,6 +120,7 @@ button {
     gap: 1rem;
     align-items: center;
     padding: 3rem 5rem 2rem;
+    overflow: scroll;
   }
 
   .headline {
