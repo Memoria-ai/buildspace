@@ -178,7 +178,7 @@ const Create = ({ session }) =>{
     formData.append('audio', blob, 'audio.mp3');
   
     try {
-      const response = await fetch(current+'transcribe', {
+      const response = await fetch(current+'audio', {
         method: 'POST',
         body: formData,
       });
@@ -189,10 +189,9 @@ const Create = ({ session }) =>{
   
       const data = await response.json();
       // const transcript = data.transcription;
-      const transcript = data.transcription;
-      console.log('Transcription:', data.transcription);
-      setNote(data.transcription);
-      stoppedListeningFunction(transcript);
+      console.log('Transcription:', data.text);
+      setNote(data.text);
+      stoppedListeningFunction(data.text);
     } catch (error) {
       console.log('Error:', error.message);
     }
