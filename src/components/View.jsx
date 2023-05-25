@@ -123,7 +123,6 @@ const View = ({ session }) => {
     };
 
     const playNote = async (path) => {
-      console.log("playing note")
       fetch(current + 'fetchNoteAudio',{
         method: 'POST',
         headers: {
@@ -134,13 +133,10 @@ const View = ({ session }) => {
       .then(response => response.arrayBuffer())
       .then(audioBuffer => {
         const audioBlob = new Blob([audioBuffer], { type: 'audio/mp3' })
-        console.log(audioBlob)
         const audioUrl = URL.createObjectURL(audioBlob);
         const audioElement = new Audio(audioUrl);
         audioElement.play();
       });
-
-      console.log("got throught the audio play")
     };
 
   const handleTagViewChange = () => {

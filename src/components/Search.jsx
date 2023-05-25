@@ -13,6 +13,7 @@ const Search = ({ session }) => {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null)
   const [numQueries, setNumQueries] = useState();
+  const [showSuggest, setShowSuggest] = useState(true);
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
@@ -58,6 +59,7 @@ const Search = ({ session }) => {
     const userMessage = { text: searchTerm, role: 'user' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setSearchTerm('');
+    setShowSuggest(false);
     incrNumQueries();
   };
 
@@ -100,33 +102,31 @@ const Search = ({ session }) => {
   }, [messages]);
 
   const askSuggested = async(question) => {
-    const userMessage = { text: {question}, role: 'user' };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
-    incrNumQueries();
+    setSearchTerm(question);
   }
 
   return (
     <div className={styles.body}>    
       <div className={styles.titleDesc}>
         <h3>Chat with your thoughts</h3>
-        <p className={styles.description}>Ask questions. Brainstorm. Get summaries & reminders. <br/> Experience perfect memory.</p>
+        <p className={styles.description}>Ask questions, get summaries & brainstorm. <br/> Experience perfect memory.</p>
       </div>
-      <div className={styles.suggestList}>
-        <button onClick={askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>Summarize this week's thoughts</button>
-        <button onClick={askSuggested("What do I talk about most?")} className={styles.suggestQuestion}>What do I talk about most?</button>
-        <button onClick={askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion}>I'm bored, what should I do?</button>
-      </div>
-      <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
-        <input               
-          type="text"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          className={styles.titleInput}
-          placeholder='Summarize all my thoughts from this past week...'
-          onKeyDown={handleKeyDown}
-        />
-        <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>
-      </div>
+        <div className={showSuggest ? styles.suggestList : styles.hidden}>
+          <button onClick={() => askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>Summarize this week's thoughts</button>
+          <button onClick={() => askSuggested("What do I talk about most?")} className={styles.suggestQuestion}>What do I talk about most?</button>
+          <button onClick={() => askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion}>I'm bored, what should I do?</button>
+        </div>
+        <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
+          <input               
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className={styles.titleInput}
+            placeholder='Summarize all my thoughts from this past week...'
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>
+        </div>
       <div className={styles.chatHistory}>
         {messages.map((message, index) => (
           <div key={index} className={message.role == 'user' ? styles.userQuestion : styles.memoriaResponse}>

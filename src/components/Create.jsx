@@ -55,7 +55,6 @@ const Create = ({ session }) =>{
   }, []);
 
   useEffect(() => {
-    console.log("MAIN USEEFFECT IS RUNNING")
     if(!isListening){
       // check if the mediaRecorder is running
       if(mediaRecorder !== null){
@@ -70,7 +69,6 @@ const Create = ({ session }) =>{
         chunksRef.current.push(event.data);
       });
       mediaRecorder.addEventListener("stop", async () => {
-        console.log("MEDIA RECORDER IS STOPPING");
         const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
         setSentBlob(blob);
@@ -191,7 +189,6 @@ const Create = ({ session }) =>{
       const data = await response.json();
       // const transcript = data.transcription;
       const transcript = data.transcription;
-      console.log('Transcription:', data.transcription);
       setNote(data.transcription);
       stoppedListeningFunction(transcript);
     } catch (error) {
@@ -275,42 +272,33 @@ const Create = ({ session }) =>{
   // Timer that is shown when recording.
   const handleTimerChange = (state) => {
     if (state) {
-      console.log("start timer");
       setTimerInterval(setInterval(() => {
         setSeconds(seconds => seconds + 1)
       }, 1000));
     } else {
-      console.log("stop timer");
       clearInterval(timerInterval);
       setTimerInterval(null);
     }
   }
 
   const stoppedListeningFunction = async (note) => {
-    console.log("PASSED IN NOTE IS " + note)
     await getTags(note);
     await getGPTTitle(note);
     setLoad(false);
-    console.log('note' + note)
     if (!note) {
       setSeconds(0);
     }
     else {
       setShowNote(true)
     }
-    console.log('here')
   }
 
   // GPT prompt for Title
   const getGPTTitle = async (note) => {
-    console.log("THIS IS FIRST")
-    console.log(note)
     if (note !== '') {
-      console.log("THIS IS SECOND")
       const title = await processMessageToChatGPT("Return a 3 word title for this following note: " + note, 20);
       const formattedTitle = title.replace(/"/g, '');
       setUserTitle(formattedTitle);
-      console.log("THE TITLE IS" + formattedTitle)
       return formattedTitle;
     }
   };
@@ -331,12 +319,9 @@ const Create = ({ session }) =>{
 
   // Get tags to assign to each new note.
   const getTags = async (note1) => {
-    console.log("getTags is running" + note1)
     if (note1 !== '') {
-      console.log("IN THE GETTAGS, THE NOTE IS " + note1)
       const currentTags = await getUserTags();
       const preTags = await processMessageToChatGPT("Return a 3 individual keywords separated by commas that are related to this note: " + note1 + ". If any of these keywords are applicable, use them: " + currentTags, 20);
-      console.log(preTags)
       const Tags = preTags.replace(/"/g, '');
       const arr = Tags.split(', ');
       setTags(arr);
@@ -405,9 +390,9 @@ const Create = ({ session }) =>{
             <button onClick={handleCommitClick} className={styles.thoughtActionButton2}>Save</button>
           </div>
         </div>
-        <div>
+        {/* <div>
           <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
-        </div>
+        </div> */}
       </div>
       <div style={{ display: 'block'}}>
         <span onClick={() => setConfirmation(false)}>

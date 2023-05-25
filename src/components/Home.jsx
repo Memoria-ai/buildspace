@@ -25,7 +25,6 @@ const Home = ({ session }) => {
   }
 
   const handleGoToProfile = () => {
-    console.log(session);
     navigate('/account', {state:{session: session }});
   }
 
