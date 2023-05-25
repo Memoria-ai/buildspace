@@ -12,26 +12,61 @@ const View = ({ session }) => {
     const [countedTags, setCountedTags] = useState({});
     const [visibleTags, setVisibleTags] = useState([]);
     const [audioUrl, setAudioUrl] = useState('');
+    const [numQueries, setNumQueries] = useState();
+    const [numWords, setNumWords] = useState(0);
+    const [savedTime, setSavedTime] = useState(0);
+    const [showSavedTime, setShowSavedTime] = useState(false);
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
     const current = server;
 
+    const fetchNumQueries = async() => {
+      const userId = session.user.id;
+      const response = await fetch(current+'fetchNumQueries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+      });
+      const data = await response.json();
+      const num_queries = parseInt(data, 10);
+      setNumQueries(num_queries);
+      return(num_queries);
+      //setSavedTime(Math.round(10 * ( (numQueries * 3.34) + (0.03 * numWords))) / 10);
+    };
+  
+    const calcNumWords = (notes) => {
+      var curWords = 0;
+      for (const note of notes) {
+        curWords += note.content.split(' ').length;
+      };
+      setNumWords(curWords);
+      return(curWords);
+    }
+
     // const visibleTags = userTags === undefined ? [] : (showAllTags ? userTags : userTags.slice(0, 3));
 
     // Every time this is rendered, useEffect is called.
     useEffect(() => {
-        fetchUserNotes();
-        getUserTags();
+      fetchUserNotes();
+      getUserTags();
     }, [session])
-    
+
+    const calcSavedTime = async(notes) => {
+      const num_queries = await fetchNumQueries();
+      const num_words = calcNumWords(notes);
+      setSavedTime(Math.round(10 * ( (num_queries * 3.34) + (0.03 * num_words))) / 10);
+      setShowSavedTime(true);
+    }
+
     const handleTagSelection = (tag) => {
       if (selectedTags.includes(tag)) {
         setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
       } else {
         setSelectedTags([...selectedTags, tag]);
       }
-
     }; 
   
     // Get notes from database and show it to user.
@@ -46,7 +81,7 @@ const View = ({ session }) => {
       });
       const notes = await response.json();
       setUserNotes(notes);
-
+      calcSavedTime(notes);
     };
   
     // Get all tags from database and show it to user.
@@ -135,10 +170,11 @@ const View = ({ session }) => {
     }
     return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
   }).sort((a, b) => (b?.timestamp.localeCompare(a?.timestamp)));
-
+ 
   return (
     <div className={styles.body}>
       <h3>My Thoughts</h3>
+      <div className={showSavedTime ? styles.savedTime : styles.hidden}>You've saved <span className={"gradientText1"}> {savedTime} minutes </span> using Memoria!</div>
       <div className={styles.filterTagList}>
         <p>Filter:</p>
         {visibleTags.map((tag) => (
@@ -157,8 +193,6 @@ const View = ({ session }) => {
           )}
         </span>
       </div>
-
-      
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
         <div className={styles.thoughtCard} key={note?.id}>

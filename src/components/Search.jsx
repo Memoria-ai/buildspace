@@ -12,6 +12,7 @@ const Search = ({ session }) => {
   const [queryResponse, setQueryResponse] = useState('');
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null)
+  const [numQueries, setNumQueries] = useState();
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
@@ -20,6 +21,35 @@ const Search = ({ session }) => {
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   
+  const fetchNumQueries = async() => {
+    const userId = session.user.id;
+    const response = await fetch(current+'fetchNumQueries', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+    const data = await response.json();
+    const num_queries = parseInt(data, 10);
+    setNumQueries(num_queries);
+  };
+  
+  useEffect(() => {
+    fetchNumQueries();
+  }, [session])
+
+  const incrNumQueries = async() => {
+    const userId = session.user.id;
+    const response = await fetch(current+'incrNumQueries', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+  };
+
   const sendQuestion = async () => {
     if (!searchTerm.trim()) { return };
 
@@ -28,6 +58,8 @@ const Search = ({ session }) => {
     const userMessage = { text: searchTerm, role: 'user' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setSearchTerm('');
+    incrNumQueries();
+    console.log("running incrNumQueries");
   };
 
   // This waits for messages var to be updated before sending the request to backend

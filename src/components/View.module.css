@@ -106,6 +106,10 @@ button {
   align-items: center;
 }
 
+.hidden {
+  display: none;
+}
+
 @media screen and (min-width: 1101px) {  
   .body {
     height: fit-content;
@@ -209,6 +213,21 @@ button {
 
   .deleteButton {
     display: flex;
+  }
+
+  .savedTime {
+    display: flex;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+
+    padding: 8px 16px;
+    background: #161616;
+    border: 1px solid #272727;
+    border-radius: 25px;
+
+    font-size: 10pt;
+    gap: 3px;
   }
 }
 
@@ -373,6 +392,18 @@ button {
   .deleteButton {
     display: flex;
     padding: 0.5rem 0 0;
+  }
+
+  .savedTime {
+    display: flex;
+
+    padding: 8px 16px;
+    background: #161616;
+    border: 1px solid #272727;
+    border-radius: 25px;
+
+    font-size: 10pt;
+    gap: 3px;
   }
 }
 
