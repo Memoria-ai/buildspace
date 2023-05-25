@@ -104,6 +104,7 @@ const Create = ({ session }) =>{
     setUserTitle(event.target.value);
   }
 
+
   // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
     event.preventDefault();
@@ -199,6 +200,39 @@ const Create = ({ session }) =>{
   
     chunksRef.current = [];
     
+  };
+    
+  const handleFileUpload = async (event) => {
+    if(event.target.files.length === 0) return;
+
+    handleTimerChange(false);
+    setLoad(true);
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('audio', file);
+
+    try {
+      const response = await fetch(current+'transcribe', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setNote(data.transcription);
+        stoppedListeningFunction(data.transcription);
+      } else {
+        // setTranscription('An error occurred during transcription.');
+        console.log('An error occurred during transcription.');
+        handleTimerChange(false);
+        setLoad(false);
+      }
+    } catch (error) {
+      // setTranscription('An error occurred during transcription.');
+      console.log(error);
+      handleTimerChange(false);
+      setLoad(false);
+    }
   };
 
   const handleDiscardClick = async (event) => {
@@ -355,6 +389,17 @@ const Create = ({ session }) =>{
           </p>
         </button>
       </div>
+      <label htmlFor="fileInput" className={styles.button1}>
+        <span className={styles.buttonUpload}>Upload a Voice Memo</span>
+      </label>
+      <input
+        type="file"
+        id="fileInput"
+        accept="audio/*"
+        onChange={handleFileUpload}
+        style={{ display: 'none' }}
+      />
+      {/* <div>{transcription}</div> */}
       <div className={load ? styles.loading : styles.hidden}>
         <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
         <p>Transcribing...</p>
