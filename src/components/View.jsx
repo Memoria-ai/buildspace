@@ -15,7 +15,7 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = local;
+    const current = server;
 
     // const visibleTags = userTags === undefined ? [] : (showAllTags ? userTags : userTags.slice(0, 3));
 
