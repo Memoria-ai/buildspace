@@ -361,13 +361,13 @@ const Create = ({ session }) =>{
           </p>
         </button>
       </div>
-      <label htmlFor="fileInput" className={styles.button1}>
+      <label htmlFor="fileInput" className={showLoad ? styles.hidden : styles.button1}>
         <span className={styles.buttonUpload}>Upload a Voice Memo</span>
       </label>
       <input
         type="file"
         id="fileInput"
-        accept="audio/*"
+        accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
         onChange={handleFileUpload}
         style={{ display: 'none' }}
       />
