@@ -361,7 +361,7 @@ const Create = ({ session }) =>{
           </p>
         </button>
       </div>
-      <label htmlFor="fileInput" className={showLoad ? styles.hidden : styles.button1}>
+      <label htmlFor="fileInput" className={load ? styles.hidden : styles.button1}>
         <span className={styles.buttonUpload}>Upload a Voice Memo</span>
       </label>
       <input
