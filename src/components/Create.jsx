@@ -180,6 +180,7 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async (blob) => {
+    console.log('handleStopRecording')
     if (blob.size === 0) {
       return;
     }
@@ -192,7 +193,7 @@ const Create = ({ session }) =>{
       const response = await fetch(current+'transcribe/' + userId, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: formData,
@@ -201,9 +202,8 @@ const Create = ({ session }) =>{
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+      console.log('here')
       const data = await response.json();
-      // const transcript = data.transcription;
       const transcript = data.transcription;
       setNote(data.transcription);
       stoppedListeningFunction(transcript);
@@ -214,46 +214,43 @@ const Create = ({ session }) =>{
     chunksRef.current = [];
     
   };
-    
   const handleFileUpload = async (event) => {
-    if(event.target.files.length === 0) return;
-
+    if (event.target.files.length === 0) return;
+  
     handleTimerChange(false);
     setLoad(true);
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('audio', file);
-
+  
     try {
       const userId = session.user.id;
       const token = localStorage.getItem('token');
-      const response = await fetch(current+'transcribe/' + userId, {
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${token}`);
+      const response = await fetch(current + 'transcribe/' + userId, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        headers: headers,
         body: formData,
-        
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         setNote(data.transcription);
         stoppedListeningFunction(data.transcription);
       } else {
-        // setTranscription('An error occurred during transcription.');
         console.log('An error occurred during transcription.');
         handleTimerChange(false);
         setLoad(false);
       }
     } catch (error) {
-      // setTranscription('An error occurred during transcription.');
       console.log(error);
       handleTimerChange(false);
       setLoad(false);
     }
   };
+  
+  
 
   const handleDiscardClick = async (event) => {
     event.preventDefault();
