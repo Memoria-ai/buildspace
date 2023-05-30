@@ -191,8 +191,11 @@ const Create = ({ session }) =>{
       const token = localStorage.getItem('token');
       const response = await fetch(current+'transcribe/' + userId, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
-        Authorization: `Bearer ${token}`,
       });
   
       if (!response.ok) {
@@ -226,8 +229,12 @@ const Create = ({ session }) =>{
       const token = localStorage.getItem('token');
       const response = await fetch(current+'transcribe/' + userId, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
-        Authorization: `Bearer ${token}`,
+        
       });
 
       if (response.ok) {
