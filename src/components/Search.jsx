@@ -17,17 +17,19 @@ const Search = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
   
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   
   const fetchNumQueries = async() => {
     const userId = session.user.id;
-    const response = await fetch(current+'fetchNumQueries', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(current+'fetchNumQueries/' + userId, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ userId })
     });
@@ -42,10 +44,12 @@ const Search = ({ session }) => {
 
   const incrNumQueries = async() => {
     const userId = session.user.id;
-    const response = await fetch(current+'incrNumQueries', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(current+'incrNumQueries/' + userId, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ userId })
     });
@@ -68,10 +72,13 @@ const Search = ({ session }) => {
     const fetchData = async () => {
       if (load) {
         const userId = session.user.id;
-        const response = await fetch(current+'queryUserThoughts', {
+        const token = localStorage.getItem('token');
+        // console.log(token)
+        const response = await fetch(current+'queryUserThoughts/' + userId, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ userId, messages })
         });

@@ -29,7 +29,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
 
   useEffect(() => {
@@ -79,10 +79,14 @@ const Create = ({ session }) =>{
   
   // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens){
-    const response = await fetch(current+'gpt', {  
+    const userId = session.user.id;
+    const token = localStorage.getItem('token');
+    // console.log(token)
+    const response = await fetch(current+'gpt/' + userId, {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         message: message,
@@ -122,11 +126,14 @@ const Create = ({ session }) =>{
 
   const addNote = async (title) => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
-
-    const response = await fetch(current+'addNote', {
+    const userId = session.user.id;
+    const token = localStorage.getItem('token');
+    // console.log(token)
+    const response = await fetch(current+'addNote/' + userId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       //credentials: 'include',
       body: JSON.stringify({
@@ -149,10 +156,13 @@ const Create = ({ session }) =>{
 
   // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
-    const response = await fetch(current+'addTags', {
+    const userId = session.user.id;
+    const token = localStorage.getItem('token');
+    const response = await fetch(current+'addTags/' + userId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         tags: tags,
@@ -177,9 +187,12 @@ const Create = ({ session }) =>{
     formData.append('audio', blob, 'audio.mp3');
   
     try {
-      const response = await fetch(current+'transcribe', {
+      const userId = session.user.id;
+      const token = localStorage.getItem('token');
+      const response = await fetch(current+'transcribe/' + userId, {
         method: 'POST',
         body: formData,
+        Authorization: `Bearer ${token}`,
       });
   
       if (!response.ok) {
@@ -209,9 +222,12 @@ const Create = ({ session }) =>{
     formData.append('audio', file);
 
     try {
-      const response = await fetch(current+'transcribe', {
+      const userId = session.user.id;
+      const token = localStorage.getItem('token');
+      const response = await fetch(current+'transcribe/' + userId, {
         method: 'POST',
-        body: formData
+        body: formData,
+        Authorization: `Bearer ${token}`,
       });
 
       if (response.ok) {
@@ -306,10 +322,12 @@ const Create = ({ session }) =>{
   // Get the user tags from the database.
   const getUserTags = async () => {
     const userId = session.user.id;
-    const response = await fetch(current+'getUserTags', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(current+'getUserTags/' + userId, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ userId })
     });

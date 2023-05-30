@@ -19,14 +19,17 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = server;
+    const current = local;
 
     const fetchNumQueries = async() => {
       const userId = session.user.id;
-      const response = await fetch(current+'fetchNumQueries', {
+      const token = localStorage.getItem('token');
+      // console.log('token: ', token);
+      const response = await fetch(current+'fetchNumQueries/' + userId, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ userId })
       });
@@ -34,7 +37,6 @@ const View = ({ session }) => {
       const num_queries = parseInt(data, 10);
       setNumQueries(num_queries);
       return(num_queries);
-      //setSavedTime(Math.round(10 * ( (numQueries * 3.34) + (0.03 * numWords))) / 10);
     };
   
     const calcNumWords = (notes) => {
@@ -70,27 +72,33 @@ const View = ({ session }) => {
     }; 
   
     // Get notes from database and show it to user.
+
     const fetchUserNotes = async () => {
       const userId = session.user.id;
-      const response = await fetch(current+'fetchUserNotes', {
-        method: 'POST',
+      const token = localStorage.getItem('token');
+      // console.log('token: ', token);
+      const response = await fetch(current + 'fetchNotes/' + userId, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the JWT token in the 'Authorization' header
         },
-        body: JSON.stringify({ userId })
       });
+    
       const notes = await response.json();
       setUserNotes(notes);
       calcSavedTime(notes);
-    };
-  
+    };    
+
     // Get all tags from database and show it to user.
     const getUserTags = async () => {
       const userId = session.user.id;
-      const response = await fetch(current+'getUserTags', {
+      const token = localStorage.getItem('token');
+      const response = await fetch(current+'getUserTags/' + userId, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ userId })
       });
@@ -110,10 +118,13 @@ const View = ({ session }) => {
     // Deletes 'id' note.
     const deleteNote = async (id) => {
       const userId = session.user.id;
-      const response = await fetch(current+'deleteNote', {
+      const token = localStorage.getItem('token');
+      // console.log('token: ', token);
+      const response = await fetch(current+'deleteNote/' + userId, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ id, userId })
       });
@@ -123,10 +134,14 @@ const View = ({ session }) => {
     };
 
     const playNote = async (path) => {
-      fetch(current + 'fetchNoteAudio',{
+      const userId = session.user.id;
+      const token = localStorage.getItem('token');
+      // console.log('token: ', token);
+      fetch(current + 'fetchNoteAudio/'+ userId,{
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ path: path })
       })
