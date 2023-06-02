@@ -15,34 +15,31 @@ export default function Auth() {
   const current = backToApp;
 
 
-  // E-mail log in
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://memoria.live/" } });
-
-    if (error) {
-      alert(error.error_description || error.message)
-    } else {
-      alert('Check your email for the login link!')
-    }
-    setLoading(false);
-  }
-
   async function signInWithTwitter() {
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error, session } = await supabase.auth.signInWithOAuth({
       provider: 'twitter',
       options: {
         redirectTo: current,
-      }
-    })
+      },
+    });
+    if (error) {
+      console.error('Error signing in with Twitter:', error);
+      return;
+    }
+  
+    if (session) {
+      console.log('token: ', token)
+      console.log(session)
+      const token = session.access_token;
+      localStorage.setItem('token', token);
+      // setSession(session); // Update the session in App component state
+    }
   }
-
+  
   async function signInWithGoogle() {
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error, session } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: current,
@@ -51,8 +48,23 @@ export default function Auth() {
           prompt: 'consent',
         },
       },
-    })
+    });
+  
+    if (error) {
+      console.error('Error signing in with Google:', error);
+      return;
+    }
+  
+    if (session) {
+      const token = session.access_token;
+      console.log('token: ', token)
+      console.log(session)
+      localStorage.setItem('token', token);
+      // setSession(session); // Update the session in App component state
+    }
   }
+  
+  
 
   return (
     <div className={styles.body}>

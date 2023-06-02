@@ -79,10 +79,14 @@ const Create = ({ session }) =>{
   
   // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens){
-    const response = await fetch(current+'gpt', {  
+    const userId = session.user.id;
+    const token = localStorage.getItem('token');
+    // console.log(token)
+    const response = await fetch(current+'gpt/' + userId, {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         message: message,
@@ -122,11 +126,14 @@ const Create = ({ session }) =>{
 
   const addNote = async (title) => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
-
-    const response = await fetch(current+'addNote', {
+    const userId = session.user.id;
+    const token = localStorage.getItem('token');
+    // console.log(token)
+    const response = await fetch(current+'addNote/' + userId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       //credentials: 'include',
       body: JSON.stringify({
@@ -149,10 +156,13 @@ const Create = ({ session }) =>{
 
   // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
-    const response = await fetch(current+'addTags', {
+    const userId = session.user.id;
+    const token = localStorage.getItem('token');
+    const response = await fetch(current+'addTags/' + userId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         tags: tags,
@@ -170,6 +180,7 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async (blob) => {
+    console.log('handleStopRecording')
     if (blob.size === 0) {
       return;
     }
@@ -177,17 +188,22 @@ const Create = ({ session }) =>{
     formData.append('audio', blob, 'audio.mp3');
   
     try {
-      const response = await fetch(current+'transcribe', {
+      const userId = session.user.id;
+      const token = localStorage.getItem('token');
+      const response = await fetch(current+'transcribe/' + userId, {
         method: 'POST',
+        headers: {
+          // 'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
   
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+      console.log('here')
       const data = await response.json();
-      // const transcript = data.transcription;
       const transcript = data.transcription;
       setNote(data.transcription);
       stoppedListeningFunction(transcript);
@@ -198,39 +214,43 @@ const Create = ({ session }) =>{
     chunksRef.current = [];
     
   };
-    
   const handleFileUpload = async (event) => {
-    if(event.target.files.length === 0) return;
-
+    if (event.target.files.length === 0) return;
+  
     handleTimerChange(false);
     setLoad(true);
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('audio', file);
-
+  
     try {
-      const response = await fetch(current+'transcribe', {
+      const userId = session.user.id;
+      const token = localStorage.getItem('token');
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${token}`);
+      const response = await fetch(current + 'transcribe/' + userId, {
         method: 'POST',
-        body: formData
+        headers: headers,
+        body: formData,
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         setNote(data.transcription);
         stoppedListeningFunction(data.transcription);
       } else {
-        // setTranscription('An error occurred during transcription.');
         console.log('An error occurred during transcription.');
         handleTimerChange(false);
         setLoad(false);
       }
     } catch (error) {
-      // setTranscription('An error occurred during transcription.');
       console.log(error);
       handleTimerChange(false);
       setLoad(false);
     }
   };
+  
+  
 
   const handleDiscardClick = async (event) => {
     event.preventDefault();
@@ -306,10 +326,12 @@ const Create = ({ session }) =>{
   // Get the user tags from the database.
   const getUserTags = async () => {
     const userId = session.user.id;
-    const response = await fetch(current+'getUserTags', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(current+'getUserTags/' + userId, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ userId })
     });
