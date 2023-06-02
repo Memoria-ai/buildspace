@@ -5,6 +5,7 @@ import Memoria from './imgs/Memoria.png'
 import * as Img from "./imgs" 
 import * as Feat from "./imgs/feature-cards"
 import { motion } from "framer-motion"
+import { Carousel } from "./components/Carousel"
 
 export default function Auth() {
   const [loading, setLoading] = useState(false)
@@ -116,6 +117,8 @@ export default function Auth() {
             className={styles.roundedGradientBorder}>
               <button onClick={signInWithTwitter} className={styles.signInButton}><p>Sign in with Twitter</p><Img.TwitterIcon/></button>
             </motion.div>
+            <Carousel/>
+          {/* <img src={Img.ChatExample1} className={styles.chatExample}/> */}
           </motion.div>
           <div className={loading ? '' : styles.hidden} >
             <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>

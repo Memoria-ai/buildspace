@@ -38,6 +38,7 @@ etc...
 
 .logo {
   font-weight: 700;
+  user-select: none;
 }
 
 .container {
@@ -47,6 +48,7 @@ etc...
 
 button {
   cursor: pointer;
+  user-select: none;
 }
 
 .loading {
@@ -74,6 +76,15 @@ button {
   width: fit-content;
   align-items: center;
   justify-content: center;
+}
+
+.gradientText1{
+  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 /* GLOBAL STYLING ENDS */
@@ -104,6 +115,7 @@ button {
 
   background: #27272725;
   border-radius: 100px;
+  box-shadow: 0px 2px 25px rgba(212, 146, 216, 0.50);
 }
 
 .button1:hover, .signInButton:hover {
@@ -144,12 +156,13 @@ button {
     -webkit-text-fill-color: white;
 
     font-weight: 600;
+    max-width: 95%;
   }
 
   input {
     width: 450px;
   }
-  
+
   .headlineButton {
     width: fit-content;
 
@@ -162,6 +175,8 @@ button {
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
 
     border-radius: 30px;
+
+    user-select: none;
   }
 
   .authNav {
@@ -244,9 +259,58 @@ button {
     align-self: center;
   }
 
+  .carousel {
+    overflow: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    padding-top: 1rem;
+  }
+
+  .carouselWrapper {
+    width: 100%;
+    border: 2px solid #272727;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #111111 0%, #11111100 100%);
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.05);
+    margin: 1rem;
+  }
+
+  .carouselInner {
+    white-space: nowrap;
+    transition: transform 0.3s;
+  }
+
+  .carouselItem {
+    display: inline-flex;
+    margin: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carouselItemText {
+    font-size: 20pt;
+  }
+
+  .carouselImg {
+    filter: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .carouselButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+      
   .demoVid {
     border-radius: 2rem;
     border: 10px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.05);
   }
 
   .gallery {
@@ -266,6 +330,7 @@ button {
     border-radius: 0;
     box-shadow: none;
     filter: none;
+    user-select: none;
   }
 }
 
@@ -311,6 +376,8 @@ button {
 
 
     border-radius: 30px;
+
+    user-select: none;
   }
 
   .memoriaName {
@@ -351,6 +418,7 @@ button {
     grid-gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    user-select: none;
   }
 
   .gallery img {
@@ -363,12 +431,54 @@ button {
     filter: none;
   }
 
+  .carousel {
+    overflow: auto;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+  }
+
+  .carouselWrapper {
+    width: 100%;
+    border: 2px solid #272727;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #111111 0%, #11111100 100%);
+  }
+
+  .carouselInner {
+    white-space: nowrap;
+    transition: transform 0.3s;
+  }
+
+  .carouselItem {
+    display: inline-flex;
+    gap: 0.5rem;
+    margin: 1rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carouselImg {
+    filter: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .carouselButtons {
+    display: none;
+  }
+
   .navButton1 {
     background: rgba(255, 255, 255, 0.05);
     padding: 8px 24px;
     border-radius: 16px;
     opacity: 0.5;
     letter-spacing: -0.04em;
+    user-select: none;
   }
 
   .navButton1:hover {
@@ -377,6 +487,7 @@ button {
     border-radius: 16px;
     opacity: 1;
     letter-spacing: -0.04em;
+    user-select: none;
   }
 
   .webNavItems {
@@ -397,7 +508,7 @@ input {
 input::placeholder {
   color: #272727;
 }
-
+/* 
 img {
   width: 100%;
   height: auto;
@@ -408,7 +519,7 @@ img {
   border-radius: 30px;
 
   box-shadow: 0px 0px 10px #161616, 0px 0px 25px rgba(255, 255, 255, 0.05);
-}
+} */
 
 .footer {
   width: 100%;
