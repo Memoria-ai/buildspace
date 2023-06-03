@@ -10,7 +10,7 @@ const Create = ({ session }) =>{
   const [isListening, setIsListening] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [note, setNote] = useState(" ");
+  const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
   const [userTitle, setUserTitle] = useState('');
   const [tags, setTags] = useState([]);
@@ -29,7 +29,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
 
 
   useEffect(() => {
@@ -373,35 +373,26 @@ const Create = ({ session }) =>{
         <p className={`${styles.description} ${showNote ? styles.hidden : ""}`}>Click the mic below to get started. <br/> We will transcribe your thought into clear text</p>
       </div>
       <div className={styles.micContainer}>
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
           onClick={handleListenChange} 
           className={`${isListening ? styles.micButtonActive : styles.micButton} ${showNote ? styles.hidden : ""}`}>
-          {isListening ? <Img.StopIcon/> : <Img.MicIcon/> } 
-          <p 
+          {isListening ? <Img.StopIcon/> : load ? 
+            <div className={load ? styles.loading : styles.hidden}>
+              <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+              <p>Transcribing...</p>
+            </div> : <Img.MicIcon/> } 
+            <p 
             className={ isListening ? `${styles.timer} ${"gradientText1"}` : styles.hidden}>
               {seconds}s
-          </p>
-        </button>
+            </p>
+        </motion.button>
       </div>
-      <p className={`${styles.description} ${showNote || load ? styles.hidden : ""}`}>OR</p>
-      <label htmlFor="fileInput" className={showNote || load? styles.hidden : styles.button1}>
-        <span className={styles.buttonUpload}>Upload a Voice Memo</span>
-      </label>
-      <input
-        type="file"
-        id="fileInput"
-        accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
-        onChange={handleFileUpload}
-        style={{ display: 'none' }}
-      />
       {/* <div>{transcription}</div> */}
-      <div className={load ? styles.loading : styles.hidden}>
-        <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
-        <p>Transcribing...</p>
-      </div>
       <div className={showNote ? styles.thoughtCard : styles.hidden}>
         <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
-        <textarea value={note} onChange={handleInputChange} placeholder='Thought Transcription' className={styles.transcript}/>
+        <textarea value={note} onChange={handleInputChange} placeholder='Your thought here...' className={styles.transcript}/>
         {tags.length > 0 && 
           <div className={styles.tagList}>
             Tags:
@@ -416,6 +407,31 @@ const Create = ({ session }) =>{
         {/* <div>
           <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
         </div> */}
+      </div>
+      <div className={showNote || load? styles.hidden : styles.altOptionsWrapper}>
+      <p className={styles.description}>OR</p>
+      <div className={styles.altOptions}>
+      <motion.label 
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        htmlFor="fileInput" className={styles.uploadButton}>
+        <Img.UploadIcon/>
+      </motion.label>
+      <input
+        type="file"
+        id="fileInput"
+        accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
+        onChange={handleFileUpload}
+        style={{ display: 'none' }}
+      />
+      <motion.button 
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setShowNote(true)}
+        className={styles.writeButton}>
+        <Img.WriteIcon/>
+      </motion.button>
+      </div>
       </div>
       <div style={{ display: 'block'}}>
         <span onClick={() => setConfirmation(false)}>
