@@ -214,12 +214,10 @@ const View = ({ session }) => {
       </div>
       <div className={styles.sortToggle}>
         <p>Sort:</p>
-        <div>
         <select className={styles.sortOption} onChange={(event) => setSortOption(event.target.value)}>
           <option value="Most Recent">Most Recent</option>
           <option value="Oldest">Oldest</option>
         </select>
-        </div>
       </div>
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
