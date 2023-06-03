@@ -11,16 +11,6 @@ export const Carousel = () => {
             description: "Talk to your thoughts.",
             icon: require("../imgs/chat-example-1.png")
         },
-        {
-            title: "Example 1",
-            description: "Speak your mind. Anytime, anywhere.",
-            icon: require("../imgs/chat-example-1.png")
-        },
-        {
-            title: "Example 1",
-            description: "Reflect, summarize & more.",
-            icon: require("../imgs/chat-example-1.png")
-        },
     ];
 
     const updateIndex = (newIndex) => {
@@ -35,21 +25,21 @@ export const Carousel = () => {
         setActiveIndex(newIndex);
     };
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            updateIndex(prevIndex => 
-                { if (prevIndex + 1 >= items.length) {
-                    return 0;
-                } else {
-                    return prevIndex + 1;
-                }}
-                ) ;
-        }, 3000);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         updateIndex(prevIndex => 
+    //             { if (prevIndex + 1 >= items.length) {
+    //                 return 0;
+    //             } else {
+    //                 return prevIndex + 1;
+    //             }}
+    //             ) ;
+    //     }, 3000);
     
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
+    //     return () => {
+    //         clearInterval(interval);
+    //     };
+    // }, []);
         
   return (
     <div className={styles.carousel}>
@@ -61,7 +51,7 @@ export const Carousel = () => {
                 })}
             </div>
         </div>
-        <div className={styles.carouselButtons}>
+        {/* <div className={styles.carouselButtons}>
             <button
             onClick={() => {
                 updateIndex(activeIndex - 1);
@@ -76,7 +66,7 @@ export const Carousel = () => {
             >
             <span className={styles.navButton1}>Next</span>
             </button>
-        </div>
+        </div> */}
     </div>
   )
 }
