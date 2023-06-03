@@ -296,9 +296,9 @@ input[type="radio"]:checked {
     position: fixed;
     top: 0;
     z-index: 1;
-  
-    border-bottom: solid 1px #27272750;
-    background: #111111;
+
+    background: url(../imgs/noise.png), radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+    background-blend-mode: screen, normal;
 
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;

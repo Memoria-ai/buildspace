@@ -16,6 +16,7 @@ const View = ({ session }) => {
     const [numWords, setNumWords] = useState(0);
     const [savedTime, setSavedTime] = useState(0);
     const [showSavedTime, setShowSavedTime] = useState(false);
+    const [sortOption, setSortOption] = useState('Most Recent');
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
@@ -180,7 +181,14 @@ const View = ({ session }) => {
       return false;
     }
     return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
-  }).sort((a, b) => (b?.timestamp.localeCompare(a?.timestamp)));
+  }).sort((a, b) => 
+    { if (sortOption == "Most Recent") {
+      return (b?.timestamp.localeCompare(a?.timestamp));
+    } else if (sortOption == "Oldest") {
+      return (a?.timestamp.localeCompare(b?.timestamp));
+    }
+      }
+    );
  
   return (
     <div className={styles.body}>
@@ -198,11 +206,20 @@ const View = ({ session }) => {
           </div>
           </div>
         ))}
-        <span className={styles.centerOnMobile}>
+        <span>
           {userTags.length > 3 && (
               <button onClick={handleTagViewChange} className={styles.seeMore}>{!showAllTags ? '+ See All' : '- See Less'}</button>
           )}
         </span>
+      </div>
+      <div className={styles.sortToggle}>
+        <p>Sort:</p>
+        <div>
+        <select className={styles.sortOption} onChange={(event) => setSortOption(event.target.value)}>
+          <option value="Most Recent">Most Recent</option>
+          <option value="Oldest">Oldest</option>
+        </select>
+        </div>
       </div>
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
