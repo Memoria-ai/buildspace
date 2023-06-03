@@ -68,6 +68,15 @@ button {
   justify-content: center;
 }
 
+.gradientText1 {
+  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 /* GLOBAL STYLING ENDS */
 
 /* BODY STYLING STARTS */
@@ -103,17 +112,23 @@ button {
   }
 
   .queryBar {
-    width: 60%;
+    width: 100%;
 
     display: flex;
     flex-direction: row;
 
-    position: absolute;
-    bottom: 3rem;
-
     padding-right: 16px;
 
     z-index: 999;
+  }
+
+  .queryWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 60%;
+    position: absolute;
+    bottom: 3rem;
   }
   
   .body {
@@ -236,6 +251,13 @@ button {
     padding-right: 12px;
 
     z-index: 999;
+  }
+
+  .queryWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 90%;
   }
 
   .body {

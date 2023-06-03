@@ -17,7 +17,7 @@ const Search = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
   
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -40,6 +40,10 @@ const Search = ({ session }) => {
   
   useEffect(() => {
     fetchNumQueries();
+    const savedMessages = JSON.parse(localStorage.getItem('messages'))
+    if (savedMessages !== null) {
+        setMessages(savedMessages)
+    }
   }, [session])
 
   const incrNumQueries = async() => {
@@ -88,6 +92,7 @@ const Search = ({ session }) => {
         setLoad(false);
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         setQueryResponse(gptResponse);
+        localStorage.setItem('messages', JSON.stringify([...messages, botMessage]));
       }
     };
   
@@ -112,28 +117,39 @@ const Search = ({ session }) => {
     setSearchTerm(question);
   }
 
+  const clearMessages = () => {
+    localStorage.removeItem('messages');
+    setMessages([]);
+    setShowSuggest(true);
+  }
+
   return (
     <div className={styles.body}>    
       <div className={styles.titleDesc}>
         <h3>Chat with your thoughts</h3>
         <p className={styles.description}>Ask questions, get summaries & brainstorm. <br/> Experience perfect memory.</p>
       </div>
-        <div className={showSuggest ? styles.suggestList : styles.hidden}>
-          <button onClick={() => askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>Summarize this week's thoughts</button>
-          <button onClick={() => askSuggested("What do I talk about most?")} className={styles.suggestQuestion}>What do I talk about most?</button>
-          <button onClick={() => askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion}>I'm bored, what should I do?</button>
-        </div>
-        <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
-          <input               
-            type="text"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            className={styles.titleInput}
-            placeholder='Summarize all my thoughts from this past week...'
-            onKeyDown={handleKeyDown}
-          />
-          <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>
-        </div>
+      <div className={showSuggest ? styles.suggestList : styles.hidden}>
+        <button onClick={() => askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>Summarize this week's thoughts</button>
+        <button onClick={() => askSuggested("What do I talk about most?")} className={styles.suggestQuestion}>What do I talk about most?</button>
+        <button onClick={() => askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion}>I'm bored, what should I do?</button>
+      </div>
+      <div className={styles.queryWrapper}>
+      <div className={`${styles.queryBar} ${styles.roundedGradientBorder}`}>
+        <input               
+          type="text"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          className={styles.titleInput}
+          placeholder='Summarize all my thoughts from this past week...'
+          onKeyDown={handleKeyDown}
+        />
+        <button onClick={sendQuestion} className={styles.mobileQuerySend}><Img.SendIcon/></button>
+      </div>
+      <div className={styles.roundedGradientBorder}>
+          <button onClick={() => clearMessages()} className={styles.suggestQuestion}><Img.TrashGradient/></button>
+      </div>
+      </div>
       <div className={styles.chatHistory}>
         {messages.map((message, index) => (
           <div key={index} className={message.role == 'user' ? styles.userQuestion : styles.memoriaResponse}>
@@ -141,7 +157,7 @@ const Search = ({ session }) => {
           </div>
         ))}
         <div className={load ? styles.loading : styles.hidden}>
-          <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+          <img height="50" src={Img.LoadingGif} alt="Wait for it!"/>
         </div>
         <div ref={messagesEndRef} />
       </div>

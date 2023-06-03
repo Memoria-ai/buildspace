@@ -219,7 +219,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: 2rem;
     padding: 2rem 0;
   }
 
@@ -270,7 +270,7 @@ button {
   }
 
   .carouselWrapper {
-    width: 100%;
+    width: calc(100% - 3rem);
     border: 2px solid #272727;
     border-radius: 20px;
     background: linear-gradient(180deg, #111111 0%, #11111100 100%);
@@ -285,7 +285,7 @@ button {
 
   .carouselItem {
     display: inline-flex;
-    margin: 1.5rem;
+    margin: 2rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;

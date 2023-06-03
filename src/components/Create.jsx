@@ -29,7 +29,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
 
   useEffect(() => {
@@ -383,7 +383,8 @@ const Create = ({ session }) =>{
           </p>
         </button>
       </div>
-      <label htmlFor="fileInput" className={load ? styles.hidden : styles.button1}>
+      <p className={`${styles.description} ${showNote || load ? styles.hidden : ""}`}>OR</p>
+      <label htmlFor="fileInput" className={showNote || load? styles.hidden : styles.button1}>
         <span className={styles.buttonUpload}>Upload a Voice Memo</span>
       </label>
       <input
