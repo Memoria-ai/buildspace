@@ -263,8 +263,9 @@ img {
     align-items: center;
 
     position: fixed !important;
-    top: calc(50% - 100px) !important;
-    left: calc(50% - 100px) !important;
+    top: calc(50%) !important;
+    left: calc(50%) !important;
+    transform: translateX(-50%) translateY(-50%);
 
     background: #161616;
     border: 1px solid #272727;

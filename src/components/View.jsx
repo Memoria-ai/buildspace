@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './View.module.css';
 // import Search from './Search'
 import * as Img from "../imgs";
+import Select from "./Select"
 
 const View = ({ session }) => {
     const [userNotes, setUserNotes] = useState([]);
@@ -9,6 +10,7 @@ const View = ({ session }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [showAllTags, setShowAllTags] = useState(false);
     const [expandedNotes, setExpandedNotes] = useState([]);
+    const [allTags, setAllTags] = useState([]);
     const [countedTags, setCountedTags] = useState({});
     const [visibleTags, setVisibleTags] = useState([]);
     const [audioUrl, setAudioUrl] = useState('');
@@ -20,7 +22,7 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = server;
+    const current = local;
 
     const fetchNumQueries = async() => {
       const userId = session.user.id;
@@ -64,12 +66,13 @@ const View = ({ session }) => {
       setShowSavedTime(true);
     }
 
-    const handleTagSelection = (tag) => {
-      if (selectedTags.includes(tag)) {
-        setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
-      } else {
-        setSelectedTags([...selectedTags, tag]);
-      }
+    const handleTagSelection = (tags) => {
+      // if (selectedTags.includes(tag)) {
+      //   setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+      // } else {
+      //   setSelectedTags([...selectedTags, tag]);
+      // }
+      setSelectedTags(tags);
     }; 
   
     // Get notes from database and show it to user.
@@ -104,15 +107,16 @@ const View = ({ session }) => {
         body: JSON.stringify({ userId })
       });
       const tags = await response.json();
-      setUserTags(tags.tags);
-      setCountedTags(tags.counts);
+      setUserTags(tags.tags); //can be deleted
+      setCountedTags(tags.counts); //can be deleted
+      setAllTags(tags);
       if (showAllTags) {
 
         setVisibleTags(tags.tags);
       } else {
 
         setVisibleTags(tags.tags.slice(0, 3));
-      }
+      } // this can also be deleted
       return tags;
     };
   
@@ -194,7 +198,7 @@ const View = ({ session }) => {
     <div className={styles.body}>
       <h3>My Thoughts</h3>
       <div className={showSavedTime ? styles.savedTime : styles.hidden}>You've saved <span className={"gradientText1"}> {savedTime} minutes </span> using Memoria!</div>
-      <div className={styles.filterTagList}>
+      {/* <div className={styles.filterTagList}>
         <p>Filter:</p>
         {visibleTags.map((tag) => (
           <div className={selectedTags.includes(tag) ? styles.selected : ''} key={tag}>
@@ -211,13 +215,21 @@ const View = ({ session }) => {
               <button onClick={handleTagViewChange} className={styles.seeMore}>{!showAllTags ? '+ See All' : '- See Less'}</button>
           )}
         </span>
+      </div> */}
+      <div style={{display: "flex", alignItems: "center", gap: "0.5rem", maxWidth: "75%", width: "fit-content"}}>
+      Filter:
+      <Select onChange={handleTagSelection} options={allTags}/>
       </div>
       <div className={styles.sortToggle}>
         <p>Sort:</p>
-        <select className={styles.sortOption} onChange={(event) => setSortOption(event.target.value)}>
+        <span className={styles.sortOption}>
+        <select style={{flexGrow: "1"}} onChange={(event) => setSortOption(event.target.value)}>
           <option value="Most Recent">Most Recent</option>
           <option value="Oldest">Oldest</option>
         </select>
+        <div className={styles.divider}></div>
+        <div className={styles.caret}></div>
+        </span>
       </div>
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
