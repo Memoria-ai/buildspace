@@ -278,6 +278,14 @@ select {
     align-self: stretch;
     width: 0.1rem;
 }
+
+  .select-container {
+    display: flex; 
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 75%; 
+    width: fit-content;
+  }
 }
 
 @media screen and (min-width: 900px) and (max-width: 1300px) {
@@ -525,6 +533,14 @@ select {
       background-color: #272727;
       align-self: stretch;
       width: 0.1rem;
+  }
+
+  .select-container {
+    display: flex; 
+    align-items: center;
+    gap: 0.5rem;
+    width: calc(100% - 2vw);
+    justify-content: center;
   }
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './View.module.css';
 // import Search from './Search'
 import * as Img from "../imgs";
+import Multiselect from "./Multiselect"
 import Select from "./Select"
 
 const View = ({ session }) => {
@@ -22,7 +23,7 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = local;
+    const current = server;
 
     const fetchNumQueries = async() => {
       const userId = session.user.id;
@@ -193,6 +194,21 @@ const View = ({ session }) => {
     }
       }
     );
+
+  const sortOptions = [
+    {
+      option: "Most Recent",
+      value: 1
+    },
+    {
+      option: "Oldest",
+      value: 2
+    }
+  ]
+
+  const handleSortSelection = (option) => {
+    setSortOption(option.option);
+  }
  
   return (
     <div className={styles.body}>
@@ -216,11 +232,15 @@ const View = ({ session }) => {
           )}
         </span>
       </div> */}
-      <div style={{display: "flex", alignItems: "center", gap: "0.5rem", maxWidth: "75%", width: "fit-content"}}>
+      <div className={styles["select-container"]}>
       Filter:
-      <Select onChange={handleTagSelection} options={allTags}/>
+      <Multiselect onChange={handleTagSelection} options={allTags}/>
+      </div>      
+      <div className={styles["select-container"]}>
+      Sort:
+      <Select onChange={handleSortSelection} options={sortOptions}/>
       </div>
-      <div className={styles.sortToggle}>
+      {/* <div className={styles.sortToggle}>
         <p>Sort:</p>
         <span className={styles.sortOption}>
         <select style={{flexGrow: "1"}} onChange={(event) => setSortOption(event.target.value)}>
@@ -230,7 +250,7 @@ const View = ({ session }) => {
         <div className={styles.divider}></div>
         <div className={styles.caret}></div>
         </span>
-      </div>
+      </div> */}
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
         <div className={styles.thoughtCard} key={note?.id}>

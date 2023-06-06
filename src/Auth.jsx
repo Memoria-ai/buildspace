@@ -12,7 +12,7 @@ export default function Auth() {
   const [email, setEmail] = useState('')
   const localhost = 'http://localhost:3000/';
   const backToApp = 'https://memoria.live/';
-  const current = localhost;
+  const current = backToApp;
 
 
   async function signInWithTwitter() {

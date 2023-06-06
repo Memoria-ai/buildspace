@@ -29,7 +29,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = local;
+  const current = server;
 
 
   useEffect(() => {
@@ -60,14 +60,16 @@ const Create = ({ session }) =>{
       if(mediaRecorder !== null){
         mediaRecorder.stop();
       }
-    }else{
+    } else {
       handleStartRecording();
     }
 
     if (mediaRecorder !== null) {
+
       mediaRecorder.addEventListener("dataavailable", (event) => {
         chunksRef.current.push(event.data);
       });
+
       mediaRecorder.addEventListener("stop", async () => {
         const blob = new Blob(chunksRef.current, { type: "audio/mp3" });
         setAudioBlob(blob);
@@ -77,6 +79,15 @@ const Create = ({ session }) =>{
     }
   }, [isListening]);
   
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // Call your function here with the updated note value
+      handleUpdateNoteDetails();
+    }, 750);
+
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts or note changes
+  }, [note]);
+
   // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens){
     const userId = session.user.id;
@@ -95,7 +106,7 @@ const Create = ({ session }) =>{
     });
     const data = await response.json();
     return data;
-  }
+  };
 
   const handleInputChange = (event) => {
     setNote(event.target.value);
@@ -104,8 +115,7 @@ const Create = ({ session }) =>{
   // Every time a user changes the title, this is run.
   const handleTitleChange = (event) => {
     setUserTitle(event.target.value);
-  }
-
+  };
 
   // When user clicks commit, this calls addNote()
   const handleCommitClick = async (event) => {
@@ -122,7 +132,7 @@ const Create = ({ session }) =>{
     const timer = setTimeout(() => {
       setConfirmation(false);
     }, 2000);
-  }
+  };
 
   const addNote = async (title) => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
@@ -180,10 +190,12 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async (blob) => {
-    console.log('handleStopRecording')
+    // console.log('handleStopRecording')
+
     if (blob.size === 0) {
       return;
     }
+
     const formData = new FormData();
     formData.append('audio', blob, 'audio.mp3');
   
@@ -202,7 +214,8 @@ const Create = ({ session }) =>{
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      console.log('here')
+
+      // console.log('here')
       const data = await response.json();
       const transcript = data.transcription;
       setNote(data.transcription);
@@ -214,6 +227,7 @@ const Create = ({ session }) =>{
     chunksRef.current = [];
     
   };
+
   const handleFileUpload = async (event) => {
     if (event.target.files.length === 0) return;
   
@@ -250,15 +264,13 @@ const Create = ({ session }) =>{
     }
   };
   
-  
-
   const handleDiscardClick = async (event) => {
     event.preventDefault();
     if(isListening){
       setIsListening(false);
     }
     setUserTitle("");
-    setNote(" ");
+    setNote("");
     setTags([]);
     setSeconds(0);
     setShowNote(false);
@@ -268,19 +280,11 @@ const Create = ({ session }) =>{
 
   // When mic is clicked, this is run
   const handleListenChange = async () => {
-    const prev = note;
+    // const prev = note;
     setIsListening(prevState => !prevState); // This lags 1 cycle, bc its async
-
-    // set a 3 second timeout
-    if (showNote) {  
-      setShowNote(false);
-    }
 
     // When the mic is listening, isListening will be false within this function
     if(!isListening) {
-      if (seconds != 0) {
-        setSeconds(0);
-      }
       handleTimerChange(true);
     }
     else {
@@ -313,14 +317,21 @@ const Create = ({ session }) =>{
     }
   }
 
+  const handleUpdateNoteDetails = () => {
+    getTags(note);
+    getGPTTitle(note);
+  };
+
   // GPT prompt for Title
   const getGPTTitle = async (note) => {
-    if (note !== '') {
-      const title = await processMessageToChatGPT("Return a 3 word title for this following note: " + note, 20);
-      const formattedTitle = title.replace(/"/g, '');
-      setUserTitle(formattedTitle);
-      return formattedTitle;
+    if (!(note.trim())) { 
+      setUserTitle('') 
+      return
     }
+    const title = await processMessageToChatGPT("Return a 3 word title for this following note: " + note, 20);
+    const formattedTitle = title.replace(/"/g, '');
+    setUserTitle(formattedTitle);
+    return formattedTitle;
   };
 
   // Get the user tags from the database.
@@ -341,7 +352,10 @@ const Create = ({ session }) =>{
 
   // Get tags to assign to each new note.
   const getTags = async (note1) => {
-    if (note1 !== '') {
+    if (!(note1.trim())) { 
+      setTags([])
+      return []
+    } else {
       const currentTags = await getUserTags();
       const preTags = await processMessageToChatGPT("Return a 3 individual keywords separated by commas that are related to this note: " + note1 + ". If any of these keywords are applicable, use them: " + currentTags, 20);
       const Tags = preTags.replace(/"/g, '');
@@ -364,6 +378,30 @@ const Create = ({ session }) =>{
     visible: { opacity: 1, transition: { duration: 0.2 } },
     fadeOut: { opacity: 0, transition: { duration: 0.2 } },
     exit: { opacity: 0, transition: { duration: 0.1 } }
+  };
+
+  const deleteTag = (option) => {
+    if (tags.includes(option)) {
+        setTags(tags.filter(tags => tags !== option));
+    };
+  }
+
+  const addTag = (event) => {
+    if (event.target.value.trim()) {
+      const tag = event.target.value;
+      setTags([...tags, tag]);
+    }
+    event.target.value = ""; // Clear the input field after adding the tag
+  }
+
+  const adjustInputWidth = (event) => {
+    event.target.style.width = 1 + event.target.value.length + "ch";
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      addTag(event);
+    }
   };
 
   return (
@@ -393,11 +431,19 @@ const Create = ({ session }) =>{
       <div className={showNote ? styles.thoughtCard : styles.hidden}>
         <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
         <textarea value={note} onChange={handleInputChange} placeholder='Your thought here...' className={styles.transcript}/>
-        {tags.length > 0 && 
-          <div className={styles.tagList}>
-            Tags:
-            {tags.map((tag, index) => <span key={index} className={styles.tag}> {tag}</span>)}
-          </div>}
+        <div className={styles.tagList}>
+          Tags:
+          {tags.map((tag, index) => 
+            <span key={index} className={styles.tag}>
+              {tag}
+              <button onClick={() => {
+                        deleteTag(tag)
+                        }} className={styles["clear-btn"]}>&times;</button>
+              </span>)}
+          {(tags.length < 3) ?
+            <input tabIndex={100} onBlur={addTag} onKeyDown={handleKeyDown} placeholder="Add Tag +" className={styles.addTag} onInput={adjustInputWidth}/>
+           : ""}
+        </div>
         <div className={styles.thoughtActionMenu}>
           <button onClick={handleDiscardClick} className={styles.thoughtActionButton1}>Discard</button> 
           <div className={styles.roundedGradientBorder}>
