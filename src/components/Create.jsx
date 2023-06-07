@@ -29,7 +29,7 @@ const Create = ({ session }) =>{
 
   const local = "http://localhost:8000/";
   const server = 'https://memoria-ai.herokuapp.com/';
-  const current = server;
+  const current = local;
 
 
   useEffect(() => {
@@ -159,7 +159,7 @@ const Create = ({ session }) =>{
     } else {
       await sendTags();
       setNote(' ');
-      setUserTitle('Title');
+      setUserTitle('');
       setTags([]);
     }
   };

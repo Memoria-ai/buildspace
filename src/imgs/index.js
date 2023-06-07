@@ -23,3 +23,4 @@ export { default as SplashBackground } from "./splash-colours.png";
 export { default as ChatExample1 } from "./chat-example-1.png";
 export { ReactComponent as UploadIcon } from "./upload-icon.svg";
 export { ReactComponent as WriteIcon } from "./write-icon.svg";
+export { ReactComponent as MoreHorizIcon } from "./more_horiz.svg";

@@ -44,7 +44,7 @@ button {
 /* BODY STYLING STARTS */
 
 .body {
-  height: 100dvh;
+  height: 100%;
   width: 100vw;
 
   display: flex;

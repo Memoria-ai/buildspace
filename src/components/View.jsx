@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './View.module.css';
 // import Search from './Search'
 import * as Img from "../imgs";
 import Multiselect from "./Multiselect"
 import Select from "./Select"
+import ThoughtCard from "./ThoughtCard"
 
 const View = ({ session }) => {
     const [userNotes, setUserNotes] = useState([]);
@@ -20,10 +21,14 @@ const View = ({ session }) => {
     const [savedTime, setSavedTime] = useState(0);
     const [showSavedTime, setShowSavedTime] = useState(false);
     const [sortOption, setSortOption] = useState('Most Recent');
+    const [isOpen, setIsOpen] = useState();
+    const [curNote, setCurNote] = useState();
+    const [showNote, setShowNote] = useState(false);
+    const [highlightedIndex, setHighlightedIndex] = useState();
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = server;
+    const current = local;
 
     const fetchNumQueries = async() => {
       const userId = session.user.id;
@@ -123,6 +128,7 @@ const View = ({ session }) => {
   
     // Deletes 'id' note.
     const deleteNote = async (id) => {
+      console.log("deleting");
       const userId = session.user.id;
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
@@ -159,15 +165,6 @@ const View = ({ session }) => {
         audioElement.play();
       });
     };
-
-  const handleTagViewChange = () => {
-    setShowAllTags((prevState) => !prevState);
-    if (!showAllTags) {
-      setVisibleTags(userTags);
-    } else {
-      setVisibleTags(userTags.slice(0, 3));
-    }
-  }
 
   const toggleContent = (noteId) => {
     if (expandedNotes?.includes(noteId)) {
@@ -209,29 +206,36 @@ const View = ({ session }) => {
   const handleSortSelection = (option) => {
     setSortOption(option.option);
   }
+
+  const editNote = (note) => {
+    setCurNote(note);
+    setShowNote(true);
+  };
+
+  const handleEdit = (note) => {
+    editNote(note);
+    setIsOpen(false);
+  };
+
+  const handleDelete = (noteId) => {
+    deleteNote(noteId);
+    setIsOpen(false);
+  };
+
+  const handleClick = (noteId) => {
+    setIsOpen(prevState => prevState === noteId ? false : noteId);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 200);
+  };
  
   return (
     <div className={styles.body}>
       <h3>My Thoughts</h3>
       <div className={showSavedTime ? styles.savedTime : styles.hidden}>You've saved <span className={"gradientText1"}> {savedTime} minutes </span> using Memoria!</div>
-      {/* <div className={styles.filterTagList}>
-        <p>Filter:</p>
-        {visibleTags.map((tag) => (
-          <div className={selectedTags.includes(tag) ? styles.selected : ''} key={tag}>
-            <div
-              className={styles.tag}
-              onClick={() => handleTagSelection(tag)}
-            > 
-              {tag} <span className={styles.tagCount}>({countedTags[tag]})</span>
-          </div>
-          </div>
-        ))}
-        <span>
-          {userTags.length > 3 && (
-              <button onClick={handleTagViewChange} className={styles.seeMore}>{!showAllTags ? '+ See All' : '- See Less'}</button>
-          )}
-        </span>
-      </div> */}
       <div className={styles["select-container"]}>
       Filter:
       <Multiselect onChange={handleTagSelection} options={allTags}/>
@@ -240,17 +244,6 @@ const View = ({ session }) => {
       Sort:
       <Select onChange={handleSortSelection} options={sortOptions}/>
       </div>
-      {/* <div className={styles.sortToggle}>
-        <p>Sort:</p>
-        <span className={styles.sortOption}>
-        <select style={{flexGrow: "1"}} onChange={(event) => setSortOption(event.target.value)}>
-          <option value="Most Recent">Most Recent</option>
-          <option value="Oldest">Oldest</option>
-        </select>
-        <div className={styles.divider}></div>
-        <div className={styles.caret}></div>
-        </span>
-      </div> */}
       <div className={styles.gallery}>
       {sortedNotes.map((note) => (
         <div className={styles.thoughtCard} key={note?.id}>
@@ -274,19 +267,37 @@ const View = ({ session }) => {
           </div>
           <div className={styles.cardBottom}>
             <p className={styles.description}>{new Date(note?.timestamp).toLocaleDateString()}</p>
-            { note?.thought_recording != null ? (
+            {/* { note?.thought_recording != null ? (
               <button className={styles.deleteButton} onClick={() => playNote(note?.thought_recording)}>
                 <Img.PlayIcon/>
               </button>
             ) : (
               ''
-            )}
-            <button className={styles.deleteButton} onClick={() => deleteNote(note?.id)}>
-              <Img.TrashIcon/>
-            </button>
+            )} */}
+            <div 
+              tabIndex={0}
+              onBlur={() => handleBlur(note?.id)}
+              className={styles["more-container"]}>
+              <div>
+                <button onClick={() => handleClick(note?.id)} className={styles.deleteButton}>
+                  <Img.MoreHorizIcon />
+                </button>
+              </div>
+              <div
+                className={`${styles["more-menu"]}
+                ${isOpen === note?.id ? styles.show : ""}`}>
+                <div>
+                  <button className={styles.button1} onClick={() => handleDelete(note?.id)}>Delete</button>
+                  <button className={styles.button1} onClick={() => handleEdit(note)}>Edit</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       ))}
+      </div>
+      <div className={showNote ? styles.thoughtCard : styles.hidden}>
+        <ThoughtCard onActivity={() => setShowNote(false)} note={curNote} session={session}/>
       </div>
     </div>
   )
