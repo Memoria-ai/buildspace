@@ -20,11 +20,6 @@ function App() {
         localStorage.setItem('token', session.access_token);
       });
     }
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      localStorage.setItem('token', session.access_token);
-    });
   }, []);
 
   return (

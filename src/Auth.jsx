@@ -33,7 +33,19 @@ export default function Auth() {
       console.log(session)
       const token = session.access_token;
       localStorage.setItem('token', token);
-      // setSession(session); // Update the session in App component state
+   
+      const response = await fetch(current+'/login', {
+        headers: { Authorization: token },
+      });
+      
+      if (response.ok) {
+        const { user, data } = await response.json();
+        console.log('User:', user);
+        console.log('Data:', data);
+      } else {
+        const { error } = await response.json();
+        console.error('Error during login:', error);
+      }
     }
   }
   
@@ -57,11 +69,27 @@ export default function Auth() {
   
     if (session) {
       const token = session.access_token;
+
+      // setSession(session); // Update the session in App component state
+      // hit the login function with auth headers to get the user
+      
+      const response = await fetch(current+'/login', {
+        headers: { Authorization: session.access_token },
+      });
+      
+      if (response.ok) {
+        const { user, data } = await response.json();
+        console.log('User:', user);
+        console.log('Data:', data);
+      } else {
+        const { error } = await response.json();
+        console.error('Error during login:', error);
+      }
+
       console.log('token: ', token)
       console.log(session)
       localStorage.setItem('token', token);
-      // setSession(session); // Update the session in App component state
-    }
+    }    
   }
   
   
