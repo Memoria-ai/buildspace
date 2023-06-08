@@ -1,170 +1,170 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './View.module.css';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./View.module.css";
 // import Search from './Search'
 import * as Img from "../imgs";
-import Multiselect from "./Multiselect"
-import Select from "./Select"
-import ThoughtCard from "./ThoughtCard"
+import Multiselect from "./Multiselect";
+import Select from "./Select";
+import ThoughtCard from "./ThoughtCard";
 
 const View = ({ session }) => {
-    const [userNotes, setUserNotes] = useState([]);
-    const [userTags, setUserTags] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [showAllTags, setShowAllTags] = useState(false);
-    const [expandedNotes, setExpandedNotes] = useState([]);
-    const [allTags, setAllTags] = useState([]);
-    const [countedTags, setCountedTags] = useState({});
-    const [visibleTags, setVisibleTags] = useState([]);
-    const [audioUrl, setAudioUrl] = useState('');
-    const [numQueries, setNumQueries] = useState();
-    const [numWords, setNumWords] = useState(0);
-    const [savedTime, setSavedTime] = useState(0);
-    const [showSavedTime, setShowSavedTime] = useState(false);
-    const [sortOption, setSortOption] = useState('Most Recent');
-    const [isOpen, setIsOpen] = useState();
-    const [curNote, setCurNote] = useState();
-    const [showNote, setShowNote] = useState(false);
-    const [highlightedIndex, setHighlightedIndex] = useState();
+  const [userNotes, setUserNotes] = useState([]);
+  const [userTags, setUserTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [showAllTags, setShowAllTags] = useState(false);
+  const [expandedNotes, setExpandedNotes] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+  const [countedTags, setCountedTags] = useState({});
+  const [visibleTags, setVisibleTags] = useState([]);
+  const [audioUrl, setAudioUrl] = useState("");
+  const [numQueries, setNumQueries] = useState();
+  const [numWords, setNumWords] = useState(0);
+  const [savedTime, setSavedTime] = useState(0);
+  const [showSavedTime, setShowSavedTime] = useState(false);
+  const [sortOption, setSortOption] = useState("Most Recent");
+  const [isOpen, setIsOpen] = useState();
+  const [curNote, setCurNote] = useState();
+  const [showNote, setShowNote] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState();
 
-    const local = "http://localhost:8000/";
-    const server = 'https://memoria-ai.herokuapp.com/';
-    const current = local;
+  const local = "http://localhost:8000/";
+  const server = "https://memoria-ai.herokuapp.com/";
+  const current = local;
 
-    const fetchNumQueries = async() => {
-      const userId = session.user.id;
-      const token = localStorage.getItem('token');
-      // console.log('token: ', token);
-      const response = await fetch(current+'fetchNumQueries/' + userId, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ userId })
-      });
-      const data = await response.json();
-      const num_queries = parseInt(data, 10);
-      setNumQueries(num_queries);
-      return(num_queries);
-    };
-  
-    const calcNumWords = (notes) => {
-      var curWords = 0;
-      for (const note of notes) {
-        curWords += note.content.split(' ').length;
-      };
-      setNumWords(curWords);
-      return(curWords);
+  const fetchNumQueries = async () => {
+    const userId = session.user.id;
+    const token = localStorage.getItem("token");
+    // console.log('token: ', token);
+    const response = await fetch(current + "fetchNumQueries/" + userId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId }),
+    });
+    const data = await response.json();
+    const num_queries = parseInt(data, 10);
+    setNumQueries(num_queries);
+    return num_queries;
+  };
+
+  const calcNumWords = (notes) => {
+    var curWords = 0;
+    for (const note of notes) {
+      curWords += note.content.split(" ").length;
     }
+    setNumWords(curWords);
+    return curWords;
+  };
 
-    // const visibleTags = userTags === undefined ? [] : (showAllTags ? userTags : userTags.slice(0, 3));
+  // const visibleTags = userTags === undefined ? [] : (showAllTags ? userTags : userTags.slice(0, 3));
 
-    // Every time this is rendered, useEffect is called.
-    useEffect(() => {
-      fetchUserNotes();
-      getUserTags();
-    }, [session])
+  // Every time this is rendered, useEffect is called.
+  useEffect(() => {
+    fetchUserNotes();
+    getUserTags();
+  }, [session]);
 
-    const calcSavedTime = async(notes) => {
-      const num_queries = await fetchNumQueries();
-      const num_words = calcNumWords(notes);
-      setSavedTime(Math.round(10 * ( (num_queries * 2.31) + (0.019 * num_words))) / 10);
-      setShowSavedTime(true);
-    }
+  const calcSavedTime = async (notes) => {
+    const num_queries = await fetchNumQueries();
+    const num_words = calcNumWords(notes);
+    setSavedTime(
+      Math.round(10 * (num_queries * 2.31 + 0.019 * num_words)) / 10
+    );
+    setShowSavedTime(true);
+  };
 
-    const handleTagSelection = (tags) => {
-      // if (selectedTags.includes(tag)) {
-      //   setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
-      // } else {
-      //   setSelectedTags([...selectedTags, tag]);
-      // }
-      setSelectedTags(tags);
-    }; 
-  
-    // Get notes from database and show it to user.
+  const handleTagSelection = (tags) => {
+    // if (selectedTags.includes(tag)) {
+    //   setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+    // } else {
+    //   setSelectedTags([...selectedTags, tag]);
+    // }
+    setSelectedTags(tags);
+  };
 
-    const fetchUserNotes = async () => {
-      const userId = session.user.id;
-      const token = localStorage.getItem('token');
-      // console.log('token: ', token);
-      const response = await fetch(current + 'fetchNotes/' + userId, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the JWT token in the 'Authorization' header
-        },
-      });
-    
-      const notes = await response.json();
-      setUserNotes(notes);
-      calcSavedTime(notes);
-    };    
+  // Get notes from database and show it to user.
 
-    // Get all tags from database and show it to user.
-    const getUserTags = async () => {
-      const userId = session.user.id;
-      const token = localStorage.getItem('token');
-      const response = await fetch(current+'getUserTags/' + userId, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ userId })
-      });
-      const tags = await response.json();
-      setUserTags(tags.tags); //can be deleted
-      setCountedTags(tags.counts); //can be deleted
-      setAllTags(tags);
-      if (showAllTags) {
+  const fetchUserNotes = async () => {
+    const userId = session.user.id;
+    const token = localStorage.getItem("token");
+    // console.log('token: ', token);
+    const response = await fetch(current + "fetchNotes/" + userId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include the JWT token in the 'Authorization' header
+      },
+    });
 
-        setVisibleTags(tags.tags);
-      } else {
+    const notes = await response.json();
+    setUserNotes(notes);
+    calcSavedTime(notes);
+  };
 
-        setVisibleTags(tags.tags.slice(0, 3));
-      } // this can also be deleted
-      return tags;
-    };
-  
-    // Deletes 'id' note.
-    const deleteNote = async (id) => {
-      console.log("deleting");
-      const userId = session.user.id;
-      const token = localStorage.getItem('token');
-      // console.log('token: ', token);
-      const response = await fetch(current+'deleteNote/' + userId, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ id, userId })
-      });
-      const result = await response.json();
-      await fetchUserNotes();
-      await getUserTags();
-    };
+  // Get all tags from database and show it to user.
+  const getUserTags = async () => {
+    const userId = session.user.id;
+    const token = localStorage.getItem("token");
+    const response = await fetch(current + "getUserTags/" + userId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId }),
+    });
+    const tags = await response.json();
+    setUserTags(tags.tags); //can be deleted
+    setCountedTags(tags.counts); //can be deleted
+    setAllTags(tags);
+    if (showAllTags) {
+      setVisibleTags(tags.tags);
+    } else {
+      setVisibleTags(tags.tags.slice(0, 3));
+    } // this can also be deleted
+    return tags;
+  };
 
-    const playNote = async (path) => {
-      const userId = session.user.id;
-      const token = localStorage.getItem('token');
-      // console.log('token: ', token);
-      fetch(current + 'fetchNoteAudio/'+ userId,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ path: path })
-      })
-      .then(response => response.arrayBuffer())
-      .then(audioBuffer => {
-        const audioBlob = new Blob([audioBuffer], { type: 'audio/mp3' })
+  // Deletes 'id' note.
+  const deleteNote = async (id) => {
+    console.log("deleting");
+    const userId = session.user.id;
+    const token = localStorage.getItem("token");
+    // console.log('token: ', token);
+    const response = await fetch(current + "deleteNote/" + userId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id, userId }),
+    });
+    const result = await response.json();
+    await fetchUserNotes();
+    await getUserTags();
+  };
+
+  const playNote = async (path) => {
+    const userId = session.user.id;
+    const token = localStorage.getItem("token");
+    // console.log('token: ', token);
+    fetch(current + "fetchNoteAudio/" + userId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ path: path }),
+    })
+      .then((response) => response.arrayBuffer())
+      .then((audioBuffer) => {
+        const audioBlob = new Blob([audioBuffer], { type: "audio/mp3" });
         const audioUrl = URL.createObjectURL(audioBlob);
         const audioElement = new Audio(audioUrl);
         audioElement.play();
       });
-    };
+  };
 
   const toggleContent = (noteId) => {
     if (expandedNotes?.includes(noteId)) {
@@ -175,37 +175,37 @@ const View = ({ session }) => {
   };
 
   const sortedNotes = userNotes
-  .filter((note) => {
-    if (selectedTags.length === 0) {
-      return true; // Show all notes if no tags selected
-    }
-    if (!note) {
-      return false;
-    }
-    return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
-  }).sort((a, b) => 
-    { if (sortOption == "Most Recent") {
-      return (b?.timestamp.localeCompare(a?.timestamp));
-    } else if (sortOption == "Oldest") {
-      return (a?.timestamp.localeCompare(b?.timestamp));
-    }
+    .filter((note) => {
+      if (selectedTags.length === 0) {
+        return true; // Show all notes if no tags selected
       }
-    );
+      if (!note) {
+        return false;
+      }
+      return selectedTags.every((tag) => note.Tags && note.Tags.includes(tag));
+    })
+    .sort((a, b) => {
+      if (sortOption == "Most Recent") {
+        return b?.timestamp.localeCompare(a?.timestamp);
+      } else if (sortOption == "Oldest") {
+        return a?.timestamp.localeCompare(b?.timestamp);
+      }
+    });
 
   const sortOptions = [
     {
       option: "Most Recent",
-      value: 1
+      value: 1,
     },
     {
       option: "Oldest",
-      value: 2
-    }
-  ]
+      value: 2,
+    },
+  ];
 
   const handleSortSelection = (option) => {
     setSortOption(option.option);
-  }
+  };
 
   const editNote = (note) => {
     setCurNote(note);
@@ -223,7 +223,7 @@ const View = ({ session }) => {
   };
 
   const handleClick = (noteId) => {
-    setIsOpen(prevState => prevState === noteId ? false : noteId);
+    setIsOpen((prevState) => (prevState === noteId ? false : noteId));
   };
 
   const handleBlur = () => {
@@ -231,76 +231,108 @@ const View = ({ session }) => {
       setIsOpen(false);
     }, 200);
   };
- 
+
   return (
     <div className={styles.body}>
       <h3>My Thoughts</h3>
-      <div className={showSavedTime ? styles.savedTime : styles.hidden}>You've saved <span className={"gradientText1"}> {savedTime} minutes </span> using Memoria!</div>
+      <div className={showSavedTime ? styles.savedTime : styles.hidden}>
+        You've saved{" "}
+        <span className={"gradientText1"}> {savedTime} minutes </span> using
+        Memoria!
+      </div>
       <div className={styles["select-container"]}>
-      Filter:
-      <Multiselect onChange={handleTagSelection} options={allTags}/>
-      </div>      
+        Filter:
+        <Multiselect onChange={handleTagSelection} options={allTags} />
+      </div>
       <div className={styles["select-container"]}>
-      Sort:
-      <Select onChange={handleSortSelection} options={sortOptions}/>
+        Sort:
+        <Select onChange={handleSortSelection} options={sortOptions} />
       </div>
       <div className={styles.gallery}>
-      {sortedNotes.map((note) => (
-        <div className={styles.thoughtCard} key={note?.id}>
-          <h3 className={styles.noteTitle}>{note?.title}</h3>
-          <p className={styles.transcript}>
-            {!expandedNotes?.includes(note?.id) && (note?.content.length > 120) 
-              ? note?.content.slice(0, 120)
-              : note?.content }
-            { note?.content.length > 120 ? ( 
-              <span onClick={() => toggleContent(note?.id)} className={styles.seeMore} >
-                {!expandedNotes?.includes(note?.id) ? '...See More' : '...See Less'}
-              </span> 
-            ) : (
-              ''
-            )} 
-          </p>
-          <div className={styles.tagList}>
-            {note?.Tags?.map((tag) => (
-                <div className={styles.tag} key={tag}>{tag}</div>
+        {sortedNotes.map((note) => (
+          <div className={styles.thoughtCard} key={note?.id}>
+            <h3 className={styles.noteTitle}>{note?.title}</h3>
+            <p className={styles.transcript}>
+              {!expandedNotes?.includes(note?.id) && note?.content.length > 120
+                ? note?.content.slice(0, 120)
+                : note?.content}
+              {note?.content.length > 120 ? (
+                <span
+                  onClick={() => toggleContent(note?.id)}
+                  className={styles.seeMore}
+                >
+                  {!expandedNotes?.includes(note?.id)
+                    ? "...See More"
+                    : "...See Less"}
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
+            <div className={styles.tagList}>
+              {note?.Tags?.map((tag) => (
+                <div className={styles.tag} key={tag}>
+                  {tag}
+                </div>
               ))}
-          </div>
-          <div className={styles.cardBottom}>
-            <p className={styles.description}>{new Date(note?.timestamp).toLocaleDateString()}</p>
-            {/* { note?.thought_recording != null ? (
+            </div>
+            <div className={styles.cardBottom}>
+              <p className={styles.description}>
+                {new Date(note?.timestamp).toLocaleDateString()}
+              </p>
+              {/* { note?.thought_recording != null ? (
               <button className={styles.deleteButton} onClick={() => playNote(note?.thought_recording)}>
                 <Img.PlayIcon/>
               </button>
             ) : (
               ''
             )} */}
-            <div 
-              tabIndex={0}
-              onBlur={() => handleBlur(note?.id)}
-              className={styles["more-container"]}>
-              <div>
-                <button onClick={() => handleClick(note?.id)} className={styles.deleteButton}>
-                  <Img.MoreHorizIcon />
-                </button>
-              </div>
               <div
-                className={`${styles["more-menu"]}
-                ${isOpen === note?.id ? styles.show : ""}`}>
+                tabIndex={0}
+                onBlur={() => handleBlur(note?.id)}
+                className={styles["more-container"]}
+              >
                 <div>
-                  <button className={styles.button1} onClick={() => handleDelete(note?.id)}>Delete</button>
-                  <button className={styles.button1} onClick={() => handleEdit(note)}>Edit</button>
+                  <button
+                    onClick={() => handleClick(note?.id)}
+                    className={styles.deleteButton}
+                  >
+                    <Img.MoreHorizIcon />
+                  </button>
+                </div>
+                <div
+                  className={`${styles["more-menu"]}
+                ${isOpen === note?.id ? styles.show : ""}`}
+                >
+                  <div>
+                    <button
+                      className={styles.button1}
+                      onClick={() => handleDelete(note?.id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className={styles.button1}
+                      onClick={() => handleEdit(note)}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
       </div>
       <div className={showNote ? styles.thoughtCard : styles.hidden}>
-        <ThoughtCard onActivity={() => setShowNote(false)} note={curNote} session={session}/>
+        <ThoughtCard
+          onActivity={() => setShowNote(false)}
+          note={curNote}
+          session={session}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default View
+export default View;

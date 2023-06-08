@@ -24,14 +24,16 @@ etc...
 
 */
 
-@font-face { font-family: "Inter";
-  src:  url("../src/fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
+@font-face {
+  font-family: "Inter";
+  src: url("../src/fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf")
+    format("truetype");
   font-family: Inter;
 }
 
 /* PSUEDO STYLING */
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* DEFAULT STYLING FOR ALL ITEMS */
@@ -67,7 +69,8 @@ button {
 .roundedGradientBorder {
   border: double 1.5px transparent;
   border-radius: 100px;
-  background-image: linear-gradient(#161616,#161616), linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+  background-image: linear-gradient(#161616, #161616),
+    linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 
@@ -78,8 +81,9 @@ button {
   justify-content: center;
 }
 
-.gradientText1{
-  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+.gradientText1 {
+  background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+    #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -94,18 +98,20 @@ button {
 .body {
   height: 100vh;
   width: 100vw;
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
   overflow-y: scroll;
 
-  background: url(./imgs/noise.png), radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+  background: url(./imgs/noise.png),
+    radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
   background-blend-mode: screen, normal;
 }
 
-.button1, .signInButton {
+.button1,
+.signInButton {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -115,14 +121,16 @@ button {
 
   background: #27272725;
   border-radius: 100px;
-  box-shadow: 0px 2px 25px rgba(212, 146, 216, 0.50);
+  box-shadow: 0px 2px 25px rgba(212, 146, 216, 0.5);
 }
 
-.button1:hover, .signInButton:hover {
+.button1:hover,
+.signInButton:hover {
   background: #272727;
 }
 
-.button1 *, .signInButton *{
+.button1 *,
+.signInButton * {
   font-weight: 700;
 }
 
@@ -182,7 +190,7 @@ button {
   .authNav {
     width: 100%;
     height: fit-content;
-  
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -199,7 +207,7 @@ button {
   }
 
   .navButton1:hover {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     padding: 8px 24px;
     border-radius: 16px;
     opacity: 1;
@@ -211,11 +219,11 @@ button {
     flex-direction: row;
     gap: 16px;
   }
-  
+
   .inner {
     height: fit-content;
     width: 100vw;
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -239,20 +247,20 @@ button {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  
+
     justify-content: center;
   }
 
   .preview {
     width: 65%;
-  
+
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
     gap: 2rem;
     align-items: center;
   }
-  
+
   .preview p {
     color: #272727;
     font-size: 16pt;
@@ -306,7 +314,7 @@ button {
     flex-direction: row;
     gap: 1rem;
   }
-      
+
   .demoVid {
     border-radius: 2rem;
     border: 10px solid rgba(255, 255, 255, 0.15);
@@ -346,7 +354,7 @@ button {
   .inner {
     height: fit-content;
     width: 100vw;
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -374,7 +382,6 @@ button {
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.04);
 
-
     border-radius: 30px;
 
     user-select: none;
@@ -398,7 +405,7 @@ button {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  
+
     justify-content: center;
   }
 
@@ -408,7 +415,6 @@ button {
     border-radius: 1rem;
 
     border: 5px solid rgba(255, 255, 255, 0.15);
-
   }
 
   .gallery {
@@ -482,7 +488,7 @@ button {
   }
 
   .navButton1:hover {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     padding: 8px 24px;
     border-radius: 16px;
     opacity: 1;
@@ -498,7 +504,7 @@ button {
 input {
   padding: 12px 16px;
   border-radius: 30px;
-  color: #FFFFFF;
+  color: #ffffff;
   box-sizing: border-box;
   outline: none;
 

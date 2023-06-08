@@ -3,12 +3,12 @@
   font-family: "Inter", Helvetica, sans-serif;
 } */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,13 +33,15 @@ html {
   height: fit-content;
   width: 100vw;
 
-  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%), #FFFFFF;
+  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%),
+    #ffffff;
 }
 
 .roundedGradientBorder {
   border: double 1.5px transparent;
   border-radius: 20px;
-  background-image: linear-gradient(#161616,#161616), linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+  background-image: linear-gradient(#161616, #161616),
+    linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 
@@ -51,12 +53,16 @@ html {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.gradientText1, h1, h2, h3 {
-  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+.gradientText1,
+h1,
+h2,
+h3 {
+  background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+    #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -73,19 +79,21 @@ code {
     font-weight: 700;
   }
 
-  h1 {    
+  h1 {
     font-size: 40pt;
   }
-  
-  h2 {  
+
+  h2 {
     font-size: 24pt;
   }
-  
+
   h3 {
     font-size: 16pt;
   }
-  
-  h1, h2, h3 {
+
+  h1,
+  h2,
+  h3 {
     text-align: center;
     letter-spacing: -0.02em;
   }
@@ -96,21 +104,23 @@ code {
     font-size: 11pt;
   }
 
-  h1 {    
+  h1 {
     font-size: 32pt;
     font-weight: 650;
   }
-  
-  h2 {  
+
+  h2 {
     font-size: 24pt;
     font-weight: 650;
   }
-  
+
   h3 {
     font-size: 16pt;
   }
-  
-  h1, h2, h3 {
+
+  h1,
+  h2,
+  h3 {
     text-align: center;
     letter-spacing: -0.02em;
   }
