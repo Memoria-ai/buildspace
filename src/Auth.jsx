@@ -14,8 +14,11 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const localhost = 'http://localhost:3000/';
-  const server = 'http://localhost:8000/'
   const backToApp = 'https://memoria.live/';
+  const localServer = 'http://localhost:8000/';
+  const serverMain = 'https://memoria-ai.herokuapp.com/';
+  const server = serverMain
+  
   const current = backToApp;
   const navigate = useNavigate();
 
