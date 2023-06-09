@@ -75,6 +75,11 @@ const View = ({ session }) => {
   };
 
   const handleTagSelection = (tags) => {
+    // if (selectedTags.includes(tag)) {
+    //   setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+    // } else {
+    //   setSelectedTags([...selectedTags, tag]);
+    // }
     setSelectedTags(tags);
   };
 
@@ -110,7 +115,14 @@ const View = ({ session }) => {
       body: JSON.stringify({ userId }),
     });
     const tags = await response.json();
+    setUserTags(tags.tags); //can be deleted
+    setCountedTags(tags.counts); //can be deleted
     setAllTags(tags);
+    if (showAllTags) {
+      setVisibleTags(tags.tags);
+    } else {
+      setVisibleTags(tags.tags.slice(0, 3));
+    } // this can also be deleted
     return tags;
   };
 

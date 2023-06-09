@@ -26,7 +26,7 @@ etc...
 
 /* PSUEDO STYLING */
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* DEFAULT STYLING FOR ALL ITEMS */
@@ -50,7 +50,8 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url(../imgs/noise.png), radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+  background: url(../imgs/noise.png),
+    radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
   background-blend-mode: screen, normal;
 
   position: relative;
@@ -67,7 +68,7 @@ form {
   width: 100%;
 }
 
-input[type=radio] {
+input[type="radio"] {
   /* remove standard background appearance */
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -84,9 +85,9 @@ input[type=radio] {
 
 /* appearance for checked radiobutton */
 input[type="radio"]:checked {
-  background: linear-gradient(-45deg, #5271EA 0%, #C0EAFF 50%, #D977CC 200%), #FFFFFF;
+  background: linear-gradient(-45deg, #5271ea 0%, #c0eaff 50%, #d977cc 200%),
+    #ffffff;
 }
-
 
 @media screen and (min-width: 1101px) {
   .button1 {
@@ -96,15 +97,15 @@ input[type="radio"]:checked {
     align-items: center;
     align-self: center;
     padding: 8px 24px;
-  
+
     background: #27272725;
     border-radius: 100px;
   }
-  
+
   .button1:hover {
     background: #272727;
   }
-  
+
   .button1 * {
     font-weight: 700;
   }
@@ -113,7 +114,7 @@ input[type="radio"]:checked {
     width: 100%;
     min-height: 5.25rem;
     height: fit-content;
-  
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -131,7 +132,7 @@ input[type="radio"]:checked {
   }
 
   .navButton1:hover {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     padding: 8px 24px;
     border-radius: 16px;
     opacity: 1;
@@ -144,13 +145,14 @@ input[type="radio"]:checked {
     gap: 16px;
   }
 
-  .mobileAboutItem, .mobileProfileItem {
+  .mobileAboutItem,
+  .mobileProfileItem {
     display: none;
   }
 
   .webPageSelector {
     position: absolute;
-    width: fit-content ;
+    width: fit-content;
     height: fit-content;
     left: 50%;
     transform: translateX(-50%);
@@ -176,19 +178,20 @@ input[type="radio"]:checked {
     /* border: 1px solid red; */
   }
 
-  .pageSelectButton, .pageSelectButtonActive {
+  .pageSelectButton,
+  .pageSelectButtonActive {
     padding: 16px 40px;
     background-color: transparent;
     border: none;
   }
-    
+
   .pageSelectButton:first-child::after {
     content: "";
     position: absolute;
     height: 50%;
     width: 1px;
     background-color: #272727;
-    right:0;
+    right: 0;
     transform: translateX(-50%);
     top: 25%;
 
@@ -200,7 +203,8 @@ input[type="radio"]:checked {
     position: absolute;
     width: 50%;
     height: 2px;
-    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+      #ffffff;
     left: 50%;
     transform: translateX(-50%);
     bottom: -1px;
@@ -241,23 +245,25 @@ input[type="radio"]:checked {
 }
 
 @media screen and (max-width: 1100px) {
-  h1 {    
+  h1 {
     font-size: 32pt;
   }
-  
-  h2 {  
+
+  h2 {
     font-size: 24pt;
   }
-  
+
   h3 {
     font-size: 16pt;
   }
-  
-  h1, h2, h3 {
+
+  h1,
+  h2,
+  h3 {
     text-align: center;
     letter-spacing: -0.02em;
   }
-  
+
   input {
     width: 300px;
   }
@@ -269,15 +275,15 @@ input[type="radio"]:checked {
     align-items: center;
     align-self: center;
     padding: 8px 16px;
-  
+
     background: #27272725;
     border-radius: 100px;
   }
-  
+
   .button1:hover {
     background: #272727;
   }
-  
+
   .button1 * {
     font-weight: 700;
   }
@@ -285,7 +291,7 @@ input[type="radio"]:checked {
   .nav {
     width: 100%;
     height: fit-content;
-  
+
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -297,7 +303,8 @@ input[type="radio"]:checked {
     top: 0;
     z-index: 1;
 
-    background: url(../imgs/noise.png), radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+    background: url(../imgs/noise.png),
+      radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
     background-blend-mode: screen, normal;
 
     border-bottom-left-radius: 16px;
@@ -331,7 +338,7 @@ input[type="radio"]:checked {
   }
 
   .mobilePageSelector {
-    width: 100% ;
+    width: 100%;
     height: fit-content;
 
     display: flex;
@@ -362,7 +369,8 @@ input[type="radio"]:checked {
     /* border: 1px solid red; */
   }
 
-  .pageSelectButton, .pageSelectButtonActive {
+  .pageSelectButton,
+  .pageSelectButtonActive {
     width: 100%;
     height: 70px;
     background-color: transparent;
@@ -372,14 +380,14 @@ input[type="radio"]:checked {
     align-items: center;
     justify-content: center;
   }
-    
+
   .pageSelectButton:first-child::after {
     content: "";
     position: absolute;
     height: 50%;
     width: 1px;
     background-color: #272727;
-    right:0;
+    right: 0;
     transform: translateX(-50%);
     top: 25%;
 
@@ -391,7 +399,8 @@ input[type="radio"]:checked {
     position: absolute;
     width: 50%;
     height: 2px;
-    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+      #ffffff;
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
@@ -400,7 +409,7 @@ input[type="radio"]:checked {
 
     z-index: 1;
   }
-  
+
   .feedbackForm {
     display: none;
   }

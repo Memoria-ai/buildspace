@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Account from './Account';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
-import styles from './Create.module.css';
-import * as Img from "../imgs" 
-import { motion } from "framer-motion"
+import React, { useState, useEffect, useRef } from "react";
+import Account from "./Account";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
+import styles from "./Create.module.css";
+import * as Img from "../imgs";
+import { motion } from "framer-motion";
 
-const Create = ({ session }) =>{
+const Create = ({ session }) => {
   const [isListening, setIsListening] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [note, setNote] = useState("");
   const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState('');
+  const [userTitle, setUserTitle] = useState("");
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const userId = session.id;
@@ -28,26 +28,27 @@ const Create = ({ session }) =>{
   const [sentBlob, setSentBlob] = useState(null);
 
   const local = "http://localhost:8000/";
-  const server = 'https://memoria-ai.herokuapp.com/';
+  const server = "https://memoria-ai.herokuapp.com/";
   const current = local;
-
 
   useEffect(() => {
     const handlePermission = async () => {
-      const hasPermission = localStorage.getItem('microphonePermission');
-      if (hasPermission === 'granted') {
+      const hasPermission = localStorage.getItem("microphonePermission");
+      if (hasPermission === "granted") {
         setPermissionGranted(true);
         return;
       }
 
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
         setPermissionGranted(true);
-        localStorage.setItem('microphonePermission', 'granted');
+        localStorage.setItem("microphonePermission", "granted");
         setStream(stream);
         stream.getTracks()[0].stop();
       } catch (error) {
-        console.error('Error requesting microphone permission:', error);
+        console.error("Error requesting microphone permission:", error);
       }
     };
 
@@ -55,9 +56,9 @@ const Create = ({ session }) =>{
   }, []);
 
   useEffect(() => {
-    if(!isListening){
+    if (!isListening) {
       // check if the mediaRecorder is running
-      if(mediaRecorder !== null){
+      if (mediaRecorder !== null) {
         mediaRecorder.stop();
       }
     } else {
@@ -65,7 +66,6 @@ const Create = ({ session }) =>{
     }
 
     if (mediaRecorder !== null) {
-
       mediaRecorder.addEventListener("dataavailable", (event) => {
         chunksRef.current.push(event.data);
       });
@@ -78,7 +78,7 @@ const Create = ({ session }) =>{
       });
     }
   }, [isListening]);
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       // Call your function here with the updated note value
@@ -89,24 +89,24 @@ const Create = ({ session }) =>{
   }, [note]);
 
   // Our GPT Prompt
-  async function processMessageToChatGPT(message, max_tokens){
+  async function processMessageToChatGPT(message, max_tokens) {
     const userId = session.user.id;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     // console.log(token)
-    const response = await fetch(current+'gpt/' + userId, {  
-      method: 'POST',
+    const response = await fetch(current + "gpt/" + userId, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         message: message,
         max_tokens: max_tokens,
-      })
+      }),
     });
     const data = await response.json();
     return data;
-  };
+  }
 
   const handleInputChange = (event) => {
     setNote(event.target.value);
@@ -137,12 +137,12 @@ const Create = ({ session }) =>{
   const addNote = async (title) => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
     const userId = session.user.id;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     // console.log(token)
-    const response = await fetch(current+'addNote/' + userId, {
-      method: 'POST',
+    const response = await fetch(current + "addNote/" + userId, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       //credentials: 'include',
@@ -153,13 +153,13 @@ const Create = ({ session }) =>{
         tags: tags,
       }),
     });
-  
+
     if (!response.ok) {
       console.error(response.statusText);
     } else {
       await sendTags();
-      setNote(' ');
-      setUserTitle('');
+      setNote(" ");
+      setUserTitle("");
       setTags([]);
     }
   };
@@ -167,11 +167,11 @@ const Create = ({ session }) =>{
   // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
     const userId = session.user.id;
-    const token = localStorage.getItem('token');
-    const response = await fetch(current+'addTags/' + userId, {
-      method: 'POST',
+    const token = localStorage.getItem("token");
+    const response = await fetch(current + "addTags/" + userId, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -188,7 +188,7 @@ const Create = ({ session }) =>{
       setMediaRecorder(recorder);
     });
   };
-  
+
   const handleStopRecording = async (blob) => {
     // console.log('handleStopRecording')
 
@@ -197,22 +197,22 @@ const Create = ({ session }) =>{
     }
 
     const formData = new FormData();
-    formData.append('audio', blob, 'audio.mp3');
-  
+    formData.append("audio", blob, "audio.mp3");
+
     try {
       const userId = session.user.id;
-      const token = localStorage.getItem('token');
-      const response = await fetch(current+'transcribe/' + userId, {
-        method: 'POST',
+      const token = localStorage.getItem("token");
+      const response = await fetch(current + "transcribe/" + userId, {
+        method: "POST",
         headers: {
           // 'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       // console.log('here')
@@ -221,39 +221,38 @@ const Create = ({ session }) =>{
       setNote(data.transcription);
       stoppedListeningFunction(transcript);
     } catch (error) {
-      console.log('Error:', error.message);
+      console.log("Error:", error.message);
     }
-  
+
     chunksRef.current = [];
-    
   };
 
   const handleFileUpload = async (event) => {
     if (event.target.files.length === 0) return;
-  
+
     handleTimerChange(false);
     setLoad(true);
     const file = event.target.files[0];
     const formData = new FormData();
-    formData.append('audio', file);
-  
+    formData.append("audio", file);
+
     try {
       const userId = session.user.id;
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const headers = new Headers();
-      headers.append('Authorization', `Bearer ${token}`);
-      const response = await fetch(current + 'transcribe/' + userId, {
-        method: 'POST',
+      headers.append("Authorization", `Bearer ${token}`);
+      const response = await fetch(current + "transcribe/" + userId, {
+        method: "POST",
         headers: headers,
         body: formData,
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setNote(data.transcription);
         stoppedListeningFunction(data.transcription);
       } else {
-        console.log('An error occurred during transcription.');
+        console.log("An error occurred during transcription.");
         handleTimerChange(false);
         setLoad(false);
       }
@@ -263,10 +262,10 @@ const Create = ({ session }) =>{
       setLoad(false);
     }
   };
-  
+
   const handleDiscardClick = async (event) => {
     event.preventDefault();
-    if(isListening){
+    if (isListening) {
       setIsListening(false);
     }
     setUserTitle("");
@@ -281,29 +280,30 @@ const Create = ({ session }) =>{
   // When mic is clicked, this is run
   const handleListenChange = async () => {
     // const prev = note;
-    setIsListening(prevState => !prevState); // This lags 1 cycle, bc its async
+    setIsListening((prevState) => !prevState); // This lags 1 cycle, bc its async
 
     // When the mic is listening, isListening will be false within this function
-    if(!isListening) {
+    if (!isListening) {
       handleTimerChange(true);
-    }
-    else {
+    } else {
       handleTimerChange(false);
       setLoad(true);
     }
-  }
+  };
 
   // Timer that is shown when recording.
   const handleTimerChange = (state) => {
     if (state) {
-      setTimerInterval(setInterval(() => {
-        setSeconds(seconds => seconds + 1)
-      }, 1000));
+      setTimerInterval(
+        setInterval(() => {
+          setSeconds((seconds) => seconds + 1);
+        }, 1000)
+      );
     } else {
       clearInterval(timerInterval);
       setTimerInterval(null);
     }
-  }
+  };
 
   const stoppedListeningFunction = async (note) => {
     await getTags(note);
@@ -311,11 +311,10 @@ const Create = ({ session }) =>{
     setLoad(false);
     if (!note) {
       setSeconds(0);
+    } else {
+      setShowNote(true);
     }
-    else {
-      setShowNote(true)
-    }
-  }
+  };
 
   const handleUpdateNoteDetails = () => {
     getTags(note);
@@ -324,12 +323,15 @@ const Create = ({ session }) =>{
 
   // GPT prompt for Title
   const getGPTTitle = async (note) => {
-    if (!(note.trim())) { 
-      setUserTitle('') 
-      return
+    if (!note.trim()) {
+      setUserTitle("");
+      return;
     }
-    const title = await processMessageToChatGPT("Return a 3 word title for this following note: " + note, 20);
-    const formattedTitle = title.replace(/"/g, '');
+    const title = await processMessageToChatGPT(
+      "Return a 3 word title for this following note: " + note,
+      20
+    );
+    const formattedTitle = title.replace(/"/g, "");
     setUserTitle(formattedTitle);
     return formattedTitle;
   };
@@ -337,14 +339,14 @@ const Create = ({ session }) =>{
   // Get the user tags from the database.
   const getUserTags = async () => {
     const userId = session.user.id;
-    const token = localStorage.getItem('token');
-    const response = await fetch(current+'getUserTags/' + userId, {
-      method: 'POST',
+    const token = localStorage.getItem("token");
+    const response = await fetch(current + "getUserTags/" + userId, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ userId })
+      body: JSON.stringify({ userId }),
     });
     const tags = await response.json();
     return tags;
@@ -352,14 +354,20 @@ const Create = ({ session }) =>{
 
   // Get tags to assign to each new note.
   const getTags = async (note1) => {
-    if (!(note1.trim())) { 
-      setTags([])
-      return []
+    if (!note1.trim()) {
+      setTags([]);
+      return [];
     } else {
       const currentTags = await getUserTags();
-      const preTags = await processMessageToChatGPT("Return a 3 individual keywords separated by commas that are related to this note: " + note1 + ". If any of these keywords are applicable, use them: " + currentTags, 20);
-      const Tags = preTags.replace(/"/g, '');
-      const arr = Tags.split(', ');
+      const preTags = await processMessageToChatGPT(
+        "Return a 3 individual keywords separated by commas that are related to this note: " +
+          note1 +
+          ". If any of these keywords are applicable, use them: " +
+          currentTags,
+        20
+      );
+      const Tags = preTags.replace(/"/g, "");
+      const arr = Tags.split(", ");
       setTags(arr);
       return arr;
     }
@@ -377,14 +385,14 @@ const Create = ({ session }) =>{
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.2 } },
     fadeOut: { opacity: 0, transition: { duration: 0.2 } },
-    exit: { opacity: 0, transition: { duration: 0.1 } }
+    exit: { opacity: 0, transition: { duration: 0.1 } },
   };
 
   const deleteTag = (option) => {
     if (tags.includes(option)) {
-        setTags(tags.filter(tags => tags !== option));
-    };
-  }
+      setTags(tags.filter((tags) => tags !== option));
+    }
+  };
 
   const addTag = (event) => {
     if (event.target.value.trim()) {
@@ -392,7 +400,7 @@ const Create = ({ session }) =>{
       setTags([...tags, tag]);
     }
     event.target.value = ""; // Clear the input field after adding the tag
-  }
+  };
 
   const adjustInputWidth = (event) => {
     event.target.style.width = 1 + event.target.value.length + "ch";
@@ -408,92 +416,147 @@ const Create = ({ session }) =>{
     <div className={styles.body}>
       <div className={styles.titleDesc}>
         <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
-        <p className={`${styles.description} ${showNote ? styles.hidden : ""}`}>Click the mic below to get started. <br/> We will transcribe your thought into clear text</p>
+        <p className={`${styles.description} ${showNote ? styles.hidden : ""}`}>
+          Click the mic below to get started. <br /> We will transcribe your
+          thought into clear text
+        </p>
       </div>
       <div className={styles.micContainer}>
-        <motion.button 
+        <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          onClick={handleListenChange} 
-          className={`${isListening ? styles.micButtonActive : styles.micButton} ${showNote ? styles.hidden : ""}`}>
-          {isListening ? <Img.StopIcon/> : load ? 
+          onClick={handleListenChange}
+          className={`${
+            isListening ? styles.micButtonActive : styles.micButton
+          } ${showNote ? styles.hidden : ""}`}
+        >
+          {isListening ? (
+            <Img.StopIcon />
+          ) : load ? (
             <div className={load ? styles.loading : styles.hidden}>
-              <img src={Img.LoadingGif} alt="Wait for it!" height="100"/>
+              <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
               <p>Transcribing...</p>
-            </div> : <Img.MicIcon/> } 
-            <p 
-            className={ isListening ? `${styles.timer} ${"gradientText1"}` : styles.hidden}>
-              {seconds}s
-            </p>
+            </div>
+          ) : (
+            <Img.MicIcon />
+          )}
+          <p
+            className={
+              isListening ? `${styles.timer} ${"gradientText1"}` : styles.hidden
+            }
+          >
+            {seconds}s
+          </p>
         </motion.button>
       </div>
       {/* <div>{transcription}</div> */}
       <div className={showNote ? styles.thoughtCard : styles.hidden}>
-        <input value={userTitle} onChange={handleTitleChange} placeholder='Thought Title' className={styles.thoughtTitle}/>
-        <textarea value={note} onChange={handleInputChange} placeholder='Your thought here...' className={styles.transcript}/>
+        <input
+          value={userTitle}
+          onChange={handleTitleChange}
+          placeholder="Thought Title"
+          className={styles.thoughtTitle}
+        />
+        <textarea
+          value={note}
+          onChange={handleInputChange}
+          placeholder="Your thought here..."
+          className={styles.transcript}
+        />
         <div className={styles.tagList}>
           Tags:
-          {tags.map((tag, index) => 
+          {tags.map((tag, index) => (
             <span key={index} className={styles.tag}>
               {tag}
-              <button onClick={() => {
-                        deleteTag(tag)
-                        }} className={styles["clear-btn"]}>&times;</button>
-              </span>)}
-          {(tags.length < 3) ?
-            <input tabIndex={100} onBlur={addTag} onKeyDown={handleKeyDown} placeholder="Add Tag +" className={styles.addTag} onInput={adjustInputWidth}/>
-           : ""}
+              <button
+                onClick={() => {
+                  deleteTag(tag);
+                }}
+                className={styles["clear-btn"]}
+              >
+                &times;
+              </button>
+            </span>
+          ))}
+          {tags.length < 3 ? (
+            <input
+              tabIndex={100}
+              onBlur={addTag}
+              onKeyDown={handleKeyDown}
+              placeholder="Add Tag +"
+              className={styles.addTag}
+              onInput={adjustInputWidth}
+            />
+          ) : (
+            ""
+          )}
         </div>
         <div className={styles.thoughtActionMenu}>
-          <button onClick={handleDiscardClick} className={styles.thoughtActionButton1}>Discard</button> 
+          <button
+            onClick={handleDiscardClick}
+            className={styles.thoughtActionButton1}
+          >
+            Discard
+          </button>
           <div className={styles.roundedGradientBorder}>
-            <button onClick={handleCommitClick} className={styles.thoughtActionButton2}>Save</button>
+            <button
+              onClick={handleCommitClick}
+              className={styles.thoughtActionButton2}
+            >
+              Save
+            </button>
           </div>
         </div>
         {/* <div>
           <button onClick={handlePlayRecording} className={styles.playButton}>Play</button>
         </div> */}
       </div>
-      <div className={showNote || load? styles.hidden : styles.altOptionsWrapper}>
-      <p className={styles.description}>OR</p>
-      <div className={styles.altOptions}>
-      <motion.label 
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        htmlFor="fileInput" className={styles.uploadButton}>
-        <Img.UploadIcon/>
-      </motion.label>
-      <input
-        type="file"
-        id="fileInput"
-        accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
-        onChange={handleFileUpload}
-        style={{ display: 'none' }}
-      />
-      <motion.button 
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setShowNote(true)}
-        className={styles.writeButton}>
-        <Img.WriteIcon/>
-      </motion.button>
+      <div
+        className={showNote || load ? styles.hidden : styles.altOptionsWrapper}
+      >
+        <p className={styles.description}>OR</p>
+        <div className={styles.altOptions}>
+          <motion.label
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            htmlFor="fileInput"
+            className={styles.uploadButton}
+          >
+            <Img.UploadIcon />
+          </motion.label>
+          <input
+            type="file"
+            id="fileInput"
+            accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
+            onChange={handleFileUpload}
+            style={{ display: "none" }}
+          />
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowNote(true)}
+            className={styles.writeButton}
+          >
+            <Img.WriteIcon />
+          </motion.button>
+        </div>
       </div>
-      </div>
-      <div style={{ display: 'block'}}>
+      <div style={{ display: "block" }}>
         <span onClick={() => setConfirmation(false)}>
-        <motion.button 
-        variants={popUpTransitions}
-        initial="hidden"
-        animate={confirmation ? "visible" : "fadeOut"}
-        exit="exit"
-        transition={{ duration: 0.2, delay: 1.0 }}
-        className={styles.confirmationPopup}>
-          <p>Saved</p>
-        </motion.button>
+          <motion.button
+            variants={popUpTransitions}
+            initial="hidden"
+            animate={confirmation ? "visible" : "fadeOut"}
+            exit="exit"
+            transition={{ duration: 0.2, delay: 1.0 }}
+            className={styles.confirmationPopup}
+          >
+            <p>Saved</p>
+          </motion.button>
         </span>
       </div>
     </div>
   );
-}
+};
 
 export default Create;

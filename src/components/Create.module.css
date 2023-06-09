@@ -24,14 +24,16 @@ etc...
 
 */
 
-@font-face { font-family: "Inter";
-  src:  url("../fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf")
+    format("truetype");
   font-family: Inter;
 }
 
 /* PSUEDO STYLING */
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* DEFAULT STYLING FOR ALL ITEMS */
@@ -40,10 +42,12 @@ html {
   height: fit-content;
   width: 100vw;
 
-  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%), #FFFFFF;
+  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%),
+    #ffffff;
 }
 
-button, label {
+button,
+label {
   cursor: pointer;
 }
 
@@ -110,7 +114,7 @@ img {
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; 
+  gap: 0.5rem;
 }
 
 .altOptions {
@@ -119,8 +123,8 @@ img {
   gap: 0.5rem;
 }
 
-
-.uploadButton, .writeButton {
+.uploadButton,
+.writeButton {
   width: 50px;
   height: 50px;
 
@@ -128,7 +132,8 @@ img {
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+  background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+    #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
@@ -139,11 +144,13 @@ img {
   opacity: 0.5;
 }
 
-.uploadButton:hover, .writeButton:hover {
+.uploadButton:hover,
+.writeButton:hover {
   opacity: 1;
 }
 
-.micButton, .micButtonActive {
+.micButton,
+.micButtonActive {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,7 +174,8 @@ img {
   box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(255, 255, 255, 0.1);
 }
 
-.micButton:active, .micButtonActive:active {
+.micButton:active,
+.micButtonActive:active {
   transform: scale(1.03);
   position: fixed;
   top: 50%;
@@ -178,11 +186,13 @@ img {
 .micButtonActive {
   background: rgba(39, 39, 39, 0.25);
   border: double 3px transparent;
-  background-image: linear-gradient(#161616,#161616), linear-gradient(-45deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+  background-image: linear-gradient(#161616, #161616),
+    linear-gradient(-45deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  
-  box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(217, 119, 204, 0.25), 0px 0px 50px rgba(255, 255, 255, 0.1);
+
+  box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(217, 119, 204, 0.25),
+    0px 0px 50px rgba(255, 255, 255, 0.1);
 }
 
 .tag {
@@ -203,7 +213,7 @@ img {
   min-width: 7rem;
   width: 7rem;
   max-width: 12rem;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,7 +229,6 @@ img {
   width: auto;
   max-width: 10rem;
 } */
-
 
 .timer {
   display: flex;
@@ -239,7 +248,7 @@ img {
   position: fixed !important;
   top: calc(50%) !important;
   left: calc(50%) !important;
-  transform: translateY(-50%) translateX(-50%) ;
+  transform: translateY(-50%) translateX(-50%);
 }
 
 .titleDesc {
@@ -262,7 +271,7 @@ img {
   .body {
     height: 100dvh;
     width: 100vw;
-    
+
     padding: 3rem 2rem;
 
     display: flex;
@@ -280,7 +289,7 @@ img {
   .thoughtCard {
     height: fit-content;
     width: 700px;
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -317,16 +326,18 @@ img {
   .thoughtActionMenu .roundedGradientBorder {
     border: double 1.5px transparent;
     border-radius: 20px;
-    background-image: linear-gradient(#161616,#161616), linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+    background-image: linear-gradient(#161616, #161616),
+      linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-  
+
     width: 50%;
     align-items: center;
     justify-content: center;
   }
 
-  .thoughtActionButton1, .thoughtActionButton2 {
+  .thoughtActionButton1,
+  .thoughtActionButton2 {
     width: 50%;
 
     display: flex;
@@ -335,7 +346,7 @@ img {
     align-items: center;
     align-self: center;
     padding: 16px 32px;
-  
+
     background: #27272725;
     /* box-shadow: 0px 0px 10px #161616; */
     border-radius: 20px;
@@ -345,16 +356,17 @@ img {
   .thoughtActionButton2 {
     width: 100%;
   }
-    
+
   .thoughtTitle {
     width: 100%;
-  
+
     /* border: 1px solid red !important; */
     border: none;
     outline: none;
     background: none;
     box-sizing: border-box;
-    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+      #ffffff;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
@@ -367,12 +379,12 @@ img {
     color: #272727;
   }
 
-  .transcript{
+  .transcript {
     width: 100%;
     height: 15rem;
 
     padding: 12px 16px;
-    
+
     border-radius: 1rem;
     outline: none;
     border: 1px solid #272727;
@@ -414,7 +426,7 @@ img {
   }
 
   .confirmationPopup:hover {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     padding: 16px 24px;
     border-radius: 16px;
     opacity: 1;
@@ -431,7 +443,7 @@ img {
   }
 
   .clear-btn:hover {
-      color: red;
+    color: red;
   }
 }
 
@@ -439,8 +451,9 @@ img {
   .body {
     width: 100vw;
     height: 100dvh;
-    
-    padding: calc(90px + env(safe-area-inset-top)) 1rem calc(90px + env(safe-area-inset-bottom));
+
+    padding: calc(90px + env(safe-area-inset-top)) 1rem
+      calc(90px + env(safe-area-inset-bottom));
 
     display: flex;
     flex-direction: column;
@@ -460,7 +473,7 @@ img {
   .thoughtCard {
     height: fit-content;
     width: 90%;
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -475,7 +488,6 @@ img {
     gap: 1rem;
 
     box-shadow: 0px 0px 10px #161616, 0px 0px 50px rgba(255, 255, 255, 0.1);
-    ;
   }
 
   .thoughtActionFields {
@@ -498,16 +510,18 @@ img {
   .thoughtActionMenu .roundedGradientBorder {
     border: double 1.5px transparent;
     border-radius: 20px;
-    background-image: linear-gradient(#161616,#161616), linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%);
+    background-image: linear-gradient(#161616, #161616),
+      linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-  
+
     width: 50%;
     align-items: center;
     justify-content: center;
   }
 
-  .thoughtActionButton1, .thoughtActionButton2 {
+  .thoughtActionButton1,
+  .thoughtActionButton2 {
     width: 50%;
 
     display: flex;
@@ -516,7 +530,7 @@ img {
     align-items: center;
     align-self: center;
     padding: 16px 32px;
-  
+
     background: #27272725;
     /* box-shadow: 0px 0px 10px #161616; */
     border-radius: 20px;
@@ -526,17 +540,18 @@ img {
   .thoughtActionButton2 {
     width: 100%;
   }
-    
+
   .thoughtTitle {
     width: 100%;
     height: 28px;
-  
+
     /* border: 1px solid red !important; */
     border: none;
     outline: none;
     background: none;
     box-sizing: border-box;
-    background: linear-gradient(90deg, #5271EA 0%, #C0EAFF 50%, #D977CC 100%), #FFFFFF;
+    background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+      #ffffff;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
@@ -549,12 +564,12 @@ img {
     color: #272727;
   }
 
-  .transcript{
+  .transcript {
     width: 100%;
     height: 10rem;
 
     padding: 12px 16px;
-    
+
     border-radius: 1rem;
     outline: none;
     border: 1px solid #272727;
@@ -597,7 +612,7 @@ img {
   }
 
   .confirmationPopup:hover {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     padding: 8px 16px;
     border-radius: 16px;
     opacity: 0.5;
