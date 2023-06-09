@@ -6,6 +6,7 @@ import styles from './Search.module.css';
 import * as Img from "../imgs" 
 
 const Search = ({ session }) => {
+  
   const [load, setLoad] = useState(false);
   const [showNote, setShowNote] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,13 +24,13 @@ const Search = ({ session }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   
   const fetchNumQueries = async() => {
-    const userId = session.user.id;
+    const userId = session.data.session.access_token;
     const token = localStorage.getItem('token');
     const response = await fetch(current+'fetchNumQueries/' + userId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ userId })
     });
@@ -47,13 +48,16 @@ const Search = ({ session }) => {
   }, [session])
 
   const incrNumQueries = async() => {
-    const userId = session.user.id;
+    // const userId = session.data.session.access_token;
+    const userId = localStorage.getItem('userId');
+    console.log("data is " + session.data.session)
+    console.log("userid in incrnumquerires is" + userId)
     const token = localStorage.getItem('token');
     const response = await fetch(current+'incrNumQueries/' + userId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ userId })
     });
@@ -75,14 +79,14 @@ const Search = ({ session }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (load) {
-        const userId = session.user.id;
+        const userId = session.data.session.access_token;
         const token = localStorage.getItem('token');
         // console.log(token)
         const response = await fetch(current+'queryUserThoughts/' + userId, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
           body: JSON.stringify({ userId, messages })
         });

@@ -23,14 +23,14 @@ const View = ({ session }) => {
     const current = local;
 
     const fetchNumQueries = async() => {
-      const userId = session.user.id;
+      const userId = session.data.session.access_token;
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       const response = await fetch(current+'fetchNumQueries/' + userId, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
         body: JSON.stringify({ userId })
       });
@@ -75,14 +75,14 @@ const View = ({ session }) => {
     // Get notes from database and show it to user.
 
     const fetchUserNotes = async () => {
-      const userId = session.user.id;
+      const userId = session.data.session.access_token;
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       const response = await fetch(current + 'fetchNotes/' + userId, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the JWT token in the 'Authorization' header
+          Authorization: `${token}`, // Include the JWT token in the 'Authorization' header
         },
       });
     
@@ -93,13 +93,13 @@ const View = ({ session }) => {
 
     // Get all tags from database and show it to user.
     const getUserTags = async () => {
-      const userId = session.user.id;
+      const userId = session.data.session.access_token;
       const token = localStorage.getItem('token');
       const response = await fetch(current+'getUserTags/' + userId, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
         body: JSON.stringify({ userId })
       });
@@ -118,14 +118,14 @@ const View = ({ session }) => {
   
     // Deletes 'id' note.
     const deleteNote = async (id) => {
-      const userId = session.user.id;
+      const userId = session.data.session.access_token;
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       const response = await fetch(current+'deleteNote/' + userId, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
         body: JSON.stringify({ id, userId })
       });
@@ -135,14 +135,14 @@ const View = ({ session }) => {
     };
 
     const playNote = async (path) => {
-      const userId = session.user.id;
+      const userId = session.data.session.access_token;
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       fetch(current + 'fetchNoteAudio/'+ userId,{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
         body: JSON.stringify({ path: path })
       })
@@ -207,7 +207,7 @@ const View = ({ session }) => {
           </div>
         ))}
         <span>
-          {userTags.length > 3 && (
+          {userTags?.length > 3 && (
               <button onClick={handleTagViewChange} className={styles.seeMore}>{!showAllTags ? '+ See All' : '- See Less'}</button>
           )}
         </span>

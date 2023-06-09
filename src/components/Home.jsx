@@ -7,10 +7,20 @@ import Search from './Search';
 import View from './View';
 import * as Img from '../imgs'
 import { motion, AnimatePresence} from "framer-motion"
+// import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const Home = ({ session }) => {
+const Home = () => {
+  const location = useLocation();
+  const session = location.state.session
+  
   const [page, setPage] = useState("Create")
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('the session in the home page is: ', session);
+    console.log(session.data.session.access_token)
+  }, []);
 
   const handleGoToSearch = () => {
     setPage("Search");
