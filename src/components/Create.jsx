@@ -139,7 +139,7 @@ const Create = ({ session }) =>{
       },
       //credentials: 'include',
       body: JSON.stringify({
-        user_id: session.user.id,
+        userId: userId, 
         title: title,
         content: note,
         tags: tags,
@@ -168,7 +168,7 @@ const Create = ({ session }) =>{
       },
       body: JSON.stringify({
         tags: tags,
-        userId: session.user.id,
+        userId: userId,
       }),
     });
   };

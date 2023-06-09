@@ -23,7 +23,7 @@ const View = ({ session }) => {
     const current = local;
 
     const fetchNumQueries = async() => {
-      const userId = session.data.session.access_token;
+      const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       const response = await fetch(current+'fetchNumQueries/' + userId, {
@@ -75,7 +75,7 @@ const View = ({ session }) => {
     // Get notes from database and show it to user.
 
     const fetchUserNotes = async () => {
-      const userId = session.data.session.access_token;
+      const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       const response = await fetch(current + 'fetchNotes/' + userId, {
@@ -93,7 +93,7 @@ const View = ({ session }) => {
 
     // Get all tags from database and show it to user.
     const getUserTags = async () => {
-      const userId = session.data.session.access_token;
+      const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
       const response = await fetch(current+'getUserTags/' + userId, {
         method: 'POST',
@@ -118,7 +118,7 @@ const View = ({ session }) => {
   
     // Deletes 'id' note.
     const deleteNote = async (id) => {
-      const userId = session.data.session.access_token;
+      const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       const response = await fetch(current+'deleteNote/' + userId, {
@@ -135,7 +135,7 @@ const View = ({ session }) => {
     };
 
     const playNote = async (path) => {
-      const userId = session.data.session.access_token;
+      const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
       // console.log('token: ', token);
       fetch(current + 'fetchNoteAudio/'+ userId,{
