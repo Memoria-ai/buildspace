@@ -117,6 +117,7 @@ select {
 
 @media screen and (min-width: 1101px) {
   .body {
+    min-height: 100dvh;
     height: auto;
     width: 100vw;
 
