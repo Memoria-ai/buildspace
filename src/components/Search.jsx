@@ -24,7 +24,7 @@ const Search = ({ session }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   
   const fetchNumQueries = async() => {
-    const userId = session.data.session.access_token;
+    const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     const response = await fetch(current+'fetchNumQueries/' + userId, {
       method: 'POST',
@@ -79,7 +79,7 @@ const Search = ({ session }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (load) {
-        const userId = session.data.session.access_token;
+        const userId = localStorage.getItem('userId');
         const token = localStorage.getItem('token');
         // console.log(token)
         const response = await fetch(current+'queryUserThoughts/' + userId, {
