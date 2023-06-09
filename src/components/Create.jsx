@@ -7,7 +7,7 @@ import * as Img from "../imgs"
 import { motion } from "framer-motion"
 
 const Create = ({ session }) =>{
-  console.log('the create jsx session: ', session);
+  // console.log('the create jsx session: ', session);
   const [isListening, setIsListening] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -182,7 +182,7 @@ const Create = ({ session }) =>{
   };
   
   const handleStopRecording = async (blob) => {
-    console.log('handleStopRecording')
+    // console.log('handleStopRecording')
     if (blob.size === 0) {
       return;
     }
@@ -204,7 +204,7 @@ const Create = ({ session }) =>{
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      console.log('here')
+      // console.log('here')
       const data = await response.json();
       const transcript = data.transcription;
       setNote(data.transcription);

@@ -50,8 +50,8 @@ const Search = ({ session }) => {
   const incrNumQueries = async() => {
     // const userId = session.data.session.access_token;
     const userId = localStorage.getItem('userId');
-    console.log("data is " + session.data.session)
-    console.log("userid in incrnumquerires is" + userId)
+    // console.log("data is " + session.data.session)
+    // console.log("userid in incrnumquerires is" + userId)
     const token = localStorage.getItem('token');
     const response = await fetch(current+'incrNumQueries/' + userId, {
       method: 'POST',

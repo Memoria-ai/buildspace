@@ -18,8 +18,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('the session in the home page is: ', session);
-    console.log(session.data.session.access_token)
+    // console.log('the session in the home page is: ', session);
+    // console.log(session.data.session.access_token)
   }, []);
 
   const handleGoToSearch = () => {

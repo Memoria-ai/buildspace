@@ -27,7 +27,7 @@ export default function Auth() {
     async function getUserSession() {
       const session = await supabase.auth.getSession();
       if (session) {
-        console.log('session: ', session)
+        // console.log('session: ', session)
         const token = session.data.session.access_token;  
         const response = await fetch(server + 'login', {
           method: 'POST',
@@ -37,17 +37,17 @@ export default function Auth() {
       
         if (response.ok) {
           const { user, data } = await response.json();
-          console.log('User:', user);
-          console.log('Data:', data);
+          // console.log('User:', user);
+          // console.log('Data:', data);
           localStorage.setItem('userId', data[0].id);
         } else {
           const { error } = await response.json();
           console.error('Error during login:', error);
         }
       
-        console.log('token: ', token);
+        // console.log('token: ', token);
         localStorage.setItem('token', token);
-        console.log('session: ', session);
+        // console.log('session: ', session);
         navigate('/home', {
           state: {
             session: session,
@@ -72,7 +72,7 @@ export default function Auth() {
     }
   }
   async function signInWithGoogle() {
-    console.log('signing in with google');
+    // console.log('signing in with google');
     //wait 5 seconds
     setLoading(true);
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -85,7 +85,7 @@ export default function Auth() {
         },
       },
     });
-    console.log('data: ', data);
+    // console.log('data: ', data);
   
     if (error) {
       console.error('Error signing in with Google:', error);
