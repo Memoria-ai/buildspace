@@ -20,7 +20,7 @@ const View = ({ session }) => {
 
     const local = "http://localhost:8000/";
     const server = 'https://memoria-ai.herokuapp.com/';
-    const current = local;
+    const current = server;
 
     const fetchNumQueries = async() => {
       const userId = localStorage.getItem('userId');
@@ -189,10 +189,24 @@ const View = ({ session }) => {
     }
       }
     );
+
+  const updateAllNotes = async () => {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    fetch(current + 'updateAllTitles/'+ userId,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({ userId })
+    })
+  }
  
   return (
     <div className={styles.body}>
       <h3>My Thoughts</h3>
+      {/* <button onClick={updateAllNotes}>update tags</button> */}
       <div className={showSavedTime ? styles.savedTime : styles.hidden}>You've saved <span className={"gradientText1"}> {savedTime} minutes </span> using Memoria!</div>
       <div className={styles.filterTagList}>
         <p>Filter:</p>

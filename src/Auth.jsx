@@ -16,7 +16,7 @@ export default function Auth() {
   const localhost = 'http://localhost:3000/';
   const server = 'http://localhost:8000/'
   const backToApp = 'https://memoria.live/';
-  const current = localhost;
+  const current = backToApp;
   const navigate = useNavigate();
 
 
