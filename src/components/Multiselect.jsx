@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./Multiselect.module.css";
 
 function Multiselect({ onChange, options }) {
-  console.log("options: ", options);
-  console.log("options.tags: ", options.tags);
-  console.log("options.counts: ", options.counts);
-
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);

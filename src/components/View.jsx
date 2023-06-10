@@ -28,7 +28,7 @@ const View = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = local;
+  const current = server;
 
   const fetchNumQueries = async () => {
     const userId = localStorage.getItem("userId");
@@ -291,17 +291,17 @@ const View = ({ session }) => {
                 >
                   <div>
                     <button
-                      className={styles.button1}
+                      // className={styles.button1}
                       onClick={() => handleDelete(note?.id)}
                     >
                       Delete
                     </button>
-                    <button
+                    {/* <button
                       className={styles.button1}
                       onClick={() => handleEdit(note)}
                     >
                       Edit
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
