@@ -12,6 +12,11 @@ const Home = ({ session }) => {
   const [page, setPage] = useState("Create");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // console.log('the session in the home page is: ', session);
+    // console.log(session.data.session.access_token)
+  }, []);
+
   const handleGoToSearch = () => {
     setPage("Search");
   };

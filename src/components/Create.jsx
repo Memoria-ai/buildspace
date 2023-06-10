@@ -7,6 +7,7 @@ import * as Img from "../imgs";
 import { motion } from "framer-motion";
 
 const Create = ({ session }) => {
+  // console.log('the create jsx session: ', session);
   const [isListening, setIsListening] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -15,7 +16,6 @@ const Create = ({ session }) => {
   const [userTitle, setUserTitle] = useState("");
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
-  const userId = session.id;
   const [showNote, setShowNote] = useState(false);
   const [load, setLoad] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -90,16 +90,17 @@ const Create = ({ session }) => {
 
   // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens) {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     // console.log(token)
     const response = await fetch(current + "gpt/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({
+        userId: userId,
         message: message,
         max_tokens: max_tokens,
       }),
@@ -136,18 +137,18 @@ const Create = ({ session }) => {
 
   const addNote = async (title) => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     // console.log(token)
     const response = await fetch(current + "addNote/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       //credentials: 'include',
       body: JSON.stringify({
-        user_id: session.user.id,
+        userId: userId,
         title: title,
         content: note,
         tags: tags,
@@ -166,17 +167,17 @@ const Create = ({ session }) => {
 
   // Add tags to the note previously add, this is called by addNote
   const sendTags = async () => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     const response = await fetch(current + "addTags/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({
         tags: tags,
-        userId: session.user.id,
+        userId: userId,
       }),
     });
   };
@@ -191,7 +192,6 @@ const Create = ({ session }) => {
 
   const handleStopRecording = async (blob) => {
     // console.log('handleStopRecording')
-
     if (blob.size === 0) {
       return;
     }
@@ -200,13 +200,13 @@ const Create = ({ session }) => {
     formData.append("audio", blob, "audio.mp3");
 
     try {
-      const userId = session.user.id;
+      const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
       const response = await fetch(current + "transcribe/" + userId, {
         method: "POST",
         headers: {
           // 'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
         body: formData,
       });
@@ -214,7 +214,6 @@ const Create = ({ session }) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
       // console.log('here')
       const data = await response.json();
       const transcript = data.transcription;
@@ -237,10 +236,10 @@ const Create = ({ session }) => {
     formData.append("audio", file);
 
     try {
-      const userId = session.user.id;
+      const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
       const headers = new Headers();
-      headers.append("Authorization", `Bearer ${token}`);
+      headers.append("Authorization", `${token}`);
       const response = await fetch(current + "transcribe/" + userId, {
         method: "POST",
         headers: headers,
@@ -338,13 +337,13 @@ const Create = ({ session }) => {
 
   // Get the user tags from the database.
   const getUserTags = async () => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     const response = await fetch(current + "getUserTags/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ userId }),
     });

@@ -5,7 +5,7 @@ const ThoughtCard = ({ onActivity, note, session }) => {
   const [content, setContent] = useState("");
   const [userTitle, setUserTitle] = useState("");
   const [tags, setTags] = useState([]);
-  const userId = session.id;
+  // const userId = session.id;
   const [load, setLoad] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
 

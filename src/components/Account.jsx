@@ -21,7 +21,7 @@ export default function Account() {
   useEffect(() => {
     async function getProfile() {
       setLoading(true);
-      console.log(session);
+      // console.log(session);
       if (session && session.user) {
         const { user } = session;
         let { data, error } = await supabase

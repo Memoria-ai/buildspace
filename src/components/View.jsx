@@ -31,14 +31,14 @@ const View = ({ session }) => {
   const current = local;
 
   const fetchNumQueries = async () => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     // console.log('token: ', token);
     const response = await fetch(current + "fetchNumQueries/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ userId }),
     });
@@ -86,14 +86,14 @@ const View = ({ session }) => {
   // Get notes from database and show it to user.
 
   const fetchUserNotes = async () => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     // console.log('token: ', token);
     const response = await fetch(current + "fetchNotes/" + userId, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the JWT token in the 'Authorization' header
+        Authorization: `${token}`, // Include the JWT token in the 'Authorization' header
       },
     });
 
@@ -104,39 +104,31 @@ const View = ({ session }) => {
 
   // Get all tags from database and show it to user.
   const getUserTags = async () => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     const response = await fetch(current + "getUserTags/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ userId }),
     });
     const tags = await response.json();
-    setUserTags(tags.tags); //can be deleted
-    setCountedTags(tags.counts); //can be deleted
     setAllTags(tags);
-    if (showAllTags) {
-      setVisibleTags(tags.tags);
-    } else {
-      setVisibleTags(tags.tags.slice(0, 3));
-    } // this can also be deleted
     return tags;
   };
 
   // Deletes 'id' note.
   const deleteNote = async (id) => {
-    console.log("deleting");
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     // console.log('token: ', token);
     const response = await fetch(current + "deleteNote/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ id, userId }),
     });
@@ -146,14 +138,14 @@ const View = ({ session }) => {
   };
 
   const playNote = async (path) => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     // console.log('token: ', token);
     fetch(current + "fetchNoteAudio/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({ path: path }),
     })
@@ -280,13 +272,6 @@ const View = ({ session }) => {
               <p className={styles.description}>
                 {new Date(note?.timestamp).toLocaleDateString()}
               </p>
-              {/* { note?.thought_recording != null ? (
-              <button className={styles.deleteButton} onClick={() => playNote(note?.thought_recording)}>
-                <Img.PlayIcon/>
-              </button>
-            ) : (
-              ''
-            )} */}
               <div
                 tabIndex={0}
                 onBlur={() => handleBlur(note?.id)}

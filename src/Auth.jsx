@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 import styles from "./Auth.module.css";
 import Memoria from "./imgs/Memoria.png";
@@ -6,13 +6,55 @@ import * as Img from "./imgs";
 import * as Feat from "./imgs/feature-cards";
 import { motion } from "framer-motion";
 import { Carousel } from "./components/Carousel";
+import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
+  const { localStorage } = window;
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
-  const localhost = "http://localhost:3000/";
+  const localhost = "http://localhost:3000/home";
   const backToApp = "https://memoria.live/";
+  const localServer = "http://localhost:8000/";
+  const serverMain = "https://memoria-ai.herokuapp.com/";
+  const server = serverMain;
+
   const current = localhost;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function getUserSession() {
+      const session = await supabase.auth.getSession();
+      if (session) {
+        // console.log('session: ', session)
+        const token = session.data.session.access_token;
+        const response = await fetch(server + "login", {
+          method: "POST",
+          headers: { Authorization: `${token}` },
+          body: JSON.stringify(token),
+        });
+
+        if (response.ok) {
+          const { user, data } = await response.json();
+          // console.log('User:', user);
+          // console.log('Data:', data);
+          localStorage.setItem("userId", data[0].id);
+        } else {
+          const { error } = await response.json();
+          console.error("Error during login:", error);
+        }
+
+        // console.log('token: ', token);
+        localStorage.setItem("token", token);
+        // console.log('session: ', session);
+        navigate("/home", {
+          state: {
+            session: session,
+          },
+        });
+      }
+    }
+    getUserSession();
+  }, []);
 
   async function signInWithTwitter() {
     setLoading(true);
@@ -26,19 +68,12 @@ export default function Auth() {
       console.error("Error signing in with Twitter:", error);
       return;
     }
-
-    if (session) {
-      console.log("token: ", token);
-      console.log(session);
-      const token = session.access_token;
-      localStorage.setItem("token", token);
-      // setSession(session); // Update the session in App component state
-    }
   }
-
   async function signInWithGoogle() {
+    // console.log('signing in with google');
+    //wait 5 seconds
     setLoading(true);
-    const { data, error, session } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: current,
@@ -48,18 +83,11 @@ export default function Auth() {
         },
       },
     });
+    // console.log('data: ', data);
 
     if (error) {
       console.error("Error signing in with Google:", error);
       return;
-    }
-
-    if (session) {
-      const token = session.access_token;
-      console.log("token: ", token);
-      console.log(session);
-      localStorage.setItem("token", token);
-      // setSession(session); // Update the session in App component state
     }
   }
 
