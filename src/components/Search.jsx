@@ -17,7 +17,7 @@ const Search = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
