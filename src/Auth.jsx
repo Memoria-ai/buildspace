@@ -16,9 +16,10 @@ export default function Auth() {
   const backToApp = "https://memoria.live/";
   const localServer = "http://localhost:8000/";
   const serverMain = "https://memoria-ai.herokuapp.com/";
-  const server = serverMain;
 
-  const current = server;
+
+  const server = localServer;
+  const current = localhost;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,8 +36,6 @@ export default function Auth() {
 
         if (response.ok) {
           const { user, data } = await response.json();
-          // console.log('User:', user);
-          // console.log('Data:', data);
           localStorage.setItem("userId", data[0].id);
         } else {
           const { error } = await response.json();
@@ -45,7 +44,6 @@ export default function Auth() {
 
         // console.log('token: ', token);
         localStorage.setItem("token", token);
-        // console.log('session: ', session);
         navigate("/home", {
           state: {
             session: session,
