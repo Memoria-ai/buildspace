@@ -44,7 +44,6 @@ const Search = ({ session }) => {
     if (savedMessages !== null) {
       setMessages(savedMessages);
     }
-    clearMessages();
   }, [session]);
 
   const incrNumQueries = async () => {

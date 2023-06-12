@@ -100,7 +100,7 @@ export default function Account() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
             className={styles.navButton1}
           >
             Go Back Home
