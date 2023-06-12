@@ -5,7 +5,6 @@ const ThoughtCard = ({ onActivity, note, session }) => {
   const [content, setContent] = useState("");
   const [userTitle, setUserTitle] = useState("");
   const [tags, setTags] = useState([]);
-  // const userId = session.id;
   const [load, setLoad] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
 
@@ -19,24 +18,12 @@ const ThoughtCard = ({ onActivity, note, session }) => {
 
   const getNoteInfo = async () => {
     console.log("running");
-    const noteContent = await getNoteContent();
-    const noteTitle = await getNoteTitle();
-    const noteTags = await getNoteTags();
+    const noteContent = note?.content;
+    const noteTitle = note?.title;
+    const noteTags = note?.tags;
     setContent(noteContent);
     setUserTitle(noteTitle);
     setTags(noteTags);
-  };
-
-  const getNoteContent = async () => {
-    return note?.content;
-  };
-
-  const getNoteTitle = async () => {
-    return note?.title;
-  };
-
-  const getNoteTags = async () => {
-    return note?.tags;
   };
 
   const handleContentChange = (event) => {
@@ -51,7 +38,7 @@ const ThoughtCard = ({ onActivity, note, session }) => {
   // When user clicks commit, this calls addNote()
   const handleUpdateClick = async (event) => {
     event.preventDefault();
-    updateNote(userTitle);
+    updateNote();
     thoughtCommitConfirmation();
   };
 
@@ -62,7 +49,6 @@ const ThoughtCard = ({ onActivity, note, session }) => {
   };
 
   const thoughtCommitConfirmation = () => {
-    // Give feedback to the user
     setConfirmation(true);
     const timer = setTimeout(() => {
       setConfirmation(false);
@@ -100,22 +86,24 @@ const ThoughtCard = ({ onActivity, note, session }) => {
     }
   };
 
-  const updateNote = async (title) => {
+  const updateNote = async () => {
     if (!note) return; // if there is no transcript, aka no words, then do nothing
-    const userId = session.user.id;
+    console.log(note);
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
 
     const response = await fetch(current + "updateNote/" + userId, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({
-        user_id: session.user.id,
-        title: title,
-        content: note,
+        user_id: userId,
+        title: userTitle,
+        content: content,
         tags: tags,
+        id: note.id,
       }),
     });
 
@@ -132,17 +120,17 @@ const ThoughtCard = ({ onActivity, note, session }) => {
   };
 
   const sendTags = async () => {
-    const userId = session.user.id;
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     const response = await fetch(current + "addTags/" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
       body: JSON.stringify({
         tags: tags,
-        userId: session.user.id,
+        userId: userId,
       }),
     });
   };

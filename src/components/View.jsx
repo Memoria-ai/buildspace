@@ -224,6 +224,12 @@ const View = ({ session }) => {
     }, 200);
   };
 
+  const triggerUpdate = () => {
+    setShowNote(false);
+    fetchUserNotes();
+    getUserTags();
+  };
+
   return (
     <div className={styles.body}>
       <h3>My Thoughts</h3>
@@ -296,12 +302,13 @@ const View = ({ session }) => {
                     >
                       Delete
                     </button>
-                    {/* <button
-                      className={styles.button1}
+
+                    <button
+                      // className={styles.button1}
                       onClick={() => handleEdit(note)}
                     >
                       Edit
-                    </button> */}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -311,7 +318,7 @@ const View = ({ session }) => {
       </div>
       <div className={showNote ? styles.thoughtCard : styles.hidden}>
         <ThoughtCard
-          onActivity={() => setShowNote(false)}
+          onActivity={() => triggerUpdate()}
           note={curNote}
           session={session}
         />

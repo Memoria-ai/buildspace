@@ -320,6 +320,17 @@ const Create = ({ session }) => {
     getGPTTitle(note);
   };
 
+  
+  function cleanTitle(title) {
+    // Remove leading and trailing double quotes
+    title = title.replace(/^"(.*)"$/, "$1");
+
+    // Remove trailing period
+    title = title.replace(/\.$/, "");
+
+    return title;
+  }
+
   // GPT prompt for Title
   const getGPTTitle = async (note) => {
     if (!note.trim()) {
@@ -330,7 +341,7 @@ const Create = ({ session }) => {
       "Return a 3 word title for this following note: " + note,
       20
     );
-    const formattedTitle = title.replace(/"/g, "");
+    const formattedTitle = cleanTitle(title);
     setUserTitle(formattedTitle);
     return formattedTitle;
   };
