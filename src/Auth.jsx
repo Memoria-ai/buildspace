@@ -27,6 +27,7 @@ export default function Auth() {
       const session = await supabase.auth.getSession();
       if (session) {
         // console.log('session: ', session)
+        console.log(process.env.REACT_APP_TEST);
         const token = session.data.session.access_token;
         const response = await fetch(server + "login", {
           method: "POST",
