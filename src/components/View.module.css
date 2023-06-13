@@ -306,14 +306,18 @@ select {
     background-color: #161616;
     z-index: 1;
 
-    padding: 1rem;
-
     display: none;
   }
 
   .more-menu.show {
     display: flex;
     flex-direction: column;
+  }
+
+  .more-menu button {
+    width: 100%;
+    border-bottom: 1px solid #272727;
+    padding: 0.5rem 1rem;
   }
 }
 
@@ -589,14 +593,18 @@ select {
     background-color: #161616;
     z-index: 1;
 
-    padding: 1rem;
-
     display: none;
   }
 
   .more-menu.show {
     display: flex;
     flex-direction: column;
+  }
+
+  .more-menu button {
+    width: 100%;
+    border-bottom: 1px solid #272727;
+    padding: 0.5rem 1rem;
   }
 }
 

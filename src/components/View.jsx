@@ -295,21 +295,20 @@ const View = ({ session }) => {
                   className={`${styles["more-menu"]}
                 ${isOpen === note?.id ? styles.show : ""}`}
                 >
-                  <div>
-                    <button
-                      // className={styles.button1}
-                      onClick={() => handleDelete(note?.id)}
-                    >
-                      Delete
-                    </button>
+                  <button
+                    className={styles.moreButton1}
+                    onClick={() => handleDelete(note?.id)}
+                    style={{ color: "#FF0000" }}
+                  >
+                    Delete
+                  </button>
 
-                    <button
-                      // className={styles.button1}
-                      onClick={() => handleEdit(note)}
-                    >
-                      Edit
-                    </button>
-                  </div>
+                  <button
+                    className={styles.moreButton1}
+                    onClick={() => handleEdit(note)}
+                  >
+                    Edit
+                  </button>
                 </div>
               </div>
             </div>

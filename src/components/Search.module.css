@@ -272,6 +272,7 @@ button {
       calc(90px + env(safe-area-inset-bottom));
 
     height: fit-content;
+    min-height: 100dvh;
     width: 100vw;
 
     overflow-y: scroll;
