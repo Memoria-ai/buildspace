@@ -35,10 +35,10 @@ function Multiselect({ onChange, options }) {
         {selectedOptions.length > 0 ? (
           <div className={styles.filterValues}>
             {selectedOptions.map((option) => (
-              <div key={option.tags} className={styles.tag}>
+              <div key={option?.tags} className={styles.tag}>
                 {option}{" "}
                 <span className={styles.tagCount}>
-                  ({options.counts[option]})
+                  ({options?.counts[option]})
                 </span>
                 <button
                   onClick={(e) => {
@@ -83,7 +83,7 @@ function Multiselect({ onChange, options }) {
                     ${index === highlightedIndex ? styles.highlighted : ""}`}
           >
             {option}
-            <span className={styles.tagCount}>({options.counts[option]})</span>
+            <span className={styles.tagCount}>({options?.counts[option]})</span>
           </li>
         ))}
       </ul>

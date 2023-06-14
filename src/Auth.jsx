@@ -21,36 +21,37 @@ export default function Auth() {
   const current = backToApp;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function getUserSession() {
-      const session = await supabase.auth.getSession();
-      if (session) {
-        // console.log('session: ', session)
-        console.log(process.env.REACT_APP_TEST);
-        const token = session.data.session.access_token;
-        const response = await fetch(server + "login", {
-          method: "POST",
-          headers: { Authorization: `${token}` },
-          body: JSON.stringify(token),
-        });
+  async function getUserSession() {
+    const session = await supabase.auth.getSession();
+    if (session) {
+      // console.log('session: ', session)
+      console.log(process.env.REACT_APP_TEST);
+      const token = session.data.session.access_token;
+      const response = await fetch(server + "login", {
+        method: "POST",
+        headers: { Authorization: `${token}` },
+        body: JSON.stringify(token),
+      });
 
-        if (response.ok) {
-          const { user, data } = await response.json();
-          localStorage.setItem("userId", data[0].id);
-        } else {
-          const { error } = await response.json();
-          console.error("Error during login:", error);
-        }
-
-        // console.log('token: ', token);
-        localStorage.setItem("token", token);
-        navigate("/home", {
-          state: {
-            session: session,
-          },
-        });
+      if (response.ok) {
+        const { user, data } = await response.json();
+        localStorage.setItem("userId", data[0].id);
+      } else {
+        const { error } = await response.json();
+        console.error("Error during login:", error);
       }
+
+      // console.log('token: ', token);
+      localStorage.setItem("token", token);
+      navigate("/home", {
+        state: {
+          session: session,
+        },
+      });
     }
+  }
+
+  useEffect(() => {
     getUserSession();
   }, []);
 
@@ -66,6 +67,7 @@ export default function Auth() {
       console.error("Error signing in with Twitter:", error);
       return;
     }
+    getUserSession();
   }
   async function signInWithGoogle() {
     // console.log('signing in with google');
@@ -81,12 +83,11 @@ export default function Auth() {
         },
       },
     });
-    // console.log('data: ', data);
-
     if (error) {
       console.error("Error signing in with Google:", error);
       return;
     }
+    getUserSession();
   }
 
   return (
