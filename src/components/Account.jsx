@@ -6,36 +6,49 @@ import styles from "./Account.module.css";
 import * as Img from "../imgs";
 import { motion } from "framer-motion";
 
-export default function Account() {
+const Account = () => {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState(null);
-  const [website, setWebsite] = useState(null);
-  const [avatar_url, setAvatarUrl] = useState(null);
-
-  const location = useLocation();
+  const [name, setName] = useState(null);
+  const [session, setSession] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [user, setUser] = useState(null);
+  
   const navigate = useNavigate();
 
-  const session = location.state.session;
-  // console.log(props.location.state)
-  // console.log(props.location.state.session)
+  useEffect(() => {
+    async function getSession() {
+      const session = await supabase.auth.getSession();
+      const token = localStorage.getItem("token");
+      const user = await supabase.auth.getUser(token);
+      setUser(user);
+      setEmail(user?.data?.user?.email);
+      if (session) {
+        setEmail(session.user.email);
+      }
+      setSession(session);
+      setLoading(false);
+    }
+    getSession();
+  }, []);
+
   useEffect(() => {
     async function getProfile() {
       setLoading(true);
-      // console.log(session);
       if (session && session.user) {
         const { user } = session;
         let { data, error } = await supabase
           .from("profiles")
-          .select(`username, website, avatar_url`)
+          .select(`username, full_name`)
           .eq("id", user.id)
-          .single()``;
+          .single();
 
         if (error) {
           console.warn(error);
         } else if (data) {
           setUsername(data.username);
-          setWebsite(data.website);
-          setAvatarUrl(data.avatar_url);
+          setName(data.full_name)
+       
         }
       }
       setLoading(false);
@@ -64,9 +77,8 @@ export default function Account() {
 
     const updates = {
       id: user.id,
-      username,
-      website,
-      avatar_url,
+      username: username,
+      full_name: name,
       updated_at: new Date(),
     };
 
@@ -114,7 +126,8 @@ export default function Account() {
         </button>
       </div>
       <div className={styles.inner}>
-        {session ? (
+        {loading ? <div>Loading ...</div> : 
+        user ? (
           <form onSubmit={updateProfile}>
             <div className={styles.formField}>
               <label htmlFor="email" className={styles.gradientText1}>
@@ -124,7 +137,7 @@ export default function Account() {
                 id="email"
                 type="text"
                 style={{ border: "1px solid #272727", borderradius: "1rem" }}
-                value={session.user.email}
+                value={email}
                 disabled
               />
             </div>
@@ -139,9 +152,11 @@ export default function Account() {
             </motion.div>
           </form>
         ) : (
-          <div>Loading</div>
+          <div>session not available</div>
         )}
       </div>
     </div>
   );
 }
+
+export default Account;
