@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
-import Create from "./Create";
+import Create from "../Create/Create";
 // import Search from './Search'
-import Search from "./Search";
-import View from "./View";
-import * as Img from "../imgs";
+import Search from "../Search/Search";
+import View from "../View/View";
+import * as Img from "../../imgs";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Home = ({ session }) => {

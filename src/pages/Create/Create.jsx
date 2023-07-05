@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import Account from "./Account";
+import Account from "../Account/Account";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../supabaseClient";
 import styles from "./Create.module.css";
-import * as Img from "../imgs";
+import * as Img from "../../imgs";
 import { motion } from "framer-motion";
 
 const Create = ({ session }) => {
@@ -29,7 +29,7 @@ const Create = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     const handlePermission = async () => {
@@ -320,7 +320,6 @@ const Create = ({ session }) => {
     getGPTTitle(note);
   };
 
-  
   function cleanTitle(title) {
     // Remove leading and trailing double quotes
     title = title.replace(/^"(.*)"$/, "$1");

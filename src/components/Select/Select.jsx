@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Multiselect.module.css";
+import styles from "../Multiselect/Multiselect.module.css";
 
 function Select({ onChange, options }) {
   const [isOpen, setIsOpen] = useState(false);

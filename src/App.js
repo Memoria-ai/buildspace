@@ -1,9 +1,9 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
-import Auth from "./Auth";
-import Account from "./components/Account";
-import Home from "./components/Home";
+import Auth from "./pages/Auth/Auth";
+import Account from "./pages/Account/Account";
+import Home from "./pages/Home/Home";
 // import { Navigate } from 'react-router-dom'
 
 function App() {

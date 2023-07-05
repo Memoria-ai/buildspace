@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../Auth.module.css";
+import styles from "../../pages/Auth/Auth.module.css";
 
 export const CarouselItem = ({ item }) => {
   return (

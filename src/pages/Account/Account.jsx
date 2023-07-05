@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../supabaseClient";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styles from "./Account.module.css";
-import * as Img from "../imgs";
+import * as Img from "../../imgs";
 import { motion } from "framer-motion";
 
 export default function Account() {

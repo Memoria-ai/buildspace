@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "../../supabaseClient";
 import styles from "./Auth.module.css";
-import Memoria from "./imgs/Memoria.png";
-import * as Img from "./imgs";
-import * as Feat from "./imgs/feature-cards";
+import Memoria from "../../imgs/Memoria.png";
+import * as Img from "../../imgs";
+import * as Feat from "./feature-cards";
 import { motion } from "framer-motion";
-import { Carousel } from "./components/Carousel";
+import { Carousel } from "../../components/Carousel/Carousel";
 import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
@@ -17,8 +17,8 @@ export default function Auth() {
   const localServer = "http://localhost:8000/";
   const serverMain = "https://memoria-ai.herokuapp.com/";
 
-  const server = serverMain;
-  const current = backToApp;
+  const server = localServer;
+  const current = localhost;
   const navigate = useNavigate();
 
   async function getUserSession() {
