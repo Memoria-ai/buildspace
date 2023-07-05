@@ -24,12 +24,12 @@ etc...
 
 */
 
-@font-face {
+/* @font-face {
   font-family: "Inter";
   src: url("../src/fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf")
     format("truetype");
   font-family: Inter;
-}
+} */
 
 /* PSUEDO STYLING */
 ::-webkit-scrollbar {
@@ -105,7 +105,7 @@ button {
 
   overflow-y: scroll;
 
-  background: url(./imgs/noise.png),
+  background: url(../../imgs/noise.png),
     radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
   background-blend-mode: screen, normal;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CarouselItem } from "./CarouselItem";
-import styles from "../Auth.module.css";
-import * as Img from "../imgs";
+import styles from "../../pages/Auth/Auth.module.css";
+import * as Img from "../../imgs";
 
 export const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -9,7 +9,7 @@ export const Carousel = () => {
     {
       title: "Example 1",
       description: "Talk to your thoughts.",
-      icon: require("../imgs/chat-example-1.png"),
+      icon: require("../../imgs/chat-example-1.png"),
     },
   ];
 

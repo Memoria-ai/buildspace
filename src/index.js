@@ -4,8 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Account from "./components/Account";
-import Home from "./components/Home";
+import Account from "./pages/Account/Account";
+import Home from "./pages/Home/Home";
 
 const Router = createBrowserRouter(
   [

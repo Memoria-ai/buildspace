@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import Account from "./Account";
+import Account from "../Account/Account";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../supabaseClient";
 import styles from "./Search.module.css";
-import * as Img from "../imgs";
+import * as Img from "../../imgs";
 
 const Search = ({ session }) => {
   const [load, setLoad] = useState(false);
@@ -17,7 +17,7 @@ const Search = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);

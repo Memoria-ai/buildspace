@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../supabaseClient";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styles from "./Account.module.css";
-import * as Img from "../imgs";
+import * as Img from "../../imgs";
 import { motion } from "framer-motion";
 
 const Account = () => {
@@ -13,7 +13,7 @@ const Account = () => {
   const [session, setSession] = useState(null);
   const [email, setEmail] = useState(null);
   const [user, setUser] = useState(null);
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,8 +47,7 @@ const Account = () => {
           console.warn(error);
         } else if (data) {
           setUsername(data.username);
-          setName(data.full_name)
-       
+          setName(data.full_name);
         }
       }
       setLoading(false);
@@ -126,8 +125,9 @@ const Account = () => {
         </button>
       </div>
       <div className={styles.inner}>
-        {loading ? <div>Loading ...</div> : 
-        user ? (
+        {loading ? (
+          <div>Loading ...</div>
+        ) : user ? (
           <form onSubmit={updateProfile}>
             <div className={styles.formField}>
               <label htmlFor="email" className={styles.gradientText1}>
@@ -157,6 +157,6 @@ const Account = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Account;

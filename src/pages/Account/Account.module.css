@@ -118,7 +118,7 @@ input {
 
   overflow-y: scroll;
 
-  background: url(../imgs/noise.png),
+  background: url(../../imgs/noise.png),
     radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
   background-blend-mode: screen, normal;
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./View.module.css";
 // import Search from './Search'
-import * as Img from "../imgs";
-import Multiselect from "./Multiselect";
-import Select from "./Select";
-import ThoughtCard from "./ThoughtCard";
+import * as Img from "../../imgs";
+import Multiselect from "../../components/Multiselect/Multiselect";
+import Select from "../../components/Select/Select";
+import ThoughtCard from "../../components/ThoughtCard/ThoughtCard";
 
 const View = ({ session }) => {
   const [userNotes, setUserNotes] = useState([]);
@@ -28,7 +28,7 @@ const View = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const fetchNumQueries = async () => {
     const userId = localStorage.getItem("userId");

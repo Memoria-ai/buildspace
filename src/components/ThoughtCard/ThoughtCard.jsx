@@ -10,7 +10,7 @@ const ThoughtCard = ({ onActivity, note, session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     getNoteInfo();

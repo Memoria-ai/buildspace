@@ -23,13 +23,13 @@ border: ;
 etc...
 
 */
-
+/* 
 @font-face {
   font-family: "Inter";
   src: url("../fonts/Inter/@font-face/Inter-VariableFont_slnt\,wght.ttf")
     format("truetype");
   font-family: Inter;
-}
+} */
 
 /* PSUEDO STYLING */
 ::-webkit-scrollbar {
