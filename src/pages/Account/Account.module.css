@@ -201,7 +201,7 @@ input {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem;
+    padding: 1rem;
     width: 100%;
   }
 
@@ -217,8 +217,6 @@ input {
     padding: 16px 32px;
 
     position: relative;
-
-    border-bottom: solid 1px #27272750;
 
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;

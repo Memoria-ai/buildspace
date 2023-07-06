@@ -99,15 +99,15 @@ const Account = () => {
       <div className={styles.nav}>
         <h2 className={styles.logo}>Memoria</h2>
         <div className={styles.webNavItems}>
-          <motion.a
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={styles.navButton1}
             target="_blank"
-            href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"
+            onClick={() => navigate("/view", { state: { session: session } })}
           >
-            About
-          </motion.a>
+            View Journals
+          </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -5,6 +5,8 @@ import * as Img from "../../imgs";
 import Multiselect from "../../components/Multiselect/Multiselect";
 import Select from "../../components/Select/Select";
 import ThoughtCard from "../../components/ThoughtCard/ThoughtCard";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const View = ({ session }) => {
   const [userNotes, setUserNotes] = useState([]);
@@ -25,6 +27,8 @@ const View = ({ session }) => {
   const [curNote, setCurNote] = useState();
   const [showNote, setShowNote] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState();
+
+  const navigate = useNavigate();
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
@@ -232,95 +236,128 @@ const View = ({ session }) => {
 
   return (
     <div className={styles.body}>
-      <h3>My Thoughts</h3>
-      <div className={showSavedTime ? styles.savedTime : styles.hidden}>
-        You've saved{" "}
-        <span className={"gradientText1"}> {savedTime} minutes </span> using
-        Memoria!
+      <div className={styles.nav}>
+        <h2 className={styles.logo}>Memoria</h2>
+        <div className={styles.webNavItems}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/home")}
+            className={styles.navButton1}
+          >
+            Go Back Home
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={styles.navButton1}
+            target="_blank"
+            onClick={() =>
+              navigate("/account", { state: { session: session } })
+            }
+          >
+            Profile
+          </motion.button>
+        </div>
+        <button
+          onClick={() => navigate("/")}
+          className={styles.mobileAboutItem}
+        >
+          Back!
+        </button>
       </div>
-      <div className={styles["select-container"]}>
-        Filter:
-        <Multiselect onChange={handleTagSelection} options={allTags} />
-      </div>
-      <div className={styles["select-container"]}>
-        Sort:
-        <Select onChange={handleSortSelection} options={sortOptions} />
-      </div>
-      <div className={styles.gallery}>
-        {sortedNotes.map((note) => (
-          <div className={styles.thoughtCard} key={note?.id}>
-            <h3 className={styles.noteTitle}>{note?.title}</h3>
-            <p className={styles.transcript}>
-              {!expandedNotes?.includes(note?.id) && note?.content.length > 120
-                ? note?.content.slice(0, 120)
-                : note?.content}
-              {note?.content.length > 120 ? (
-                <span
-                  onClick={() => toggleContent(note?.id)}
-                  className={styles.seeMore}
-                >
-                  {!expandedNotes?.includes(note?.id)
-                    ? "...See More"
-                    : "...See Less"}
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
-            <div className={styles.tagList}>
-              {note?.Tags?.map((tag) => (
-                <div className={styles.tag} key={tag}>
-                  {tag}
-                </div>
-              ))}
-            </div>
-            <div className={styles.cardBottom}>
-              <p className={styles.description}>
-                {new Date(note?.timestamp).toLocaleDateString()}
+      <div className={styles.inner}>
+        <h3>My Thoughts</h3>
+        <div className={showSavedTime ? styles.savedTime : styles.hidden}>
+          You've saved{" "}
+          <span className={"gradientText1"}> {savedTime} minutes </span> using
+          Memoria!
+        </div>
+        <div className={styles["select-container"]}>
+          Filter:
+          <Multiselect onChange={handleTagSelection} options={allTags} />
+        </div>
+        <div className={styles["select-container"]}>
+          Sort:
+          <Select onChange={handleSortSelection} options={sortOptions} />
+        </div>
+        <div className={styles.gallery}>
+          {sortedNotes.map((note) => (
+            <div className={styles.thoughtCard} key={note?.id}>
+              <h3 className={styles.noteTitle}>{note?.title}</h3>
+              <p className={styles.transcript}>
+                {!expandedNotes?.includes(note?.id) &&
+                note?.content.length > 120
+                  ? note?.content.slice(0, 120)
+                  : note?.content}
+                {note?.content.length > 120 ? (
+                  <span
+                    onClick={() => toggleContent(note?.id)}
+                    className={styles.seeMore}
+                  >
+                    {!expandedNotes?.includes(note?.id)
+                      ? "...See More"
+                      : "...See Less"}
+                  </span>
+                ) : (
+                  ""
+                )}
               </p>
-              <div
-                tabIndex={0}
-                onBlur={() => handleBlur(note?.id)}
-                className={styles["more-container"]}
-              >
-                <div>
-                  <button
-                    onClick={() => handleClick(note?.id)}
-                    className={styles.deleteButton}
-                  >
-                    <Img.MoreHorizIcon />
-                  </button>
-                </div>
+              <div className={styles.tagList}>
+                {note?.Tags?.map((tag) => (
+                  <div className={styles.tag} key={tag}>
+                    {tag}
+                  </div>
+                ))}
+              </div>
+              <div className={styles.cardBottom}>
+                <p className={styles.description}>
+                  {new Date(note?.timestamp).toLocaleDateString()}
+                </p>
                 <div
-                  className={`${styles["more-menu"]}
-                ${isOpen === note?.id ? styles.show : ""}`}
+                  tabIndex={0}
+                  onBlur={() => handleBlur(note?.id)}
+                  className={styles["more-container"]}
                 >
-                  <button
-                    className={styles.moreButton1}
-                    onClick={() => handleDelete(note?.id)}
-                    style={{ color: "#FF0000" }}
+                  <div>
+                    <button
+                      onClick={() => handleClick(note?.id)}
+                      className={styles.deleteButton}
+                    >
+                      <Img.MoreHorizIcon />
+                    </button>
+                  </div>
+                  <div
+                    className={`${styles["more-menu"]}
+                ${isOpen === note?.id ? styles.show : ""}`}
                   >
-                    Delete
-                  </button>
+                    <button
+                      className={styles.moreButton1}
+                      onClick={() => handleDelete(note?.id)}
+                      style={{ color: "#FF0000" }}
+                    >
+                      Delete
+                    </button>
 
-                  <button
-                    className={styles.moreButton1}
-                    onClick={() => handleEdit(note)}
-                  >
-                    Edit
-                  </button>
+                    <button
+                      className={styles.moreButton1}
+                      onClick={() => handleEdit(note)}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className={showNote ? styles.thoughtCard : styles.hidden}>
-        <ThoughtCard
-          onActivity={() => triggerUpdate()}
-          note={curNote}
-          session={session}
-        />
+          ))}
+        </div>
+        <div className={showNote ? styles.thoughtCard : styles.hidden}>
+          <ThoughtCard
+            onActivity={() => triggerUpdate()}
+            note={curNote}
+            session={session}
+          />
+        </div>
       </div>
     </div>
   );

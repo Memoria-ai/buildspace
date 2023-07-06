@@ -115,8 +115,26 @@ select {
   display: none;
 }
 
+.body {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  align-items: center;
+
+  overflow-y: scroll;
+
+  background: url(../../imgs/noise.png),
+    radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+  background-blend-mode: screen, normal;
+  margin-bottom: 1rem;
+}
+
 @media screen and (min-width: 1101px) {
-  .body {
+  .inner {
     min-height: 100dvh;
     height: auto;
     width: 100vw;
@@ -124,8 +142,9 @@ select {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 5rem;
     align-items: center;
-    padding: 3rem 5rem 2rem;
     overflow: scroll, visible;
   }
 
@@ -225,9 +244,12 @@ select {
 
   .gallery {
     width: 100%;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    /* display: grid;
     grid-template-columns: repeat(auto-fit, 28vw);
-    grid-gap: 1rem 1.5rem;
+    grid-gap: 1rem 1.5rem; */
     justify-content: center;
   }
 
@@ -319,6 +341,69 @@ select {
     border-bottom: 1px solid #272727;
     padding: 0.5rem 1rem;
   }
+
+  .nav {
+    width: 100%;
+    min-height: 5.25rem;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 128px;
+  }
+
+  .navButton1 {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 24px;
+    border-radius: 16px;
+    opacity: 0.5;
+    letter-spacing: -0.04em;
+  }
+
+  .navButton1:hover {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 24px;
+    border-radius: 16px;
+    opacity: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .webNavItems {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .mobileAboutItem,
+  .mobileProfileItem {
+    display: none;
+  }
+
+  form {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 50%;
+
+    border: 1px solid #272727;
+    border-radius: 1rem;
+  }
+
+  .formField {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 16px;
+  }
 }
 
 @media screen and (min-width: 900px) and (max-width: 1300px) {
@@ -373,15 +458,7 @@ select {
 }
 
 @media screen and (max-width: 1100px) {
-  @supports (margin-bottom: env(safe-area-inset-bottom)) {
-    body {
-      margin-bottom: env(safe-area-inset-bottom) !important;
-    }
-  }
-
   .body {
-    padding: 90px 1rem;
-
     height: 100dvh;
     width: 100vw;
 
@@ -396,23 +473,16 @@ select {
     position: relative;
   }
 
+  .inner {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
   .roundedGradientBorder {
     width: fit-content;
     height: fit-content;
-  }
-
-  .nav {
-    width: 100%;
-    min-height: 3.25rem;
-    height: fit-content;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 64px;
-
-    border-bottom: solid 1px #272727;
   }
 
   .nav .roundedGradientBorder,
@@ -547,6 +617,8 @@ select {
 
   .savedTime {
     display: flex;
+    width: fit-content;
+    align-self: center;
 
     padding: 8px 16px;
     background: #161616;
@@ -605,6 +677,46 @@ select {
     width: 100%;
     border-bottom: 1px solid #272727;
     padding: 0.5rem 1rem;
+  }
+
+  .nav {
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 16px 32px;
+
+    position: relative;
+
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  .nav h2 {
+    font-size: 24pt !important;
+  }
+
+  .webNavItems {
+    display: none;
+  }
+
+  .mobileAboutItem {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-40%);
+    color: #272727;
+  }
+
+  .mobileProfileItem {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-40%);
   }
 }
 

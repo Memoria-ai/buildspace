@@ -6,12 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Account from "./pages/Account/Account";
 import Home from "./pages/Home/Home";
+import Main from "./pages/Main/Main";
+import View from "./pages/View/View";
 
 const Router = createBrowserRouter(
   [
     { path: "/", element: <App /> },
     { path: "/home", element: <Home /> },
     { path: "/account", element: <Account /> },
+    { path: "/view", element: <View /> },
   ],
   { basename: "/" }
 ); // add your base name here
