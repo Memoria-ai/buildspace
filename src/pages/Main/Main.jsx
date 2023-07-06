@@ -531,7 +531,11 @@ const Main = ({ session }) => {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      sendQuestion();
+      if (showNote) {
+        addTag(event);
+      } else {
+        sendQuestion();
+      }
     }
   };
 
@@ -555,161 +559,161 @@ const Main = ({ session }) => {
   };
 
   return (
-    <div className={styles.body}>
-      {mode == "Journal" || mode == "" ? (
-        <div className={styles.body}>
-          <div className={styles.titleDesc}>
-            <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
+    <div className="flex flex-col h-[100dvh] w-[100vw] items-center justify-between overflow-hidden">
+      <div
+        className={
+          mode == "Journal" || mode == ""
+            ? "flex flex-col w-full items-center p-16"
+            : "hidden"
+        }
+      >
+        <div className={styles.titleDesc}>
+          <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
+          <p
+            className={`${styles.description} ${showNote ? styles.hidden : ""}`}
+          >
+            Click the mic below to get started! <br /> We will transcribe your
+            thought into clear text
+          </p>
+        </div>
+        <div className={styles.micContainer}>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleListenChange}
+            className={`${
+              isListening ? styles.micButtonActive : styles.micButton
+            } ${showNote ? styles.hidden : ""}`}
+          >
+            {isListening ? (
+              <Img.StopIcon />
+            ) : load ? (
+              <div className={load ? styles.loading : styles.hidden}>
+                <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
+                <p>Transcribing...</p>
+              </div>
+            ) : (
+              <Img.MicIcon />
+            )}
             <p
-              className={`${styles.description} ${
-                showNote ? styles.hidden : ""
-              }`}
+              className={
+                isListening
+                  ? `${styles.timer} ${"gradientText1"}`
+                  : styles.hidden
+              }
             >
-              Click the mic below to get started! <br /> We will transcribe your
-              thought into clear text
+              {seconds}s
             </p>
+          </motion.button>
+        </div>
+        <div className={showNote ? styles.thoughtCard : styles.hidden}>
+          <input
+            value={userTitle}
+            onChange={handleTitleChange}
+            placeholder="Thought Title"
+            className={styles.thoughtTitle}
+          />
+          <textarea
+            value={note}
+            onChange={handleInputChange}
+            placeholder="Your thought here..."
+            className={styles.transcript}
+          />
+          <div className={styles.tagList}>
+            Tags:
+            {tags.map((tag, index) => (
+              <span key={index} className={styles.tag}>
+                {tag}
+                <button
+                  onClick={() => {
+                    deleteTag(tag);
+                  }}
+                  className={styles["clear-btn"]}
+                >
+                  &times;
+                </button>
+              </span>
+            ))}
+            {tags.length < 3 ? (
+              <input
+                tabIndex={100}
+                onBlur={addTag}
+                onKeyDown={handleKeyDown}
+                placeholder="Add Tag +"
+                className={styles.addTag}
+                onInput={adjustInputWidth}
+              />
+            ) : (
+              ""
+            )}
           </div>
-          <div className={styles.micContainer}>
+          <div className={styles.thoughtActionMenu}>
+            <button
+              onClick={handleDiscardClick}
+              className={styles.thoughtActionButton1}
+            >
+              Discard
+            </button>
+            <div className={styles.roundedGradientBorder}>
+              <button
+                onClick={handleCommitClick}
+                className={styles.thoughtActionButton2}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          className={
+            showNote || load ? styles.hidden : styles.altOptionsWrapper
+          }
+        >
+          <p className={styles.description}>OR</p>
+          <div className="flex flex-row gap-4">
+            <motion.label
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              htmlFor="fileInput"
+              className={styles.uploadButton}
+            >
+              <Img.UploadIcon />
+            </motion.label>
+            <input
+              type="file"
+              id="fileInput"
+              accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
+              onChange={handleFileUpload}
+              style={{ display: "none" }}
+            />
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleListenChange}
-              className={`${
-                isListening ? styles.micButtonActive : styles.micButton
-              } ${showNote ? styles.hidden : ""}`}
+              onClick={() => setShowNote(true)}
+              className={styles.writeButton}
             >
-              {isListening ? (
-                <Img.StopIcon />
-              ) : load ? (
-                <div className={load ? styles.loading : styles.hidden}>
-                  <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
-                  <p>Transcribing...</p>
-                </div>
-              ) : (
-                <Img.MicIcon />
-              )}
-              <p
-                className={
-                  isListening
-                    ? `${styles.timer} ${"gradientText1"}`
-                    : styles.hidden
-                }
-              >
-                {seconds}s
-              </p>
+              <Img.WriteIcon />
             </motion.button>
           </div>
-          <div className={showNote ? styles.thoughtCard : styles.hidden}>
-            <input
-              value={userTitle}
-              onChange={handleTitleChange}
-              placeholder="Thought Title"
-              className={styles.thoughtTitle}
-            />
-            <textarea
-              value={note}
-              onChange={handleInputChange}
-              placeholder="Your thought here..."
-              className={styles.transcript}
-            />
-            <div className={styles.tagList}>
-              Tags:
-              {tags.map((tag, index) => (
-                <span key={index} className={styles.tag}>
-                  {tag}
-                  <button
-                    onClick={() => {
-                      deleteTag(tag);
-                    }}
-                    className={styles["clear-btn"]}
-                  >
-                    &times;
-                  </button>
-                </span>
-              ))}
-              {tags.length < 3 ? (
-                <input
-                  tabIndex={100}
-                  onBlur={addTag}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Add Tag +"
-                  className={styles.addTag}
-                  onInput={adjustInputWidth}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <div className={styles.thoughtActionMenu}>
-              <button
-                onClick={handleDiscardClick}
-                className={styles.thoughtActionButton1}
-              >
-                Discard
-              </button>
-              <div className={styles.roundedGradientBorder}>
-                <button
-                  onClick={handleCommitClick}
-                  className={styles.thoughtActionButton2}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            className={
-              showNote || load ? styles.hidden : styles.altOptionsWrapper
-            }
-          >
-            <p className={styles.description}>OR</p>
-            <div className={styles.altOptions}>
-              <motion.label
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                htmlFor="fileInput"
-                className={styles.uploadButton}
-              >
-                <Img.UploadIcon />
-              </motion.label>
-              <input
-                type="file"
-                id="fileInput"
-                accept="audio/mpeg, audio/wav, audio/ogg, audio/*"
-                onChange={handleFileUpload}
-                style={{ display: "none" }}
-              />
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowNote(true)}
-                className={styles.writeButton}
-              >
-                <Img.WriteIcon />
-              </motion.button>
-            </div>
-          </div>
-          <div style={{ display: "block" }}>
-            <span onClick={() => setConfirmation(false)}>
-              <motion.button
-                variants={popUpTransitions}
-                initial="hidden"
-                animate={confirmation ? "visible" : "fadeOut"}
-                exit="exit"
-                transition={{ duration: 0.2, delay: 1.0 }}
-                className={styles.confirmationPopup}
-              >
-                <p>Saved</p>
-              </motion.button>
-            </span>
-          </div>
         </div>
-      ) : (
-        ""
-      )}
+        <div style={{ display: "block" }}>
+          <span onClick={() => setConfirmation(false)}>
+            <motion.button
+              variants={popUpTransitions}
+              initial="hidden"
+              animate={confirmation ? "visible" : "fadeOut"}
+              exit="exit"
+              transition={{ duration: 0.2, delay: 1.0 }}
+              className={styles.confirmationPopup}
+            >
+              <p>Saved</p>
+            </motion.button>
+          </span>
+        </div>
+      </div>
       {mode == "Reflect" || mode == "" ? (
-        <div className={styles.body}>
-          <div className={showSuggest ? styles.suggestList : styles.hidden}>
+        <div className="flex flex-col w-full items-center">
+          {/* <div className={showSuggest ? styles.suggestList : styles.hidden}>
             <button
               onClick={() => askSuggested("Summarize this week's thoughts")}
               className={styles.suggestQuestion}
@@ -728,32 +732,7 @@ const Main = ({ session }) => {
             >
               I'm bored, what should I do?
             </button>
-          </div>
-          <div className={styles.queryWrapper}>
-            <div
-              className={`${styles.queryBar} ${styles.roundedGradientBorder}`}
-            >
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                className={styles.titleInput}
-                placeholder="Summarize all my thoughts from this past week..."
-                onKeyDown={handleKeyDown}
-              />
-              <button onClick={sendQuestion} className={styles.mobileQuerySend}>
-                <Img.SendIcon />
-              </button>
-            </div>
-            <div className={styles.roundedGradientBorder}>
-              <button
-                onClick={() => clearMessages()}
-                className={styles.suggestQuestion}
-              >
-                <Img.TrashGradient />
-              </button>
-            </div>
-          </div>
+          </div> */}
           {mode == "Reflect" ? (
             <div className={styles.chatHistory}>
               {messages.map((message, index) => (
@@ -776,6 +755,29 @@ const Main = ({ session }) => {
           ) : (
             ""
           )}
+          <div className="flex flex-row fixed bottom-0 gap-4 w-full md:w-2/3 md:min-w-[600px] p-4 bg-[#161616] border-2 border-white/5 rounded-t-3xl z-50">
+            <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                className={""}
+                placeholder="Or Reflect on your past here..."
+                onKeyDown={handleKeyDown}
+              />
+              <button onClick={sendQuestion} className={styles.mobileQuerySend}>
+                <Img.SendIcon />
+              </button>
+            </div>
+            <div className={styles.roundedGradientBorder}>
+              <button
+                onClick={() => clearMessages()}
+                className={styles.suggestQuestion}
+              >
+                <Img.TrashGradient />
+              </button>
+            </div>
+          </div>
         </div>
       ) : (
         ""

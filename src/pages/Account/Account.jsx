@@ -118,7 +118,7 @@ const Account = () => {
           </motion.button>
         </div>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           className={styles.mobileAboutItem}
         >
           Back!

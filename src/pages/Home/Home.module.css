@@ -55,9 +55,6 @@ button {
   background-blend-mode: screen, normal;
 
   position: relative;
-
-  margin-bottom: env(safe-area-inset-bottom) !important;
-  margin-top: env(safe-area-inset-top) !important;
 }
 
 .logo {
@@ -299,7 +296,7 @@ input[type="radio"]:checked {
     gap: 0.5rem;
     padding: 16px 32px;
 
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1;
 
