@@ -560,11 +560,9 @@ const Main = ({ session }) => {
 
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center justify-between overflow-hidden">
-      <div
+      <span
         className={
-          mode == "Journal" || mode == ""
-            ? "flex flex-col w-full items-center p-16"
-            : "hidden"
+          mode == "Journal" || mode == "" ? "inherit-all h-fit" : "hidden"
         }
       >
         <div className={styles.titleDesc}>
@@ -710,10 +708,13 @@ const Main = ({ session }) => {
             </motion.button>
           </span>
         </div>
-      </div>
-      {mode == "Reflect" || mode == "" ? (
-        <div className="flex flex-col w-full items-center">
-          {/* <div className={showSuggest ? styles.suggestList : styles.hidden}>
+      </span>
+      <span
+        className={
+          mode == "Reflect" || mode == "" ? "inherit-all h-fit" : "hidden"
+        }
+      >
+        {/* <div className={showSuggest ? styles.suggestList : styles.hidden}>
             <button
               onClick={() => askSuggested("Summarize this week's thoughts")}
               className={styles.suggestQuestion}
@@ -733,55 +734,52 @@ const Main = ({ session }) => {
               I'm bored, what should I do?
             </button>
           </div> */}
-          {mode == "Reflect" ? (
-            <div className={styles.chatHistory}>
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={
-                    message.role == "user"
-                      ? styles.userQuestion
-                      : styles.memoriaResponse
-                  }
-                >
-                  {message.text}
-                </div>
-              ))}
-              <div className={load ? styles.loading : styles.hidden}>
-                <img height="50" src={Img.LoadingGif} alt="Wait for it!" />
-              </div>
-              <div ref={messagesEndRef} />
-            </div>
-          ) : (
-            ""
-          )}
-          <div className="flex flex-row fixed bottom-0 gap-4 w-full md:w-2/3 md:min-w-[600px] p-4 bg-[#161616] border-2 border-white/5 rounded-t-3xl z-50">
-            <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                className={""}
-                placeholder="Or Reflect on your past here..."
-                onKeyDown={handleKeyDown}
-              />
-              <button onClick={sendQuestion} className={styles.mobileQuerySend}>
-                <Img.SendIcon />
-              </button>
-            </div>
-            <div className={styles.roundedGradientBorder}>
-              <button
-                onClick={() => clearMessages()}
-                className={styles.suggestQuestion}
+        {mode == "Reflect" ? (
+          <div className={styles.chatHistory}>
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={
+                  message.role == "user"
+                    ? styles.userQuestion
+                    : styles.memoriaResponse
+                }
               >
-                <Img.TrashGradient />
-              </button>
+                {message.text}
+              </div>
+            ))}
+            <div className={load ? styles.loading2 : styles.hidden}>
+              <img height="50" src={Img.LoadingGif} alt="Wait for it!" />
             </div>
+            <div ref={messagesEndRef} />
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="flex flex-row fixed bottom-0 gap-4 w-full md:w-2/3 md:min-w-[600px] p-4 bg-[#161616] border-2 border-white/5 rounded-t-3xl z-50">
+          <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              className={""}
+              placeholder="Or Reflect on your past here..."
+              onKeyDown={handleKeyDown}
+            />
+            <button onClick={sendQuestion} className={styles.mobileQuerySend}>
+              <Img.SendIcon />
+            </button>
+          </div>
+          <div className={styles.roundedGradientBorder}>
+            <button
+              onClick={() => clearMessages()}
+              className={styles.suggestQuestion}
+            >
+              <Img.TrashGradient />
+            </button>
           </div>
         </div>
-      ) : (
-        ""
-      )}
+      </span>
     </div>
   );
 };

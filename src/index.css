@@ -41,6 +41,10 @@ html {
     #ffffff;
 }
 
+.inherit-all {
+  all: inherit;
+}
+
 .roundedGradientBorder {
   border: double 1.5px transparent;
   border-radius: 20px;

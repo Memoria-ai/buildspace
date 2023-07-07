@@ -784,7 +784,7 @@ img {
     gap: 1rem;
 
     height: 100dvh;
-    padding-bottom: 12rem;
+    padding-bottom: 6rem;
     padding-top: 8rem;
 
     overflow-y: scroll;
@@ -815,7 +815,7 @@ img {
     white-space: pre-line;
   }
 
-  .loading {
+  .loading2 {
     background: none;
   }
 
