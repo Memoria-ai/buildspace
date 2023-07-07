@@ -536,9 +536,11 @@ const Main = ({ session }) => {
             : "hidden"
         }
       >
-        <div className={showNote ? "hidden" : "flex flex-col leading-tight"}>
-          <h2 className={styles.title}>Journal</h2>
-          <p className="text-[#2f2f2f] text-center">
+        <div
+          className={showNote ? "hidden" : "flex flex-col leading-tight gap-2"}
+        >
+          <h2 className="text-5xl font-sembold gradientText1">Journal</h2>
+          <p className="text-[#3f3f3f] text-center">
             Click the mic to clear your mind. <br /> We will transcribe it into
             clear text.
           </p>
@@ -729,7 +731,7 @@ const Main = ({ session }) => {
         ) : (
           ""
         )}
-        <div className="flex flex-row gap-4 w-full md:w-2/3 md:min-w-[600px] pb-6 px-4 pt-4 md:p-4 bg-[#161616] border-2 border-b-0 border-white/5 rounded-t-3xl z-50">
+        <div className="flex flex-row gap-4 w-full md:w-1/2 md:min-w-[600px] p-4 pb-8 bg-[#161616] border-2 border-b-0 border-white/5 rounded-t-3xl z-50">
           <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
             <input
               type="text"
@@ -740,7 +742,10 @@ const Main = ({ session }) => {
               onKeyDown={handleKeyDown}
               onFocus={() => setMode("Reflect")}
               onBlur={() => {
-                messages.length == 0 ? setMode("") : setMode("Reflect");
+                setTimeout(
+                  messages.length == 0 ? setMode("") : setMode("Reflect"),
+                  400
+                );
               }}
             />
             <button onClick={sendQuestion} className={styles.mobileQuerySend}>

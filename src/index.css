@@ -80,8 +80,8 @@ h3 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: inherit;
-  font-weight: inherit;
+  /* font-size: inherit; */
+  /* font-weight: inherit; */
 }
 
 @media screen and (min-width: 1101px) {
