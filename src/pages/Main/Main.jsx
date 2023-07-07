@@ -5,6 +5,7 @@ import { supabase } from "../../supabaseClient";
 import styles from "./Main.module.css";
 import * as Img from "../../imgs";
 import { motion } from "framer-motion";
+import Nav from "../../components/Nav/Nav";
 
 const Main = ({ session }) => {
   // console.log('the create jsx session: ', session);
@@ -317,6 +318,7 @@ const Main = ({ session }) => {
     setLoad(false);
     if (!note) {
       setSeconds(0);
+      setMode("");
     } else {
       setShowNote(true);
     }
@@ -441,22 +443,6 @@ const Main = ({ session }) => {
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
-  // const fetchNumQueries = async () => {
-  //   const userId = localStorage.getItem("userId");
-  //   const token = localStorage.getItem("token");
-  //   const response = await fetch(current + "fetchNumQueries/" + userId, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `${token}`,
-  //     },
-  //     body: JSON.stringify({ userId }),
-  //   });
-  //   const data = await response.json();
-  //   const num_queries = parseInt(data, 10);
-  //   setNumQueries(num_queries);
-  // };
-
   useEffect(() => {
     // fetchNumQueries();
     const savedMessages = JSON.parse(localStorage.getItem("messages"));
@@ -464,23 +450,6 @@ const Main = ({ session }) => {
       setMessages(savedMessages);
     }
   }, [session]);
-
-  const incrNumQueries = async () => {
-    return;
-    // // const userId = session.data.session.access_token;
-    // const userId = localStorage.getItem("userId");
-    // // console.log("data is " + session.data.session)
-    // // console.log("userid in incrnumquerires is" + userId)
-    // const token = localStorage.getItem("token");
-    // const response = await fetch(current + "incrNumQueries/" + userId, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `${token}`,
-    //   },
-    //   body: JSON.stringify({ userId }),
-    // });
-  };
 
   const sendQuestion = async () => {
     if (!searchTerm.trim()) {
@@ -494,7 +463,6 @@ const Main = ({ session }) => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setSearchTerm("");
     setShowSuggest(false);
-    incrNumQueries();
   };
 
   // This waits for messages var to be updated before sending the request to backend
@@ -559,19 +527,20 @@ const Main = ({ session }) => {
   };
 
   return (
-    <div className="flex flex-col h-[100dvh] w-[100vw] items-center justify-between overflow-hidden">
+    <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
+      <Nav session={session} />
       <span
         className={
-          mode == "Journal" || mode == "" ? "inherit-all h-fit" : "hidden"
+          mode == "Journal" || mode == ""
+            ? "flex flex-col h-fit w-[100vw] items-center justify-between pt-16"
+            : "hidden"
         }
       >
-        <div className={styles.titleDesc}>
-          <h2 className={showNote ? styles.hidden : ""}>Record a thought</h2>
-          <p
-            className={`${styles.description} ${showNote ? styles.hidden : ""}`}
-          >
-            Click the mic below to get started! <br /> We will transcribe your
-            thought into clear text
+        <div className={showNote ? "hidden" : "flex flex-col leading-tight"}>
+          <h2 className={styles.title}>Journal</h2>
+          <p className="text-[#2f2f2f] text-center">
+            Click the mic to clear your mind. <br /> We will transcribe it into
+            clear text.
           </p>
         </div>
         <div className={styles.micContainer}>
@@ -668,7 +637,7 @@ const Main = ({ session }) => {
           }
         >
           <p className={styles.description}>OR</p>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-2">
             <motion.label
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -711,31 +680,35 @@ const Main = ({ session }) => {
       </span>
       <span
         className={
-          mode == "Reflect" || mode == "" ? "inherit-all h-fit" : "hidden"
+          mode == "Reflect" || mode == ""
+            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between h-[100dvh - 5.25rem]"
+            : "hidden"
         }
       >
-        {/* <div className={showSuggest ? styles.suggestList : styles.hidden}>
-            <button
-              onClick={() => askSuggested("Summarize this week's thoughts")}
-              className={styles.suggestQuestion}
-            >
-              Summarize this week's thoughts
-            </button>
-            <button
-              onClick={() => askSuggested("What do I talk about most?")}
-              className={styles.suggestQuestion}
-            >
-              What do I talk about most?
-            </button>
-            <button
-              onClick={() => askSuggested("I'm bored, what should I do?")}
-              className={styles.suggestQuestion}
-            >
-              I'm bored, what should I do?
-            </button>
-          </div> */}
+        {/* <div className={showSuggest ? styles.suggestList : styles.hidden}> <button onClick={() => askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>
+              Summarize this week's thoughts</button> <button onClick={() => askSuggested("What do I talk about most?")} className={styles.suggestQuestion} >
+              What do I talk about most? </button> <button onClick={() => askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion} >
+              I'm bored, what should I do? </button> </div> */}
         {mode == "Reflect" ? (
           <div className={styles.chatHistory}>
+            <button
+              onClick={() => setMode("")}
+              className={
+                mode == "Reflect"
+                  ? "flex flex-row gap-2 absolute left-0 top-4"
+                  : "hidden"
+              }
+            >
+              <Img.BackIcon />
+              <p
+                className={
+                  mode == "Reflect" ? "flex font-bold gradientText1" : "hidden"
+                }
+              >
+                Back
+              </p>
+            </button>
+            <span className="flex-1" />
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -756,21 +729,29 @@ const Main = ({ session }) => {
         ) : (
           ""
         )}
-        <div className="flex flex-row fixed bottom-0 gap-4 w-full md:w-2/3 md:min-w-[600px] p-4 bg-[#161616] border-2 border-white/5 rounded-t-3xl z-50">
+        <div className="flex flex-row gap-4 w-full md:w-2/3 md:min-w-[600px] pb-6 px-4 pt-4 md:p-4 bg-[#161616] border-2 border-b-0 border-white/5 rounded-t-3xl z-50">
           <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
             <input
               type="text"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
-              className={""}
+              className={"h-10"}
               placeholder="Or Reflect on your past here..."
               onKeyDown={handleKeyDown}
+              onFocus={() => setMode("Reflect")}
+              onBlur={() => {
+                messages.length == 0 ? setMode("") : setMode("Reflect");
+              }}
             />
             <button onClick={sendQuestion} className={styles.mobileQuerySend}>
               <Img.SendIcon />
             </button>
           </div>
-          <div className={styles.roundedGradientBorder}>
+          <div
+            className={
+              mode == "Reflect" ? styles.roundedGradientBorder : "hidden"
+            }
+          >
             <button
               onClick={() => clearMessages()}
               className={styles.suggestQuestion}

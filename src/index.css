@@ -45,6 +45,12 @@ html {
   all: inherit;
 }
 
+.noise-gradient-background {
+  background: url(./imgs/noise.png),
+    radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+  background-blend-mode: screen, normal;
+}
+
 .roundedGradientBorder {
   border: double 1.5px transparent;
   border-radius: 20px;

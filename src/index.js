@@ -12,7 +12,7 @@ import View from "./pages/View/View";
 const Router = createBrowserRouter(
   [
     { path: "/", element: <App /> },
-    { path: "/home", element: <Home /> },
+    { path: "/home", element: <Main /> },
     { path: "/account", element: <Account /> },
     { path: "/view", element: <View /> },
   ],

@@ -50,9 +50,6 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url(../../imgs/noise.png),
-    radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
-  background-blend-mode: screen, normal;
 
   position: relative;
 }
@@ -300,10 +297,6 @@ input[type="radio"]:checked {
     top: 0;
     z-index: 1;
 
-    background: url(../../imgs/noise.png),
-      radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
-    background-blend-mode: screen, normal;
-
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
@@ -328,34 +321,6 @@ input[type="radio"]:checked {
     right: 24px;
     top: 50%;
     transform: translateY(-40%);
-  }
-
-  .webPageSelector {
-    display: none;
-  }
-
-  .mobilePageSelector {
-    width: 100%;
-    height: fit-content;
-
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-
-    margin-bottom: env(safe-area-inset-bottom) !important;
-    padding-left: env(safe-area-inset-left) !important;
-    padding-right: env(safe-area-inset-right) !important;
-
-    background: url(../../imgs/noise.png), #161616;
-    background-blend-mode: screen, normal;
-    border-top: 1px solid #272727;
-    border-top-right-radius: 16px;
-    border-top-left-radius: 16px;
-
-    position: fixed !important;
-    bottom: 0;
-    z-index: 1;
   }
 
   .pageSelectDiv {
