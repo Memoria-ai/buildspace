@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b6a2df82.css",
-    "main.js": "/static/js/main.5a543b85.js",
+    "main.css": "/static/css/main.c37954be.css",
+    "main.js": "/static/js/main.ea6ecbe2.js",
     "static/js/787.f7005703.chunk.js": "/static/js/787.f7005703.chunk.js",
     "static/media/memoria-search-wire.png": "/static/media/memoria-search-wire.4dda78a68d454e9e502c.png",
     "static/media/memoria-create-wire.png": "/static/media/memoria-create-wire.89e22ce989a3503202d1.png",
@@ -28,6 +28,7 @@
     "static/media/profile-icon.svg": "/static/media/profile-icon.e4ef3b64dcf9bad0feba87d4c220ed74.svg",
     "static/media/stopicon.svg": "/static/media/stopicon.ffd702e5ebf97fe307ffd1049809208c.svg",
     "static/media/view-icon.svg": "/static/media/view-icon.79684ed99f8877902c83cdefdbd645d4.svg",
+    "static/media/back-icon.svg": "/static/media/back-icon.68bb043f9de19ddc0ce11eccc70bc3e5.svg",
     "static/media/send-icon.svg": "/static/media/send-icon.fbc7f49a4d48046dbdb2c7c41a652634.svg",
     "static/media/more_horiz.svg": "/static/media/more_horiz.dccc847184e0f3d7f96f498a6821d85d.svg",
     "static/media/about-icon.svg": "/static/media/about-icon.dfcc70011320b55ef0607023d773ce9d.svg",
@@ -35,12 +36,12 @@
     "static/media/write-icon.svg": "/static/media/write-icon.125f51c0fe66ca8d8c26d112682b49da.svg",
     "static/media/trash_full.svg": "/static/media/trash_full.74d842520073dd67c20a3eb3fe92f554.svg",
     "static/media/upload-icon.svg": "/static/media/upload-icon.2122a792e260af20ef6e43b202bc2484.svg",
-    "main.b6a2df82.css.map": "/static/css/main.b6a2df82.css.map",
-    "main.5a543b85.js.map": "/static/js/main.5a543b85.js.map",
+    "main.c37954be.css.map": "/static/css/main.c37954be.css.map",
+    "main.ea6ecbe2.js.map": "/static/js/main.ea6ecbe2.js.map",
     "787.f7005703.chunk.js.map": "/static/js/787.f7005703.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b6a2df82.css",
-    "static/js/main.5a543b85.js"
+    "static/css/main.c37954be.css",
+    "static/js/main.ea6ecbe2.js"
   ]
 }
