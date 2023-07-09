@@ -68,29 +68,31 @@ const Account = () => {
     });
   }
 
-  async function updateProfile(event) {
-    event.preventDefault();
+  // async function updateProfile(event) {
+  //   event.preventDefault();
 
-    setLoading(true);
-    const { user } = session;
+  //   setLoading(true);
+  //   const { user } = session;
 
-    const updates = {
-      id: user.id,
-      username: username,
-      full_name: name,
-      updated_at: new Date(),
-    };
+  //   const updates = {
+  //     id: user.id,
+  //     username: username,
+  //     full_name: name,
+  //     updated_at: new Date(),
+  //   };
 
-    let { error } = await supabase.from("profiles").upsert(updates);
+  //   let { error } = await supabase.from("profiles").upsert(updates);
 
-    if (error) {
-      alert(error.message);
-    }
-    setLoading(false);
-  }
+  //   if (error) {
+  //     alert(error.message);
+  //   }
+  //   setLoading(false);
+  // }
 
   async function signOut() {
     await supabase.auth.signOut();
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
     navigate("/");
   }
 
@@ -128,7 +130,7 @@ const Account = () => {
         {loading ? (
           <div>Loading ...</div>
         ) : user ? (
-          <form onSubmit={updateProfile}>
+          <form>
             <div className={styles.formField}>
               <label htmlFor="email" className={styles.gradientText1}>
                 Email:{" "}

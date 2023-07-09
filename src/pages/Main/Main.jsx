@@ -56,7 +56,18 @@ const Main = ({ session }) => {
     };
 
     handlePermission();
+
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+
+    if (!userId || !token) {
+      navigate("/");
+    }
   }, []);
+
+  useEffect(() => {
+    setLoad(false);
+  }, [mode]);
 
   useEffect(() => {
     if (!isListening) {
@@ -82,14 +93,14 @@ const Main = ({ session }) => {
     }
   }, [isListening]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // Call your function here with the updated note value
-      handleUpdateNoteDetails();
-    }, 750);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     // Call your function here with the updated note value
+  //     handleUpdateNoteDetails();
+  //   }, 750);
 
-    return () => clearTimeout(timer); // Clear the timer if the component unmounts or note changes
-  }, [note]);
+  //   return () => clearTimeout(timer); // Clear the timer if the component unmounts or note changes
+  // }, [note]);
 
   // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens) {
@@ -313,21 +324,22 @@ const Main = ({ session }) => {
   };
 
   const stoppedListeningFunction = async (note) => {
-    await getTags(note);
-    await getGPTTitle(note);
-    setLoad(false);
-    if (!note) {
+    if (!note.trim()) {
       setSeconds(0);
       setMode("");
     } else {
+      await getTags(note);
+      await getGPTTitle(note);
+      await getCleanTranscript(note);
+      setLoad(false);
       setShowNote(true);
     }
   };
 
-  const handleUpdateNoteDetails = () => {
-    getTags(note);
-    getGPTTitle(note);
-  };
+  // const handleUpdateNoteDetails = () => {
+  //   getTags(note);
+  //   getGPTTitle(note);
+  // };
 
   function cleanTitle(title) {
     // Remove leading and trailing double quotes
@@ -341,10 +353,6 @@ const Main = ({ session }) => {
 
   // GPT prompt for Title
   const getGPTTitle = async (note) => {
-    if (!note.trim()) {
-      setUserTitle("");
-      return;
-    }
     const title = await processMessageToChatGPT(
       "Return a 3 word title for this following note: " + note,
       20
@@ -352,6 +360,18 @@ const Main = ({ session }) => {
     const formattedTitle = cleanTitle(title);
     setUserTitle(formattedTitle);
     return formattedTitle;
+  };
+
+  const getCleanTranscript = async (note) => {
+    const transcript = await processMessageToChatGPT(
+      "This is a transcript for a voice recording. Without losing detail\
+      or changing content matter, return a better written, and coherent version\
+      of the transcript. If it is appropriate, use line breaks to make it look more organized:" +
+        note,
+      200
+    );
+    setNote(transcript);
+    return transcript;
   };
 
   // Get the user tags from the database.
@@ -471,7 +491,6 @@ const Main = ({ session }) => {
       if (load) {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
-        // console.log(token);
         const response = await fetch(current + "queryUserThoughts/" + userId, {
           method: "POST",
           headers: {
@@ -589,7 +608,6 @@ const Main = ({ session }) => {
             className={styles.transcript}
           />
           <div className={styles.tagList}>
-            Tags:
             {tags.map((tag, index) => (
               <span key={index} className={styles.tag}>
                 {tag}
@@ -687,29 +705,25 @@ const Main = ({ session }) => {
             : "hidden"
         }
       >
-        {/* <div className={showSuggest ? styles.suggestList : styles.hidden}> <button onClick={() => askSuggested("Summarize this week's thoughts")} className={styles.suggestQuestion}>
-              Summarize this week's thoughts</button> <button onClick={() => askSuggested("What do I talk about most?")} className={styles.suggestQuestion} >
-              What do I talk about most? </button> <button onClick={() => askSuggested("I'm bored, what should I do?")} className={styles.suggestQuestion} >
-              I'm bored, what should I do? </button> </div> */}
+        <button
+          onClick={() => setMode("")}
+          className={
+            mode == "Reflect"
+              ? "flex flex-row gap-2 absolute left-4 md:left-24 top-4 z-50"
+              : "hidden"
+          }
+        >
+          <Img.BackIcon />
+          <p
+            className={
+              mode == "Reflect" ? "flex font-bold gradientText1" : "hidden"
+            }
+          >
+            Back
+          </p>
+        </button>
         {mode == "Reflect" ? (
           <div className={styles.chatHistory}>
-            <button
-              onClick={() => setMode("")}
-              className={
-                mode == "Reflect"
-                  ? "flex flex-row gap-2 absolute left-0 top-4"
-                  : "hidden"
-              }
-            >
-              <Img.BackIcon />
-              <p
-                className={
-                  mode == "Reflect" ? "flex font-bold gradientText1" : "hidden"
-                }
-              >
-                Back
-              </p>
-            </button>
             <span className="flex-1" />
             {messages.map((message, index) => (
               <div
