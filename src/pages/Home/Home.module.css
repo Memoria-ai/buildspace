@@ -116,34 +116,6 @@ input[type="radio"]:checked {
     padding: 16px 128px;
   }
 
-  .navButton1 {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px 24px;
-    border-radius: 16px;
-    opacity: 0.5;
-    letter-spacing: -0.04em;
-    width: fit-content;
-  }
-
-  .navButton1:hover {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 24px;
-    border-radius: 16px;
-    opacity: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .webNavItems {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-  }
-
-  .mobileAboutItem,
-  .mobileProfileItem {
-    display: none;
-  }
-
   .webPageSelector {
     position: absolute;
     width: fit-content;

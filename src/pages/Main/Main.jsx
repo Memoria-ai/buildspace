@@ -32,7 +32,7 @@ const Main = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   useEffect(() => {
     const handlePermission = async () => {
@@ -63,10 +63,14 @@ const Main = ({ session }) => {
     if (!userId || !token) {
       navigate("/");
     }
+
+    getJournalPrompt();
   }, []);
 
   useEffect(() => {
-    setLoad(false);
+    if (mode == "Journal") {
+      setLoad(false);
+    }
   }, [mode]);
 
   useEffect(() => {
@@ -532,7 +536,7 @@ const Main = ({ session }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, mode]);
 
   const askSuggested = async (question) => {
     setSearchTerm(question);
@@ -545,55 +549,66 @@ const Main = ({ session }) => {
     setMode("");
   };
 
+  const [journalPrompt, setJournalPrompt] = useState("");
+
+  const getJournalPrompt = async () => {
+    const prompt = await processMessageToChatGPT(
+      "Return an interesting, introspective, and creative, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt for daily journalling.",
+      20
+    );
+    console.log(prompt);
+    setJournalPrompt(prompt);
+  };
+
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
       <Nav session={session} />
       <span
         className={
           mode == "Journal" || mode == ""
-            ? "flex flex-col h-fit w-[100vw] items-center justify-between pt-16"
+            ? "flex flex-col h-fit w-[100vw] items-center justify-between pt-16 md:gap-8 gap-4"
             : "hidden"
         }
       >
         <div
-          className={showNote ? "hidden" : "flex flex-col leading-tight gap-2"}
+          className={showNote ? "hidden" : "flex flex-col leading-none gap-2"}
         >
-          <h2 className="text-5xl font-sembold gradientText1">Journal</h2>
-          <p className="text-[#3f3f3f] text-center">
-            Click the mic to clear your mind. <br /> We will transcribe it into
-            clear text.
+          <h2 className="text-5xl font-bold gradientText1 w-fit self-center">
+            Journal
+          </h2>
+          <p className="text-center font-semibold text-[#555555] tracking-tight">
+            Click the mic to clear your mind
           </p>
         </div>
-        <div className={styles.micContainer}>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleListenChange}
-            className={`${
-              isListening ? styles.micButtonActive : styles.micButton
-            } ${showNote ? styles.hidden : ""}`}
+        <span className="grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex items-center text-center justify-center">
+          <p className="text-[#555555] w-3/4 text-sm">{journalPrompt}</p>
+        </span>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleListenChange}
+          className={`${
+            isListening ? styles.micButtonActive : styles.micButton
+          } ${showNote ? "hidden" : ""}`}
+        >
+          {isListening ? (
+            <Img.StopIcon />
+          ) : load ? (
+            <div className={load ? styles.loading : "hidden"}>
+              <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
+              <p>Transcribing...</p>
+            </div>
+          ) : (
+            <Img.MicIcon />
+          )}
+          <p
+            className={
+              isListening ? "absolute bottom-6 text-white" : styles.hidden
+            }
           >
-            {isListening ? (
-              <Img.StopIcon />
-            ) : load ? (
-              <div className={load ? styles.loading : styles.hidden}>
-                <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
-                <p>Transcribing...</p>
-              </div>
-            ) : (
-              <Img.MicIcon />
-            )}
-            <p
-              className={
-                isListening
-                  ? `${styles.timer} ${"gradientText1"}`
-                  : styles.hidden
-              }
-            >
-              {seconds}s
-            </p>
-          </motion.button>
-        </div>
+            {seconds}s
+          </p>
+        </motion.button>
         <div className={showNote ? styles.thoughtCard : styles.hidden}>
           <input
             value={userTitle}
@@ -653,16 +668,16 @@ const Main = ({ session }) => {
         </div>
         <div
           className={
-            showNote || load ? styles.hidden : styles.altOptionsWrapper
+            showNote || load ? "hidden" : "flex flex-col gap-2 fixed bottom-28"
           }
         >
-          <p className={styles.description}>OR</p>
+          <p className="text-sm self-center text-[#3f3f3f]">OR</p>
           <div className="flex flex-row gap-2">
             <motion.label
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               htmlFor="fileInput"
-              className={styles.uploadButton}
+              className={styles.altOption}
             >
               <Img.UploadIcon />
             </motion.label>
@@ -677,7 +692,7 @@ const Main = ({ session }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowNote(true)}
-              className={styles.writeButton}
+              className={styles.altOption}
             >
               <Img.WriteIcon />
             </motion.button>
@@ -706,18 +721,16 @@ const Main = ({ session }) => {
         }
       >
         <button
-          onClick={() => setMode("")}
+          onClick={() => setMode((prevState) => !prevState)}
           className={
             mode == "Reflect"
-              ? "flex flex-row gap-2 absolute left-4 md:left-24 top-4 z-50"
+              ? "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-4 bg-[#161616] md:bg-transparent md:border-0 border border-[#272727] rounded-full z-50"
               : "hidden"
           }
         >
           <Img.BackIcon />
           <p
-            className={
-              mode == "Reflect" ? "flex font-bold gradientText1" : "hidden"
-            }
+            className={mode == "Reflect" ? "font-bold gradientText1" : "hidden"}
           >
             Back
           </p>
@@ -728,11 +741,11 @@ const Main = ({ session }) => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={
+                className={`${
                   message.role == "user"
                     ? styles.userQuestion
                     : styles.memoriaResponse
-                }
+                }`}
               >
                 {message.text}
               </div>
@@ -745,14 +758,14 @@ const Main = ({ session }) => {
         ) : (
           ""
         )}
-        <div className="flex flex-row gap-4 w-full md:w-1/2 md:min-w-[600px] p-4 pb-8 bg-[#161616] border-2 border-b-0 border-white/5 rounded-t-3xl z-50">
+        <div className="flex flex-row gap-4 w-full md:w-1/2 md:min-w-[600px] p-4 pb-8 bg-[#27272725] border border-b-0 border-[#272727] rounded-t-3xl z-50">
           <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
             <input
               type="text"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
-              className={"h-10"}
-              placeholder="Or Reflect on your past here..."
+              className={"h-10 font-semibold"}
+              placeholder="Ask a question to Reflect on your past..."
               onKeyDown={handleKeyDown}
               onFocus={() => setMode("Reflect")}
               onBlur={() => {

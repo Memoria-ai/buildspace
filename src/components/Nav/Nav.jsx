@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styles from "../../pages/Home/Home.module.css";
 import { useNavigate } from "react-router-dom";
 import * as Img from "../../imgs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,13 +30,13 @@ const Nav = ({ session }) => {
   };
 
   return (
-    <div className={styles.nav}>
-      <h2 className={styles.logo}>Memoria</h2>
-      <div className={styles.webNavItems}>
+    <div className="w-full h-[5.25rem] flex flex-row justify-center md:justify-between items-center py-8 px-16 md:px-32 relative">
+      <h2 className="font-bold text-[24pt] w-fit">Memoria</h2>
+      <div className="md:flex flex-row hidden gap-4">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={styles.navButton1}
+          className="navButton"
           target="_blank"
           onClick={handleGoToView}
         >
@@ -47,21 +46,26 @@ const Nav = ({ session }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleGoToProfile}
-          className={styles.navButton1}
+          className="navButton"
         >
           Profile
         </motion.button>
       </div>
-      <a
-        className={styles.mobileAboutItem}
-        target="_blank"
-        onClick={handleGoToView}
-      >
-        <Img.ViewIcon />
-      </a>
-      <button onClick={handleGoToProfile} className={styles.mobileProfileItem}>
-        <Img.ProfileIcon />
-      </button>
+      <div className="md:hidden stroke-[#555555]">
+        <a
+          className="absolute left-8 top-1/2 -translate-y-1/2"
+          target="_blank"
+          onClick={handleGoToView}
+        >
+          <Img.ViewIcon />
+        </a>
+        <button
+          onClick={handleGoToProfile}
+          className="absolute right-8 top-1/2 -translate-y-1/2"
+        >
+          <Img.ProfileIcon />
+        </button>
+      </div>
     </div>
   );
 };

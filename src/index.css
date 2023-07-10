@@ -37,8 +37,7 @@ html {
   height: fit-content;
   width: 100vw;
 
-  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%),
-    #ffffff;
+  background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #0e0e0e 100%);
 }
 
 .inherit-all {
@@ -47,8 +46,24 @@ html {
 
 .noise-gradient-background {
   background: url(./imgs/noise.png),
-    radial-gradient(50% 50% at 50% 50%, #161616 0%, #111111 100%);
+    radial-gradient(50% 50% at 50% 50%, #161616 0%, #0e0e0e 100%);
   background-blend-mode: screen, normal;
+}
+
+.grey-gradient-border {
+  border-top: double 1.5px transparent;
+  border-bottom: double 1.5px transparent;
+
+  background-image: linear-gradient(
+      90deg,
+      #111111 0%,
+      #161616 50%,
+      #111111 100%
+    ),
+    linear-gradient(90deg, #55555500 0%, #555555 50%, #55555500 100%);
+  background-origin: border-box;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 .roundedGradientBorder {
@@ -75,13 +90,26 @@ code {
 h1,
 h2,
 h3 {
-  background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+  background: linear-gradient(90deg, #446aff 0%, #c0eaff 50%, #e96ad8 100%)
     #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* background-clip: text; */
   /* font-size: inherit; */
   /* font-weight: inherit; */
+}
+
+.navButton {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 24px;
+  border-radius: 16px;
+  opacity: 0.5;
+  letter-spacing: -0.04em;
+  width: fit-content;
+}
+
+.navButton:hover {
+  opacity: 1;
 }
 
 @media screen and (min-width: 1101px) {

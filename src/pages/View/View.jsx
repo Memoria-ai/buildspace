@@ -32,7 +32,7 @@ const View = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const fetchNumQueries = async () => {
     const userId = localStorage.getItem("userId");
@@ -235,7 +235,7 @@ const View = ({ session }) => {
   };
 
   return (
-    <div className={styles.body}>
+    <div className="h-[100dvh] w-[100vw] flex flex-col items-center gap-4 overflow-y-scroll noise-gradient-background">
       <div className={styles.nav}>
         <h2 className={styles.logo}>Memoria</h2>
         <div className={styles.webNavItems}>
@@ -260,10 +260,13 @@ const View = ({ session }) => {
           </motion.button>
         </div>
         <button
-          onClick={() => navigate("/home")}
-          className={styles.mobileAboutItem}
+          onClick={() => navigate("/")}
+          className={
+            "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50"
+          }
         >
-          Back!
+          <Img.BackIcon />
+          <p className={"font-bold gradientText1"}>Back</p>
         </button>
       </div>
       <div className={styles.inner}>
