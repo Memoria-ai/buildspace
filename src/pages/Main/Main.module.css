@@ -740,10 +740,11 @@ img {
     height: fit-content;
     width: 100%;
 
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid #272727;
-    border-radius: 20px;
-    border-bottom-right-radius: 5px;
+    border-radius: 1.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border: 1px solid #272727;
+    background: rgba(255, 255, 255, 0.05);
+
     padding: 1rem 1.25rem;
     gap: 1rem;
     white-space: pre-line;
@@ -753,10 +754,11 @@ img {
     height: fit-content;
     width: 100%;
 
+    border-radius: 1.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 1px solid #272727;
     background: #161616;
-    border: 2px solid #272727;
-    border-radius: 20px;
-    border-bottom-left-radius: 5px;
+
     padding: 1rem 1.25rem;
     gap: 1rem;
     white-space: pre-line;

@@ -71,6 +71,7 @@ const Main = ({ session }) => {
     if (mode == "Journal") {
       setLoad(false);
     }
+    getJournalPrompt();
   }, [mode]);
 
   useEffect(() => {
