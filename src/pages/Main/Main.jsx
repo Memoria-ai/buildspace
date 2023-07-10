@@ -567,7 +567,7 @@ const Main = ({ session }) => {
       <span
         className={
           mode == "Journal" || mode == ""
-            ? "flex flex-col h-fit w-[100vw] items-center justify-between pt-16 md:gap-8 gap-4"
+            ? "flex flex-col h-fit w-[100vw] items-center justify-between pt-8 md:pt-16 md:gap-8 gap-4"
             : "hidden"
         }
       >
@@ -577,12 +577,14 @@ const Main = ({ session }) => {
           <h2 className="text-5xl font-bold gradientText1 w-fit self-center">
             Journal
           </h2>
-          <p className="text-center font-semibold text-[#555555] tracking-tight">
+          <p className="text-center font-semibold text-[#999999] tracking-tight">
             Click the mic to clear your mind
           </p>
         </div>
         <span className="grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex items-center text-center justify-center">
-          <p className="text-[#555555] w-3/4 text-sm">{journalPrompt}</p>
+          <p className="text-[#999999] w-4/5 text-sm md:text-lg">
+            {journalPrompt}
+          </p>
         </span>
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -672,7 +674,7 @@ const Main = ({ session }) => {
             showNote || load ? "hidden" : "flex flex-col gap-2 fixed bottom-28"
           }
         >
-          <p className="text-sm self-center text-[#3f3f3f]">OR</p>
+          <p className="text-sm self-center text-[#999999]">OR</p>
           <div className="flex flex-row gap-2">
             <motion.label
               whileHover={{ scale: 1.1 }}
@@ -765,7 +767,7 @@ const Main = ({ session }) => {
               type="text"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
-              className={"h-10 font-semibold"}
+              className={"h-10 font-semibold placeholder:text-[#999999]"}
               placeholder="Ask a question to Reflect on your past..."
               onKeyDown={handleKeyDown}
               onFocus={() => setMode("Reflect")}

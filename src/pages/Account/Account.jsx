@@ -91,15 +91,17 @@ const Account = () => {
 
   async function signOut() {
     await supabase.auth.signOut();
+    navigate("/");
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
-    navigate("/");
   }
 
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
       <div className={styles.nav}>
-        <h2 className={styles.logo}>Memoria</h2>
+        <h2 className="font-bold cursor-pointer" onClick={() => navigate("/")}>
+          Memoria
+        </h2>
         <div className={styles.webNavItems}>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -122,7 +124,7 @@ const Account = () => {
         <button
           onClick={() => navigate("/")}
           className={
-            "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50"
+            "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50  md:hidden"
           }
         >
           <Img.BackIcon />

@@ -40,6 +40,10 @@ html {
   background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #0e0e0e 100%);
 }
 
+.logo {
+  cursor: pointer;
+}
+
 .inherit-all {
   all: inherit;
 }
@@ -119,6 +123,7 @@ h3 {
 
   .logo {
     font-weight: 700;
+    cursor: pointer;
   }
 
   h1 {

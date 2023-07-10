@@ -69,6 +69,7 @@ export default function Auth() {
     }
     getUserSession();
   }
+
   async function signInWithGoogle() {
     // console.log('signing in with google');
     //wait 5 seconds

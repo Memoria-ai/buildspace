@@ -237,7 +237,9 @@ const View = ({ session }) => {
   return (
     <div className="h-[100dvh] w-[100vw] flex flex-col items-center gap-4 overflow-y-scroll noise-gradient-background">
       <div className={styles.nav}>
-        <h2 className={styles.logo}>Memoria</h2>
+        <h2 className="font-bold cursor-pointer" onClick={() => navigate("/")}>
+          Memoria
+        </h2>
         <div className={styles.webNavItems}>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -262,7 +264,7 @@ const View = ({ session }) => {
         <button
           onClick={() => navigate("/")}
           className={
-            "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50"
+            "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50 md:hidden"
           }
         >
           <Img.BackIcon />
