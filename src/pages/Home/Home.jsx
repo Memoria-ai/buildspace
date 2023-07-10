@@ -7,9 +7,10 @@ import Search from "../Search/Search";
 import View from "../View/View";
 import * as Img from "../../imgs";
 import { motion, AnimatePresence } from "framer-motion";
+import Main from "../Main/Main";
 
 const Home = ({ session }) => {
-  const [page, setPage] = useState("Create");
+  const [page, setPage] = useState("Search");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Home = ({ session }) => {
   };
 
   const handleGoToView = () => {
-    setPage("View");
+    navigate("/view", { state: { session: session } });
   };
 
   const handleGoToProfile = () => {
@@ -38,15 +39,15 @@ const Home = ({ session }) => {
       <div className={styles.nav}>
         <h2 className={styles.logo}>Memoria</h2>
         <div className={styles.webNavItems}>
-          <motion.a
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={styles.navButton1}
             target="_blank"
-            href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"
+            onClick={handleGoToView}
           >
-            About
-          </motion.a>
+            View Journals
+          </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -59,9 +60,9 @@ const Home = ({ session }) => {
         <a
           className={styles.mobileAboutItem}
           target="_blank"
-          href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"
+          onClick={handleGoToView}
         >
-          <Img.AboutIcon />
+          <Img.ViewIcon />
         </a>
         <button
           onClick={handleGoToProfile}
@@ -70,115 +71,7 @@ const Home = ({ session }) => {
           <Img.ProfileIcon />
         </button>
       </div>
-      <div className={styles.webPageSelector}>
-        <div className={styles.pageSelectDiv}>
-          <button
-            className={`${styles.pageSelectButton} ${
-              page == "Create"
-                ? styles.pageSelectActive
-                : styles.pageSelectButton
-            }`}
-            onClick={handleGoToCreate}
-          >
-            Record
-          </button>
-        </div>
-        <div className={styles.pageSelectDiv}>
-          <button
-            className={`${styles.pageSelectButton} ${
-              page == "Search"
-                ? styles.pageSelectActive
-                : styles.pageSelectButton
-            }`}
-            onClick={handleGoToSearch}
-          >
-            Chat
-          </button>
-        </div>
-        <div className={styles.pageSelectDiv}>
-          <button
-            className={`${styles.pageSelectButton} ${
-              page == "View" ? styles.pageSelectActive : styles.pageSelectButton
-            }`}
-            onClick={handleGoToView}
-          >
-            View
-          </button>
-        </div>
-      </div>
-      {/* <form className={styles.feedbackForm}>
-      How are we doing from 1-5?
-        <div className={styles.formField}>
-          <div className={styles.formField}>          
-            <label>1</label>
-            <input type="radio" name="rating" value="1"/>
-          </div>
-          <div className={styles.formField}>          
-            <label>2</label>
-            <input type="radio" name="rating" value="2"/>
-          </div>
-          <div className={styles.formField}>          
-            <label>3</label>
-            <input type="radio" name="rating" value="3"/>
-          </div>
-          <div className={styles.formField}>          
-            <label>4</label>
-            <input type="radio" name="rating" value="4"/>
-          </div>
-          <div className={styles.formField}>          
-            <label>5</label>
-            <input type="radio" name="rating" value="5"/>
-          </div>
-        </div>
-        <div className={styles.formField}>
-          <label>Why: </label>
-          <input type="text" style={{border: "1px solid #272727", borderradius: "1rem"}} placeholder="because..."/>
-        </div>
-        <input className={styles.navButton1} type="submit" value="Submit"/>
-      </form> */}
-      {page == "Create" ? (
-        <Create session={session} />
-      ) : page == "Search" ? (
-        <Search session={session} />
-      ) : (
-        <View session={session} />
-      )}
-      <div className={styles.mobilePageSelector}>
-        <div className={styles.pageSelectDiv}>
-          <button
-            className={`${styles.pageSelectButton} ${
-              page == "Create"
-                ? styles.pageSelectActive
-                : styles.pageSelectButton
-            }`}
-            onClick={handleGoToCreate}
-          >
-            {page == "Create" ? <Img.RecordActive /> : <Img.RecordIcon />}
-          </button>
-        </div>
-        <div className={styles.pageSelectDiv}>
-          <button
-            className={`${styles.pageSelectButton} ${
-              page == "Search"
-                ? styles.pageSelectActive
-                : styles.pageSelectButton
-            }`}
-            onClick={handleGoToSearch}
-          >
-            {page == "Search" ? <Img.ChatActive /> : <Img.ChatIcon />}
-          </button>
-        </div>
-        <div className={styles.pageSelectDiv}>
-          <button
-            className={`${styles.pageSelectButton} ${
-              page == "View" ? styles.pageSelectActive : styles.pageSelectButton
-            }`}
-            onClick={handleGoToView}
-          >
-            {page == "View" ? <Img.ViewActive /> : <Img.ViewIcon />}
-          </button>
-        </div>
-      </div>
+      <Main session={session} />
     </div>
   );
 };

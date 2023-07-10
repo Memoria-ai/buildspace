@@ -5,6 +5,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -20,7 +24,7 @@ body {
 
   box-sizing: border-box;
   /* border: 0.1px solid rgba(255, 0, 0, 0.25) !important; */
-  border: none;
+  /* border: none; */
   background: none;
   color: white;
   font-family: "Inter", Helvetica, sans-serif;
@@ -33,8 +37,37 @@ html {
   height: fit-content;
   width: 100vw;
 
-  background: radial-gradient(100% 563.74% at 0% 100%, #111111 0%, #161616 100%),
-    #ffffff;
+  background: radial-gradient(50% 50% at 50% 50%, #161616 0%, #0e0e0e 100%);
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.inherit-all {
+  all: inherit;
+}
+
+.noise-gradient-background {
+  background: url(./imgs/noise.png),
+    radial-gradient(50% 50% at 50% 50%, #161616 0%, #0e0e0e 100%);
+  background-blend-mode: screen, normal;
+}
+
+.grey-gradient-border {
+  border-top: double 1.5px transparent;
+  border-bottom: double 1.5px transparent;
+
+  background-image: linear-gradient(
+      90deg,
+      #111111 0%,
+      #161616 50%,
+      #111111 100%
+    ),
+    linear-gradient(90deg, #55555500 0%, #555555 50%, #55555500 100%);
+  background-origin: border-box;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 .roundedGradientBorder {
@@ -61,13 +94,26 @@ code {
 h1,
 h2,
 h3 {
-  background: linear-gradient(90deg, #5271ea 0%, #c0eaff 50%, #d977cc 100%),
+  background: linear-gradient(90deg, #446aff 0%, #c0eaff 50%, #e96ad8 100%)
     #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: inherit;
-  font-weight: inherit;
+  /* background-clip: text; */
+  /* font-size: inherit; */
+  /* font-weight: inherit; */
+}
+
+.navButton {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 24px;
+  border-radius: 16px;
+  opacity: 0.5;
+  letter-spacing: -0.04em;
+  width: fit-content;
+}
+
+.navButton:hover {
+  opacity: 1;
 }
 
 @media screen and (min-width: 1101px) {
@@ -77,6 +123,7 @@ h3 {
 
   .logo {
     font-weight: 700;
+    cursor: pointer;
   }
 
   h1 {

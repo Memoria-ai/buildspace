@@ -68,46 +68,50 @@ const Account = () => {
     });
   }
 
-  async function updateProfile(event) {
-    event.preventDefault();
+  // async function updateProfile(event) {
+  //   event.preventDefault();
 
-    setLoading(true);
-    const { user } = session;
+  //   setLoading(true);
+  //   const { user } = session;
 
-    const updates = {
-      id: user.id,
-      username: username,
-      full_name: name,
-      updated_at: new Date(),
-    };
+  //   const updates = {
+  //     id: user.id,
+  //     username: username,
+  //     full_name: name,
+  //     updated_at: new Date(),
+  //   };
 
-    let { error } = await supabase.from("profiles").upsert(updates);
+  //   let { error } = await supabase.from("profiles").upsert(updates);
 
-    if (error) {
-      alert(error.message);
-    }
-    setLoading(false);
-  }
+  //   if (error) {
+  //     alert(error.message);
+  //   }
+  //   setLoading(false);
+  // }
 
   async function signOut() {
     await supabase.auth.signOut();
     navigate("/");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
   }
 
   return (
-    <div className={styles.body}>
+    <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
       <div className={styles.nav}>
-        <h2 className={styles.logo}>Memoria</h2>
+        <h2 className="font-bold cursor-pointer" onClick={() => navigate("/")}>
+          Memoria
+        </h2>
         <div className={styles.webNavItems}>
-          <motion.a
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={styles.navButton1}
             target="_blank"
-            href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"
+            onClick={() => navigate("/view", { state: { session: session } })}
           >
-            About
-          </motion.a>
+            View Journals
+          </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -119,16 +123,19 @@ const Account = () => {
         </div>
         <button
           onClick={() => navigate("/")}
-          className={styles.mobileAboutItem}
+          className={
+            "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50  md:hidden"
+          }
         >
-          Back!
+          <Img.BackIcon />
+          <p className={"font-bold gradientText1"}>Back</p>
         </button>
       </div>
       <div className={styles.inner}>
         {loading ? (
           <div>Loading ...</div>
         ) : user ? (
-          <form onSubmit={updateProfile}>
+          <form>
             <div className={styles.formField}>
               <label htmlFor="email" className={styles.gradientText1}>
                 Email:{" "}
