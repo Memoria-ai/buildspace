@@ -17,13 +17,15 @@ const ThoughtCard = ({ onActivity, note, session }) => {
   }, [note]);
 
   const getNoteInfo = async () => {
-    console.log("running");
-    const noteContent = note?.content;
-    const noteTitle = note?.title;
-    const noteTags = note?.tags;
-    setContent(noteContent);
-    setUserTitle(noteTitle);
-    setTags(noteTags);
+    // console.log("running");
+    if (note) {
+      const noteContent = note?.content;
+      const noteTitle = note?.title;
+      const noteTags = note?.tags;
+      setContent(noteContent);
+      setUserTitle(noteTitle);
+      setTags(noteTags);
+    }
   };
 
   const handleContentChange = (event) => {

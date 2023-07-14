@@ -34,8 +34,8 @@ function Multiselect({ onChange, options }) {
       <div className={styles.filterValueContainer}>
         {selectedOptions.length > 0 ? (
           <div className={styles.filterValues}>
-            {selectedOptions.map((option) => (
-              <div key={option?.tags} className={styles.tag}>
+            {selectedOptions.map((option, index) => (
+              <div key={index} className={styles.tag}>
                 {option}{" "}
                 <span className={styles.tagCount}>
                   ({options?.counts[option]})
@@ -76,7 +76,7 @@ function Multiselect({ onChange, options }) {
               setIsOpen(false);
             }}
             onMouseEnter={() => setHighlightedIndex(index)}
-            key={option.tags}
+            key={index}
             className={`
                     ${styles.option} 
                     ${selectedOptions.includes(option) ? styles.selected : ""}

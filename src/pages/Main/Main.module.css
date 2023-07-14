@@ -471,7 +471,7 @@ img {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    height: calc(100dvh - 16.5rem);
+    /* height: calc(100dvh - 16.5rem); */
     overflow-y: scroll;
 
     position: relative;
@@ -726,7 +726,7 @@ img {
     flex-direction: column;
     gap: 1rem;
 
-    height: calc(100dvh - 16.5rem);
+    /* height: calc(100dvh - 16.5rem); */
 
     overflow-y: scroll;
 

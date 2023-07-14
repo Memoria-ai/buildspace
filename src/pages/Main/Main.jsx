@@ -34,6 +34,19 @@ const Main = ({ session }) => {
   const server = "https://memoria-ai.herokuapp.com/";
   const current = server;
 
+  async function getUserSession() {
+    const session = await supabase.auth.getSession();
+    const token = session?.data?.session?.access_token;
+    if (!token) {
+      console.log("No token found. User needs to be signed in.");
+      navigate("/");
+    }
+  }
+
+  useEffect(() => {
+    getUserSession();
+  }, []);
+
   useEffect(() => {
     const handlePermission = async () => {
       const hasPermission = localStorage.getItem("microphonePermission");
@@ -559,7 +572,7 @@ const Main = ({ session }) => {
         : mode == "Journal"
         ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling."
         : "Return an interesting one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling.";
-    console.log(prompt);
+    // console.log(prompt);
     const genJournal = await processMessageToChatGPT(prompt, 20);
     setJournalPrompt(genJournal);
   };
@@ -737,7 +750,7 @@ const Main = ({ session }) => {
       <span
         className={
           mode == "Reflect" || mode == ""
-            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between h-[calc(100dvh-5.25rem)]"
+            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between "
             : "hidden"
         }
       >
@@ -749,7 +762,10 @@ const Main = ({ session }) => {
           transition={{ duration: 0.5, delay: 0.5 }}
           className={
             mode == "Reflect"
-              ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex flex-col items-center text-center justify-center absolute top-0 z-40 cursor-pointer"
+              ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex flex-col items-center text-center justify-center absolute z-40 cursor-pointer" +
+                (messages.length > 0
+                  ? " top-0"
+                  : " bottom-[7rem] md:top-0 md:bottom-none")
               : "hidden"
           }
           onClick={(e) => {
@@ -779,14 +795,15 @@ const Main = ({ session }) => {
             Back
           </p>
         </button>
-        <span className="flex-1" />
         <motion.div
           variants={popUpTransitions}
           initial="hidden"
           animate={mode == "Reflect" ? "visible" : "fadeOut"}
           exit="exit"
           transition={{ duration: 0.5, delay: 0.5 }}
-          className={styles.chatHistory}
+          className={`${styles.chatHistory} ${
+            mode == "Reflect" ? "h-[calc(100dvh-16.25rem)]" : "h-0"
+          }`}
         >
           <span className="flex-1" />
           {messages.map((message, index) => (
@@ -818,16 +835,6 @@ const Main = ({ session }) => {
               onFocus={(e) => {
                 e.preventDefault();
                 setMode("Reflect");
-              }}
-              onBlur={(e) => {
-                e.preventDefault();
-                setTimeout(() => {
-                  if (document.activeElement !== e.target) {
-                    if (messages.length == 0) {
-                      setMode("");
-                    }
-                  }
-                }, 7500);
               }}
             />
             <button onClick={sendQuestion} className={styles.mobileQuerySend}>
