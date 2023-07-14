@@ -729,7 +729,7 @@ img {
     flex-direction: column;
     gap: 1rem;
 
-    height: calc(100dvh - 10.5rem);
+    height: calc(100dvh - 16rem);
 
     overflow-y: scroll;
 

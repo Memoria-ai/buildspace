@@ -64,7 +64,7 @@ const Main = ({ session }) => {
       navigate("/");
     }
 
-    getJournalPrompt();
+    // getJournalPrompt();
   }, []);
 
   useEffect(() => {
@@ -550,16 +550,27 @@ const Main = ({ session }) => {
     setMode("");
   };
 
-  const [journalPrompt, setJournalPrompt] = useState("");
+  const [journalPrompt, setJournalPrompt] = useState(
+    "Tell me about your day. The highs & the lows."
+  );
 
   const getJournalPrompt = async () => {
-    const prompt = await processMessageToChatGPT(
-      "Return an interesting, introspective, and creative, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt for daily journalling.",
-      20
-    );
+    const prompt =
+      mode == "Reflect"
+        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) question for self-reflection in first person."
+        : mode == "Journal"
+        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling."
+        : "Return an interesting one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling.";
     console.log(prompt);
-    setJournalPrompt(prompt);
+    const genJournal = await processMessageToChatGPT(prompt, 20);
+    setJournalPrompt(genJournal);
   };
+
+  useEffect(() => {
+    if (mode == "Reflect") {
+      getJournalPrompt();
+    }
+  }, [messages]);
 
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
@@ -719,28 +730,46 @@ const Main = ({ session }) => {
       <span
         className={
           mode == "Reflect" || mode == ""
-            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between h-[100dvh - 5.25rem]"
+            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between h-[calc(100dvh-5.25rem)]"
             : "hidden"
         }
       >
+        <span
+          className={
+            mode == "Reflect"
+              ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex items-center text-center justify-center absolute top-0 z-40 cursor-pointer"
+              : "hidden"
+          }
+          onClick={(e) => {
+            e.preventDefault();
+            setSearchTerm(journalPrompt);
+          }}
+        >
+          <p className="text-[#999999] w-4/5 text-sm md:text-lg">
+            {journalPrompt}
+          </p>
+        </span>
         <button
           onClick={() => setMode((prevState) => !prevState)}
           className={
             mode == "Reflect"
-              ? "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-4 bg-[#161616] md:bg-transparent md:border-0 border border-[#272727] rounded-full z-50"
+              ? "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-24 md:top-4 bg-[#161616] md:bg-transparent md:border-0 border border-[#272727] rounded-full z-50"
               : "hidden"
           }
         >
           <Img.BackIcon />
           <p
-            className={mode == "Reflect" ? "font-bold gradientText1" : "hidden"}
+            className={
+              mode == "Reflect" ? "font-bold gradientText1 z-50" : "hidden"
+            }
           >
             Back
           </p>
         </button>
+
+        <span className="flex-1" />
         {mode == "Reflect" ? (
           <div className={styles.chatHistory}>
-            <span className="flex-1" />
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -771,10 +800,11 @@ const Main = ({ session }) => {
               placeholder="Ask a question to Reflect on your past..."
               onKeyDown={handleKeyDown}
               onFocus={() => setMode("Reflect")}
-              onBlur={() => {
+              onBlur={(e) => {
+                e.preventDefault();
                 setTimeout(
                   messages.length == 0 ? setMode("") : setMode("Reflect"),
-                  400
+                  500
                 );
               }}
             />
