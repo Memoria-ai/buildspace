@@ -64,13 +64,11 @@ const Main = ({ session }) => {
       navigate("/");
     }
 
-    getJournalPrompt();
+    // getJournalPrompt();
   }, []);
 
   useEffect(() => {
-    if (mode == "Journal") {
-      setLoad(false);
-    }
+    setLoad(false);
     getJournalPrompt();
   }, [mode]);
 
@@ -426,9 +424,9 @@ const Main = ({ session }) => {
 
   const popUpTransitions = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.2 } },
-    fadeOut: { opacity: 0, transition: { duration: 0.2 } },
-    exit: { opacity: 0, transition: { duration: 0.1 } },
+    visible: { opacity: 1, transition: { duration: 1.0 } },
+    fadeOut: { opacity: 0, transition: { duration: 1.0 } },
+    exit: { opacity: 0, transition: { duration: 0.5 } },
   };
 
   const deleteTag = (option) => {
@@ -550,21 +548,41 @@ const Main = ({ session }) => {
     setMode("");
   };
 
-  const [journalPrompt, setJournalPrompt] = useState("");
+  const [journalPrompt, setJournalPrompt] = useState(
+    "Tell me about your day. The highs & the lows."
+  );
 
   const getJournalPrompt = async () => {
-    const prompt = await processMessageToChatGPT(
-      "Return an interesting, introspective, and creative, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt for daily journalling.",
-      20
-    );
+    const prompt =
+      mode == "Reflect"
+        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) question for self-reflection in first person."
+        : mode == "Journal"
+        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling."
+        : "Return an interesting one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling.";
     console.log(prompt);
-    setJournalPrompt(prompt);
+    const genJournal = await processMessageToChatGPT(prompt, 20);
+    setJournalPrompt(genJournal);
   };
+
+  useEffect(() => {
+    if (mode == "Reflect") {
+      getJournalPrompt();
+    }
+  }, [messages]);
 
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
-      <Nav session={session} />
-      <span
+      <Nav
+        onClick={() => setMode((prevState) => !prevState)}
+        session={session}
+        mode={mode}
+      />
+      <motion.div
+        variants={popUpTransitions}
+        initial="visible"
+        animate={mode !== "Reflect" ? "visible" : "fadeOut"}
+        exit="exit"
+        transition={{ duration: 1.5, delay: 0.5 }}
         className={
           mode == "Journal" || mode == ""
             ? "flex flex-col h-fit w-[100vw] items-center justify-between pt-8 md:pt-16 md:gap-8 gap-4"
@@ -715,19 +733,42 @@ const Main = ({ session }) => {
             </motion.button>
           </span>
         </div>
-      </span>
+      </motion.div>
       <span
         className={
           mode == "Reflect" || mode == ""
-            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between h-[100dvh - 5.25rem]"
+            ? "flex flex-col w-[100vw] items-center fixed bottom-0 justify-between h-[calc(100dvh-5.25rem)]"
             : "hidden"
         }
       >
+        <motion.div
+          variants={popUpTransitions}
+          initial="hidden"
+          animate={mode == "Reflect" ? "visible" : "fadeOut"}
+          exit="exit"
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className={
+            mode == "Reflect"
+              ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex flex-col items-center text-center justify-center absolute top-0 z-40 cursor-pointer"
+              : "hidden"
+          }
+          onClick={(e) => {
+            e.preventDefault();
+            setSearchTerm(journalPrompt);
+          }}
+        >
+          <p className="text-[#999999] w-4/5 text-sm md:text-lg">
+            {journalPrompt}
+          </p>
+          <p className="text-[8pt] text-[#999999] absolute -top-[1.25rem] bg-[#161616]">
+            [Click Me]
+          </p>
+        </motion.div>
         <button
           onClick={() => setMode((prevState) => !prevState)}
           className={
             mode == "Reflect"
-              ? "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-4 bg-[#161616] md:bg-transparent md:border-0 border border-[#272727] rounded-full z-50"
+              ? "md:flex hidden flex-row gap-2 px-4 py-2 absolute left-24 top-4 z-50"
               : "hidden"
           }
         >
@@ -738,29 +779,33 @@ const Main = ({ session }) => {
             Back
           </p>
         </button>
-        {mode == "Reflect" ? (
-          <div className={styles.chatHistory}>
-            <span className="flex-1" />
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`${
-                  message.role == "user"
-                    ? styles.userQuestion
-                    : styles.memoriaResponse
-                }`}
-              >
-                {message.text}
-              </div>
-            ))}
-            <div className={load ? styles.loading2 : styles.hidden}>
-              <img height="50" src={Img.LoadingGif} alt="Wait for it!" />
+        <span className="flex-1" />
+        <motion.div
+          variants={popUpTransitions}
+          initial="hidden"
+          animate={mode == "Reflect" ? "visible" : "fadeOut"}
+          exit="exit"
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className={styles.chatHistory}
+        >
+          <span className="flex-1" />
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`${
+                message.role == "user"
+                  ? styles.userQuestion
+                  : styles.memoriaResponse
+              }`}
+            >
+              {message.text}
             </div>
-            <div ref={messagesEndRef} />
+          ))}
+          <div className={load ? styles.loading2 : styles.hidden}>
+            <img height="50" src={Img.LoadingGif} alt="Wait for it!" />
           </div>
-        ) : (
-          ""
-        )}
+          <div ref={messagesEndRef} />
+        </motion.div>
         <div className="flex flex-row gap-4 w-full md:w-1/2 md:min-w-[600px] p-4 pb-8 bg-[#27272725] border border-b-0 border-[#272727] rounded-t-3xl z-50">
           <div className={`${"w-full pr-4"} ${styles.roundedGradientBorder}`}>
             <input
@@ -770,12 +815,19 @@ const Main = ({ session }) => {
               className={"h-10 font-semibold placeholder:text-[#999999]"}
               placeholder="Ask a question to Reflect on your past..."
               onKeyDown={handleKeyDown}
-              onFocus={() => setMode("Reflect")}
-              onBlur={() => {
-                setTimeout(
-                  messages.length == 0 ? setMode("") : setMode("Reflect"),
-                  400
-                );
+              onFocus={(e) => {
+                e.preventDefault();
+                setMode("Reflect");
+              }}
+              onBlur={(e) => {
+                e.preventDefault();
+                setTimeout(() => {
+                  if (document.activeElement !== e.target) {
+                    if (messages.length == 0) {
+                      setMode("");
+                    }
+                  }
+                }, 7500);
               }}
             />
             <button onClick={sendQuestion} className={styles.mobileQuerySend}>

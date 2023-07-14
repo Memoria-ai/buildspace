@@ -23,7 +23,7 @@ const Account = () => {
       const user = await supabase.auth.getUser(token);
       setUser(user);
       setEmail(user?.data?.user?.email);
-      if (session) {
+      if (session?.user?.email) {
         setEmail(session.user.email);
       }
       setSession(session);
@@ -68,32 +68,30 @@ const Account = () => {
     });
   }
 
-  // async function updateProfile(event) {
-  //   event.preventDefault();
+  async function updateProfile(event) {
+    event.preventDefault();
 
-  //   setLoading(true);
-  //   const { user } = session;
+    setLoading(true);
+    const { user } = session;
 
-  //   const updates = {
-  //     id: user.id,
-  //     username: username,
-  //     full_name: name,
-  //     updated_at: new Date(),
-  //   };
+    const updates = {
+      id: user.id,
+      username: username,
+      full_name: name,
+      updated_at: new Date(),
+    };
 
-  //   let { error } = await supabase.from("profiles").upsert(updates);
+    let { error } = await supabase.from("profiles").upsert(updates);
 
-  //   if (error) {
-  //     alert(error.message);
-  //   }
-  //   setLoading(false);
-  // }
+    if (error) {
+      alert(error.message);
+    }
+    setLoading(false);
+  }
 
   async function signOut() {
     await supabase.auth.signOut();
     navigate("/");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("token");
   }
 
   return (
@@ -122,7 +120,7 @@ const Account = () => {
           </motion.button>
         </div>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           className={
             "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50  md:hidden"
           }
@@ -135,7 +133,7 @@ const Account = () => {
         {loading ? (
           <div>Loading ...</div>
         ) : user ? (
-          <form>
+          <form onSubmit={updateProfile}>
             <div className={styles.formField}>
               <label htmlFor="email" className={styles.gradientText1}>
                 Email:{" "}

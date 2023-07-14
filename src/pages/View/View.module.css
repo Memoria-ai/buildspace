@@ -626,6 +626,7 @@ select {
     display: flex;
     width: fit-content;
     align-self: center;
+    align-items: center;
 
     padding: 8px 16px;
     background: #161616;
@@ -633,7 +634,7 @@ select {
     border-radius: 25px;
 
     font-size: 10pt;
-    gap: 3px;
+    gap: 4px;
   }
 
   .caret {

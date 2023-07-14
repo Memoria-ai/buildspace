@@ -24,7 +24,7 @@ export default function Auth() {
   async function getUserSession() {
     const session = await supabase.auth.getSession();
     if (session) {
-      // console.log('session: ', session)
+      console.log("session: ", session);
       console.log(process.env.REACT_APP_TEST);
       const token = session.data.session.access_token;
       const response = await fetch(server + "login", {
@@ -71,10 +71,8 @@ export default function Auth() {
   }
 
   async function signInWithGoogle() {
-    // console.log('signing in with google');
-    //wait 5 seconds
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error, session } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: current,
@@ -172,13 +170,13 @@ export default function Auth() {
               <Img.TwitterIcon />
             </button>
           </motion.div>
-          <Carousel />
+          {/* <Carousel /> */}
           {/* <img src={Img.ChatExample1} className={styles.chatExample}/> */}
         </motion.div>
         <div className={loading ? "" : styles.hidden}>
           <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
         </div>
-        <motion.iframe
+        {/* <motion.iframe
           whileHover={{ scale: 1.05 }}
           className={styles.demoVid}
           width="627"
@@ -187,7 +185,7 @@ export default function Auth() {
           title="Memoria Demo"
           frameBorder="0"
           allowFullScreen
-        ></motion.iframe>
+        ></motion.iframe> */}
         <div className={styles.featureGallery}>
           <h3>Features:</h3>
           <div className={styles.gallery}>

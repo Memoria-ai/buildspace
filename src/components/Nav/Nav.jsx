@@ -4,7 +4,7 @@ import * as Img from "../../imgs";
 import { motion, AnimatePresence } from "framer-motion";
 // import Main from "../Main/Main";
 
-const Nav = ({ session }) => {
+const Nav = ({ onClick, session, mode }) => {
   const [page, setPage] = useState("Search");
   const navigate = useNavigate();
 
@@ -27,6 +27,10 @@ const Nav = ({ session }) => {
 
   const handleGoToProfile = () => {
     navigate("/account", { state: { session: session } });
+  };
+
+  const handleClick = () => {
+    onClick();
   };
 
   return (
@@ -52,13 +56,17 @@ const Nav = ({ session }) => {
         </motion.button>
       </div>
       <div className="md:hidden stroke-[#555555]">
-        <a
-          className="absolute left-8 top-1/2 -translate-y-1/2"
-          target="_blank"
-          onClick={handleGoToView}
-        >
-          <Img.ViewIcon />
-        </a>
+        <div className="flex flex-row gap-4 items-center justify-center absolute left-8 top-1/2 -translate-y-1/2">
+          <button
+            onClick={() => handleClick()}
+            className={mode == "Reflect" ? "block" : "hidden"}
+          >
+            <Img.BackIcon />
+          </button>
+          <a onClick={handleGoToView}>
+            <Img.ViewIcon />
+          </a>
+        </div>
         <button
           onClick={handleGoToProfile}
           className="absolute right-8 top-1/2 -translate-y-1/2"
