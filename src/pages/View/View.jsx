@@ -32,7 +32,7 @@ const View = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const fetchNumQueries = async () => {
     const userId = localStorage.getItem("userId");

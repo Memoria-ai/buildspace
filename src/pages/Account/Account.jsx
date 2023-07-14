@@ -120,7 +120,7 @@ const Account = () => {
           </motion.button>
         </div>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           className={
             "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-1/2 -translate-y-1/2 z-50  md:hidden"
           }
