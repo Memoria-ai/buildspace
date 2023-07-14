@@ -17,8 +17,8 @@ export default function Auth() {
   const localServer = "http://localhost:8000/";
   const serverMain = "https://memoria-ai.herokuapp.com/";
 
-  const server = localServer;
-  const current = localhost;
+  const server = serverMain;
+  const current = backToApp;
   const navigate = useNavigate();
 
   async function getUserSession() {
