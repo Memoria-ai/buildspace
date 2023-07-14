@@ -68,9 +68,7 @@ const Main = ({ session }) => {
   }, []);
 
   useEffect(() => {
-    if (mode == "Journal") {
-      setLoad(false);
-    }
+    setLoad(false);
     getJournalPrompt();
   }, [mode]);
 
@@ -751,7 +749,7 @@ const Main = ({ session }) => {
           transition={{ duration: 0.5, delay: 0.5 }}
           className={
             mode == "Reflect"
-              ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex items-center text-center justify-center absolute top-0 z-40 cursor-pointer"
+              ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex flex-col items-center text-center justify-center absolute top-0 z-40 cursor-pointer"
               : "hidden"
           }
           onClick={(e) => {
@@ -762,8 +760,10 @@ const Main = ({ session }) => {
           <p className="text-[#999999] w-4/5 text-sm md:text-lg">
             {journalPrompt}
           </p>
+          <p className="text-[8pt] text-[#999999] absolute -top-[1.25rem] bg-[#161616]">
+            [Click Me]
+          </p>
         </motion.div>
-        <span className="flex-1" />
         <button
           onClick={() => setMode((prevState) => !prevState)}
           className={
@@ -779,6 +779,7 @@ const Main = ({ session }) => {
             Back
           </p>
         </button>
+        <span className="flex-1" />
         <motion.div
           variants={popUpTransitions}
           initial="hidden"
@@ -787,6 +788,7 @@ const Main = ({ session }) => {
           transition={{ duration: 0.5, delay: 0.5 }}
           className={styles.chatHistory}
         >
+          <span className="flex-1" />
           {messages.map((message, index) => (
             <div
               key={index}
@@ -821,9 +823,11 @@ const Main = ({ session }) => {
                 e.preventDefault();
                 setTimeout(() => {
                   if (document.activeElement !== e.target) {
-                    messages.length === 0 ? setMode("") : setMode("Reflect");
+                    if (messages.length == 0) {
+                      setMode("");
+                    }
                   }
-                }, 2000);
+                }, 7500);
               }}
             />
             <button onClick={sendQuestion} className={styles.mobileQuerySend}>
