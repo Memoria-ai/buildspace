@@ -764,7 +764,7 @@ const Main = ({ session }) => {
             mode == "Reflect"
               ? "grey-gradient-border w-4/5 md:w-1/2 h-[5rem] flex flex-col items-center text-center justify-center absolute z-40 cursor-pointer" +
                 (messages.length > 0
-                  ? " top-0"
+                  ? " top-0 -translate-y-full"
                   : " bottom-[7rem] md:top-0 md:bottom-none")
               : "hidden"
           }
