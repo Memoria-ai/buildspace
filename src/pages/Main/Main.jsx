@@ -768,7 +768,7 @@ const Main = ({ session }) => {
           onClick={() => setMode((prevState) => !prevState)}
           className={
             mode == "Reflect"
-              ? "flex flex-row gap-2 px-4 py-2 absolute left-4 md:left-24 top-4 z-50"
+              ? "md:flex hidden flex-row gap-2 px-4 py-2 absolute left-24 top-4 z-50"
               : "hidden"
           }
         >
