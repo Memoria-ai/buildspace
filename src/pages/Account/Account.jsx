@@ -97,7 +97,10 @@ const Account = () => {
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
       <div className={styles.nav}>
-        <h2 className="font-bold cursor-pointer" onClick={() => navigate("/")}>
+        <h2
+          className="font-bold cursor-pointer"
+          onClick={() => navigate("/home")}
+        >
           Memoria
         </h2>
         <div className={styles.webNavItems}>

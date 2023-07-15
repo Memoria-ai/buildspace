@@ -269,6 +269,7 @@ select {
 
   .transcript {
     width: 100%;
+    white-space: pre-line;
   }
 
   .deleteButton {
@@ -615,6 +616,7 @@ select {
 
   .transcript {
     width: 100%;
+    white-space: pre-line;
   }
 
   .deleteButton {

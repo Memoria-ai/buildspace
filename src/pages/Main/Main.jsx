@@ -824,7 +824,12 @@ const Main = ({ session }) => {
             </div>
           ))}
           <div className={load ? styles.loading2 : styles.hidden}>
-            <img height="50" src={Img.LoadingGif} alt="Wait for it!" />
+            <img
+              id="loading"
+              height="50"
+              src={Img.LoadingGif}
+              alt="Wait for it!"
+            />
           </div>
           <div ref={messagesEndRef} />
         </motion.div>

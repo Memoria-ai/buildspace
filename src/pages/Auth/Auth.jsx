@@ -18,8 +18,8 @@ export default function Auth() {
   const localServer = "http://localhost:8000/";
   const serverMain = "https://memoria-ai.herokuapp.com/";
 
-  const server = serverMain;
-  const current = backToApp;
+  const server = localServer;
+  const current = localhost;
   const navigate = useNavigate();
 
   async function getUserSession() {
@@ -199,9 +199,8 @@ export default function Auth() {
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center w-full md:hidden flex"
         >
-          <p className="gradientText1 text-2xl font-bold w-fit">How It Works</p>
+          <h3>How It Works</h3>
           <motion.img
-            whileHover={{ scale: 1.05 }}
             src={I.VertiHow}
             alt="Wait for it!"
             className="w-[90%] md:w-2/3 md:max-w-[1400px] md:min-w-[600px] md:hidden flex"
@@ -231,6 +230,18 @@ export default function Auth() {
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature1} />
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature3} />
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature4} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 items-center max-w-[80%]">
+          <h3>What's Next?</h3>
+          <div className={styles.headlineButton}>
+            1. Using embeddings to better understand your notes.
+          </div>
+          <div className={styles.headlineButton}>
+            2. Connecting with Notion to be able to journal on two fronts.
+          </div>
+          <div className={styles.headlineButton}>
+            3. Making a PGA download option!
           </div>
         </div>
       </div>

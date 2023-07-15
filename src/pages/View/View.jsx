@@ -32,7 +32,7 @@ const View = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const fetchNumQueries = async () => {
     const userId = localStorage.getItem("userId");
@@ -237,7 +237,10 @@ const View = ({ session }) => {
   return (
     <div className="h-[100dvh] w-[100vw] flex flex-col items-center gap-4 overflow-y-scroll noise-gradient-background">
       <div className={styles.nav}>
-        <h2 className="font-bold cursor-pointer" onClick={() => navigate("/")}>
+        <h2
+          className="font-bold cursor-pointer"
+          onClick={() => navigate("/home")}
+        >
           Memoria
         </h2>
         <div className={styles.webNavItems}>
