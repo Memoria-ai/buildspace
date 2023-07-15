@@ -18,6 +18,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#loading {
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  height: 75px;
+  filter: saturate(0) brightness(100);
+}
+
 * {
   margin: 0;
   padding: 0;

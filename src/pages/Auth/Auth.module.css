@@ -155,7 +155,7 @@ button {
 
 @media screen and (min-width: 641px) {
   .memoriaName {
-    font-size: 64pt;
+    font-size: 72pt;
     font-weight: 700;
   }
 
@@ -236,7 +236,6 @@ button {
     flex-direction: column;
     width: fit-content;
     align-items: center;
-    gap: 0.5rem;
     /* border: solid 1px blue !important; */
   }
 
@@ -323,16 +322,15 @@ button {
 
   .gallery {
     width: 75%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 450px);
-    grid-gap: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
   }
 
   .gallery img {
     height: auto;
-    width: 100%;
+    width: 400px;
     border: 0;
     padding: 0;
     border-radius: 0;

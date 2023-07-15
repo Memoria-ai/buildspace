@@ -61,14 +61,6 @@ label {
   height: 0 !important;
 }
 
-img {
-  box-shadow: none;
-  border: none;
-  border-radius: 0;
-  height: 75px;
-  filter: saturate(0) brightness(100);
-}
-
 /* DEFAULT STYLING ENDS */
 
 /* GLOBAL STYLING START */

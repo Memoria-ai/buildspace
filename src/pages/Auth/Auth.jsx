@@ -3,6 +3,7 @@ import { supabase } from "../../supabaseClient";
 import styles from "./Auth.module.css";
 import Memoria from "../../imgs/Memoria.png";
 import * as Img from "../../imgs";
+import * as I from "./imgs";
 import * as Feat from "./feature-cards";
 import { motion } from "framer-motion";
 import { Carousel } from "../../components/Carousel/Carousel";
@@ -17,8 +18,8 @@ export default function Auth() {
   const localServer = "http://localhost:8000/";
   const serverMain = "https://memoria-ai.herokuapp.com/";
 
-  const server = serverMain;
-  const current = backToApp;
+  const server = localServer;
+  const current = localhost;
   const navigate = useNavigate();
 
   async function getUserSession() {
@@ -119,7 +120,7 @@ export default function Auth() {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className={styles.headline}
+          className="flex flex-col items-center md:leading-tight"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
@@ -137,12 +138,12 @@ export default function Auth() {
             whileHover={{ scale: 1.1 }}
             className={styles.headlineButton}
           >
-            Introducing Your Second Brain...
+            Journalling & Self-Reflection – Powered by AI{" "}
           </motion.div>
           <h1 className={styles.memoriaName}>Memoria</h1>
-          <h2 className={styles.memoriaTagline}>
-            Record, Transcribe and Chat with your thoughts, powered by AI.
-          </h2>
+          <p className="text-white text-[14pt] md:text-[24pt] text-center max-w-[80%] md:max-w-full">
+            If ChatGPT remembered everything you've ever said
+          </p>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -170,12 +171,50 @@ export default function Auth() {
               <Img.TwitterIcon />
             </button>
           </motion.div>
+
           {/* <Carousel /> */}
           {/* <img src={Img.ChatExample1} className={styles.chatExample}/> */}
         </motion.div>
-        <div className={loading ? "" : styles.hidden}>
-          <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
-        </div>
+        <motion.img
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 1,
+            ease: "linear",
+            scale: {
+              type: "spring",
+              damping: 5,
+              stiffness: 120,
+              restDelta: 0.001,
+            },
+          }}
+          whileHover={{ scale: 1.05 }}
+          src={I.HoriHow}
+          alt="Wait for it!"
+          className="w-2/3 max-w-[1400px] min-w-[600px] hidden md:flex"
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center w-full md:hidden flex"
+        >
+          <p className="gradientText1 text-2xl font-bold w-fit">How It Works</p>
+          <motion.img
+            whileHover={{ scale: 1.05 }}
+            src={I.VertiHow}
+            alt="Wait for it!"
+            className="w-[90%] md:w-2/3 md:max-w-[1400px] md:min-w-[600px] md:hidden flex"
+          />
+          <div className={loading ? "" : styles.hidden}>
+            <img
+              id="loading"
+              src={Img.LoadingGif}
+              alt="Wait for it!"
+              height="100"
+            />
+          </div>
+        </motion.div>
         {/* <motion.iframe
           whileHover={{ scale: 1.05 }}
           className={styles.demoVid}
@@ -190,7 +229,6 @@ export default function Auth() {
           <h3>Features:</h3>
           <div className={styles.gallery}>
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature1} />
-            <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature2} />
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature3} />
             <motion.img whileHover={{ scale: 1.05 }} src={Feat.Feature4} />
           </div>

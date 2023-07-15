@@ -32,7 +32,7 @@ const Main = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   async function getUserSession() {
     const session = await supabase.auth.getSession();
@@ -629,7 +629,12 @@ const Main = ({ session }) => {
             <Img.StopIcon />
           ) : load ? (
             <div className={load ? styles.loading : "hidden"}>
-              <img src={Img.LoadingGif} alt="Wait for it!" height="100" />
+              <img
+                id="loading"
+                src={Img.LoadingGif}
+                alt="Wait for it!"
+                height="100"
+              />
               <p>Transcribing...</p>
             </div>
           ) : (
