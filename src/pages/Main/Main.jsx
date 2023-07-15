@@ -32,7 +32,7 @@ const Main = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = local;
+  const current = server;
 
   async function getUserSession() {
     const session = await supabase.auth.getSession();
