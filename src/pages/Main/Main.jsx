@@ -18,7 +18,7 @@ mixpanel.init("993c78ba0ac28f0c6819d394f3406ac9", {
 const Main = ({ session }) => {
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = local;
+  const current = server;
 
   ////////// JOURNAL START //////////
   //MISC
@@ -344,7 +344,7 @@ const Main = ({ session }) => {
       or changing content matter, return a better written, and coherent version\
       of the transcript. If it is appropriate, use line breaks to make it look more organized:" +
         note,
-      200
+      2000
     );
     setNote(transcript);
     return transcript;
@@ -556,8 +556,12 @@ const Main = ({ session }) => {
 
     const userMessage = { text: searchTerm, role: "user" };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
+    mixpanel.track("Question Asked", {
+      "Num. Journals": noteCount,
+      Question: searchTerm,
+    });
+
     setSearchTerm("");
-    mixpanel.track("Question Asked", { "Num. Journals": noteCount });
   };
 
   const handleKeyDown = (event) => {
