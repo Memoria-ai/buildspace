@@ -9,6 +9,15 @@ import { motion } from "framer-motion";
 import { Carousel } from "../../components/Carousel/Carousel";
 import { useNavigate } from "react-router-dom";
 
+import mixpanel from "mixpanel-browser";
+
+mixpanel.init("993c78ba0ac28f0c6819d394f3406ac9", {
+  debug: true,
+  track_pageview: true,
+  persistence: "localStorage",
+  ignore_dnt: true,
+});
+
 export default function Auth() {
   const { localStorage } = window;
   const [loading, setLoading] = useState(false);
@@ -18,7 +27,7 @@ export default function Auth() {
   const localServer = "http://localhost:8000/";
   const serverMain = "https://memoria-ai.herokuapp.com/";
 
-  const current = backToApp;
+  const current = localhost;
   const server = current == localhost ? localServer : serverMain;
 
   const navigate = useNavigate();
@@ -59,6 +68,8 @@ export default function Auth() {
 
   async function signInWithTwitter() {
     setLoading(true);
+    mixpanel.track("Twitter Sign In");
+
     const { data, error, session } = await supabase.auth.signInWithOAuth({
       provider: "twitter",
       options: {
@@ -74,6 +85,7 @@ export default function Auth() {
 
   async function signInWithGoogle() {
     setLoading(true);
+    mixpanel.track("Google Sign In");
     const { data, error, session } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -86,6 +98,7 @@ export default function Auth() {
     });
     if (error) {
       console.error("Error signing in with Google:", error);
+      mixpanel.track("Google Sign In ERROR");
       return;
     }
     getUserSession();
@@ -101,6 +114,7 @@ export default function Auth() {
             whileTap={{ scale: 0.95 }}
             className={styles.navButton1}
             target="_blank"
+            onClick={() => mixpanel.track("Viewed About")}
             href="https://www.notion.so/marcelocm/Memoria-About-Us-573ed80866d94413bffcd5022eab4e1d?pvs=4"
           >
             About
@@ -110,6 +124,7 @@ export default function Auth() {
             whileTap={{ scale: 0.95 }}
             className={styles.navButton1}
             target="_blank"
+            onClick={() => mixpanel.track("Clicked mailto:")}
             href="mailto:hello@memoria.live"
           >
             Contact

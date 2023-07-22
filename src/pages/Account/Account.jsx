@@ -91,6 +91,8 @@ const Account = () => {
 
   async function signOut() {
     await supabase.auth.signOut();
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/");
   }
 

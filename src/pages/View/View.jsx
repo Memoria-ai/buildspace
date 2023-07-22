@@ -32,7 +32,7 @@ const View = ({ session }) => {
 
   const local = "http://localhost:8000/";
   const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  const current = local;
 
   const fetchNumQueries = async () => {
     const userId = localStorage.getItem("userId");
@@ -72,9 +72,7 @@ const View = ({ session }) => {
   const calcSavedTime = async (notes) => {
     const num_queries = await fetchNumQueries();
     const num_words = calcNumWords(notes);
-    setSavedTime(
-      Math.round(10 * (num_queries * 2.31 + 0.019 * num_words)) / 10
-    );
+    setSavedTime(Math.round(10 * (0.019 * num_words)) / 10);
     setShowSavedTime(true);
   };
 
@@ -288,7 +286,7 @@ const View = ({ session }) => {
           Sort:
           <Select onChange={handleSortSelection} options={sortOptions} />
         </div>
-        <div className={styles.gallery}>
+        <div className="w-full flex flex-row flex-wrap gap-4 justify-center">
           {sortedNotes.map((note) => (
             <div className={styles.thoughtCard} key={note?.id}>
               <h3 className={styles.noteTitle}>{note?.title}</h3>

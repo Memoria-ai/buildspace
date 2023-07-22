@@ -3,7 +3,14 @@ import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import Auth from "./pages/Auth/Auth";
 import Account from "./pages/Account/Account";
-// import { Navigate } from 'react-router-dom'
+import mixpanel from "mixpanel-browser";
+
+mixpanel.init("993c78ba0ac28f0c6819d394f3406ac9", {
+  debug: true,
+  track_pageview: true,
+  persistence: "localStorage",
+  ignore_dnt: true,
+});
 
 function App() {
   const [session, setSession] = useState(null);
@@ -22,8 +29,15 @@ function App() {
     }
   }, []);
 
+  // let btnClick = (e) => {
+  //   console.log("Button Clicked 1");
+  //   mixpanel.track("Button Clicked");
+  //   console.log("Button Clicked 2");
+  // };
+
   return (
     <div className="container">
+      {/* <button onClick={() => btnClick()}>Test</button> */}
       <Auth />
     </div>
   );

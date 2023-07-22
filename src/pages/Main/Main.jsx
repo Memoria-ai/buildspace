@@ -6,48 +6,64 @@ import styles from "./Main.module.css";
 import * as Img from "../../imgs";
 import { motion } from "framer-motion";
 import Nav from "../../components/Nav/Nav";
+import mixpanel from "mixpanel-browser";
+
+mixpanel.init("993c78ba0ac28f0c6819d394f3406ac9", {
+  debug: true,
+  // track_pageview: true,
+  persistence: "localStorage",
+  ignore_dnt: true,
+});
 
 const Main = ({ session }) => {
-  // console.log('the create jsx session: ', session);
+  const local = "http://localhost:8000/";
+  const server = "https://memoria-ai.herokuapp.com/";
+  const current = local;
+
+  ////////// JOURNAL START //////////
+  //MISC
+  const navigate = useNavigate();
+  const [load, setLoad] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const [mode, setMode] = useState("");
+
+  //RECORDING VARS
   const [isListening, setIsListening] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [note, setNote] = useState("");
-  const [userNotes, setUserNotes] = useState([]);
-  const [userTitle, setUserTitle] = useState("");
-  const [tags, setTags] = useState([]);
-  const navigate = useNavigate();
-  const [showNote, setShowNote] = useState(false);
-  const [load, setLoad] = useState(false);
-  const [seconds, setSeconds] = useState(0);
-  const [timerInterval, setTimerInterval] = useState(null);
   const [chunks, setChunks] = useState([]);
   const chunksRef = useRef([]);
-  const [confirmation, setConfirmation] = useState(false);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [stream, setStream] = useState(null);
   const [sentBlob, setSentBlob] = useState(null);
 
-  const [mode, setMode] = useState("");
+  //NOTE VARS
+  const [note, setNote] = useState("");
+  const [userNotes, setUserNotes] = useState([]);
+  const [userTitle, setUserTitle] = useState("");
+  const [tags, setTags] = useState([]);
+  const [showNote, setShowNote] = useState(false);
 
-  const local = "http://localhost:8000/";
-  const server = "https://memoria-ai.herokuapp.com/";
-  const current = server;
+  //TIMER
+  const [seconds, setSeconds] = useState(0);
+  const [timerInterval, setTimerInterval] = useState(null);
+  ////////// JOURNAL END //////////
 
-  async function getUserSession() {
-    const session = await supabase.auth.getSession();
-    const token = session?.data?.session?.access_token;
-    if (!token) {
-      console.log("No token found. User needs to be signed in.");
-      navigate("/");
-    }
-  }
+  ////////// REFLECT START //////////
+  const [journalPrompt, setJournalPrompt] = useState(
+    "Tell me about your day. The highs & the lows."
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [numQueries, setNumQueries] = useState();
+  const messagesEndRef = useRef(null);
+  const [noteCount, setNoteCount] = useState(0);
+  ////////// REFLECT END //////////
 
+  ////////// USE EFFECTS //////////
   useEffect(() => {
     getUserSession();
-  }, []);
 
-  useEffect(() => {
     const handlePermission = async () => {
       const hasPermission = localStorage.getItem("microphonePermission");
       if (hasPermission === "granted") {
@@ -71,14 +87,33 @@ const Main = ({ session }) => {
     handlePermission();
 
     const userId = localStorage.getItem("userId");
+    // console.log(userId);
     const token = localStorage.getItem("token");
+    // console.log(token);
 
+    mixpanel.identify(userId);
+
+    const fetchUserNotes = async () => {
+      const response = await fetch(current + "fetchNotes/" + userId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`, // Include the JWT token in the 'Authorization' header
+        },
+      });
+
+      const notes = await response.json();
+      setNoteCount(notes.length);
+    };
+    fetchUserNotes();
     if (!userId || !token) {
       navigate("/");
     }
-
-    // getJournalPrompt();
   }, []);
+
+  useEffect(() => {
+    mixpanel.track("App Session", { "Num. Journals": noteCount });
+  }, [noteCount]);
 
   useEffect(() => {
     setLoad(false);
@@ -109,14 +144,77 @@ const Main = ({ session }) => {
     }
   }, [isListening]);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     // Call your function here with the updated note value
-  //     handleUpdateNoteDetails();
-  //   }, 750);
+  useEffect(() => {
+    // fetchNumQueries();
+    const savedMessages = JSON.parse(localStorage.getItem("messages"));
+    if (savedMessages !== null) {
+      setMessages(savedMessages);
+    }
+  }, [session]);
 
-  //   return () => clearTimeout(timer); // Clear the timer if the component unmounts or note changes
-  // }, [note]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, mode]);
+
+  // This waits for messages var to be updated before sending the request to backend
+  useEffect(() => {
+    const fetchData = async () => {
+      if (load) {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+        const response = await fetch(current + "queryUserThoughts/" + userId, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify({ userId, messages }),
+        });
+        console.log(response);
+        const gptResponse = await response.json();
+        const botMessage = { text: gptResponse, role: "assistant" };
+
+        setLoad(false);
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+        localStorage.setItem(
+          "messages",
+          JSON.stringify([...messages, botMessage])
+        );
+      }
+    };
+
+    fetchData();
+
+    if (mode == "Reflect") {
+      getJournalPrompt();
+    }
+  }, [messages]);
+
+  ////////// VISUAL DETAILS //////////
+  const popUpTransitions = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 1.0 } },
+    fadeOut: { opacity: 0, transition: { duration: 1.0 } },
+    exit: { opacity: 0, transition: { duration: 0.5 } },
+  };
+
+  const thoughtCommitConfirmation = () => {
+    // Give feedback to the user
+    setConfirmation(true);
+    const timer = setTimeout(() => {
+      setConfirmation(false);
+    }, 2000);
+  };
+
+  ////////// MISC //////////
+  async function getUserSession() {
+    const session = await supabase.auth.getSession();
+    const token = session?.data?.session?.access_token;
+    if (!token) {
+      console.log("No token found. User needs to be signed in.");
+      navigate("/");
+    }
+  }
 
   // Our GPT Prompt
   async function processMessageToChatGPT(message, max_tokens) {
@@ -139,80 +237,19 @@ const Main = ({ session }) => {
     return data;
   }
 
-  const handleInputChange = (event) => {
-    setNote(event.target.value);
+  const getJournalPrompt = async () => {
+    const prompt =
+      mode == "Reflect"
+        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) question for self-reflection in first person."
+        : mode == "Journal"
+        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling."
+        : "Return an interesting one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling.";
+    // console.log(prompt);
+    const genJournal = await processMessageToChatGPT(prompt, 20);
+    setJournalPrompt(genJournal);
   };
 
-  // Every time a user changes the title, this is run.
-  const handleTitleChange = (event) => {
-    setUserTitle(event.target.value);
-  };
-
-  // When user clicks commit, this calls addNote()
-  const handleCommitClick = async (event) => {
-    event.preventDefault();
-    addNote(userTitle);
-    setSeconds(0);
-    setShowNote(false);
-    thoughtCommitConfirmation();
-  };
-
-  const thoughtCommitConfirmation = () => {
-    // Give feedback to the user
-    setConfirmation(true);
-    const timer = setTimeout(() => {
-      setConfirmation(false);
-    }, 2000);
-  };
-
-  const addNote = async (title) => {
-    if (!note) return; // if there is no transcript, aka no words, then do nothing
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
-    // console.log(token)
-    const response = await fetch(current + "addNote/" + userId, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-      //credentials: 'include',
-      body: JSON.stringify({
-        userId: userId,
-        title: title,
-        content: note,
-        tags: tags,
-      }),
-    });
-
-    if (!response.ok) {
-      console.error(response.statusText);
-    } else {
-      await sendTags();
-      setNote(" ");
-      setUserTitle("");
-      setTags([]);
-    }
-    setMode("");
-  };
-
-  // Add tags to the note previously add, this is called by addNote
-  const sendTags = async () => {
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
-    const response = await fetch(current + "addTags/" + userId, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-      body: JSON.stringify({
-        tags: tags,
-        userId: userId,
-      }),
-    });
-  };
-
+  ////////// NOTE CREATION //////////
   const handleStartRecording = async () => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const recorder = new MediaRecorder(stream);
@@ -220,6 +257,7 @@ const Main = ({ session }) => {
       setMediaRecorder(recorder);
     });
     setMode("Journal");
+    mixpanel.track("Started Recording Journal");
   };
 
   const handleStopRecording = async (blob) => {
@@ -258,73 +296,6 @@ const Main = ({ session }) => {
     chunksRef.current = [];
   };
 
-  const handleFileUpload = async (event) => {
-    if (event.target.files.length === 0) return;
-
-    handleTimerChange(false);
-    setLoad(true);
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("audio", file);
-
-    try {
-      const userId = localStorage.getItem("userId");
-      const token = localStorage.getItem("token");
-      const headers = new Headers();
-      headers.append("Authorization", `${token}`);
-      const response = await fetch(current + "transcribe/" + userId, {
-        method: "POST",
-        headers: headers,
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setNote(data.transcription);
-        stoppedListeningFunction(data.transcription);
-      } else {
-        console.log("An error occurred during transcription.");
-        handleTimerChange(false);
-        setLoad(false);
-      }
-    } catch (error) {
-      console.log(error);
-      handleTimerChange(false);
-      setLoad(false);
-      setMode("");
-    }
-  };
-
-  const handleDiscardClick = async (event) => {
-    event.preventDefault();
-    if (isListening) {
-      setIsListening(false);
-    }
-    setUserTitle("");
-    setNote("");
-    setTags([]);
-    setSeconds(0);
-    setShowNote(false);
-    setAudioBlob(null);
-    setChunks([]);
-    setMode("");
-  };
-
-  // When mic is clicked, this is run
-  const handleListenChange = async () => {
-    // const prev = note;
-    setIsListening((prevState) => !prevState); // This lags 1 cycle, bc its async
-
-    // When the mic is listening, isListening will be false within this function
-    if (!isListening) {
-      handleTimerChange(true);
-    } else {
-      handleTimerChange(false);
-      setLoad(true);
-      setMode("Journal");
-    }
-  };
-
   // Timer that is shown when recording.
   const handleTimerChange = (state) => {
     if (state) {
@@ -352,30 +323,19 @@ const Main = ({ session }) => {
     }
   };
 
-  // const handleUpdateNoteDetails = () => {
-  //   getTags(note);
-  //   getGPTTitle(note);
-  // };
+  // When mic is clicked, this is run
+  const handleListenChange = async () => {
+    // const prev = note;
+    setIsListening((prevState) => !prevState); // This lags 1 cycle, bc its async
 
-  function cleanTitle(title) {
-    // Remove leading and trailing double quotes
-    title = title.replace(/^"(.*)"$/, "$1");
-
-    // Remove trailing period
-    title = title.replace(/\.$/, "");
-
-    return title;
-  }
-
-  // GPT prompt for Title
-  const getGPTTitle = async (note) => {
-    const title = await processMessageToChatGPT(
-      "Return a 3 word title for this following note: " + note,
-      20
-    );
-    const formattedTitle = cleanTitle(title);
-    setUserTitle(formattedTitle);
-    return formattedTitle;
+    // When the mic is listening, isListening will be false within this function
+    if (!isListening) {
+      handleTimerChange(true);
+    } else {
+      handleTimerChange(false);
+      setLoad(true);
+      setMode("Journal");
+    }
   };
 
   const getCleanTranscript = async (note) => {
@@ -389,6 +349,16 @@ const Main = ({ session }) => {
     setNote(transcript);
     return transcript;
   };
+
+  function cleanTitle(title) {
+    // Remove leading and trailing double quotes
+    title = title.replace(/^"(.*)"$/, "$1");
+
+    // Remove trailing period
+    title = title.replace(/\.$/, "");
+
+    return title;
+  }
 
   // Get the user tags from the database.
   const getUserTags = async () => {
@@ -427,21 +397,17 @@ const Main = ({ session }) => {
     }
   };
 
-  const handlePlayRecording = async () => {
-    if (audioBlob !== null) {
-      const audioUrl = URL.createObjectURL(sentBlob);
-      const audioElement = new Audio(audioUrl);
-      audioElement.play();
-    }
+  const getGPTTitle = async (note) => {
+    const title = await processMessageToChatGPT(
+      "Return a 3 word title for this following note: " + note,
+      20
+    );
+    const formattedTitle = cleanTitle(title);
+    setUserTitle(formattedTitle);
+    return formattedTitle;
   };
 
-  const popUpTransitions = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 1.0 } },
-    fadeOut: { opacity: 0, transition: { duration: 1.0 } },
-    exit: { opacity: 0, transition: { duration: 0.5 } },
-  };
-
+  ////////// NOTE MODIFICATION //////////
   const deleteTag = (option) => {
     if (tags.includes(option)) {
       setTags(tags.filter((tags) => tags !== option));
@@ -456,37 +422,130 @@ const Main = ({ session }) => {
     event.target.value = ""; // Clear the input field after adding the tag
   };
 
+  const handleInputChange = (event) => {
+    setNote(event.target.value);
+  };
+
+  // Every time a user changes the title, this is run.
+  const handleTitleChange = (event) => {
+    setUserTitle(event.target.value);
+  };
+
   const adjustInputWidth = (event) => {
     event.target.style.width = 1 + event.target.value.length + "ch";
   };
 
-  // const handleKeyDown = (event) => {
-  //   if (event.key === "Enter") {
-  //     addTag(event);
-  //   }
-  // };
+  ////////// NOTE UPLOAD OR DISCARD//////////
+  const handleCommitClick = async (event) => {
+    event.preventDefault();
+    addNote(userTitle);
+    setSeconds(0);
+    setShowNote(false);
+    thoughtCommitConfirmation();
+  };
 
-  // SEARCH CODE STARTS HERE
+  const addNote = async (title) => {
+    if (!note) return; // if there is no transcript, aka no words, then do nothing
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    // console.log(token)
+    const response = await fetch(current + "addNote/" + userId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      //credentials: 'include',
+      body: JSON.stringify({
+        userId: userId,
+        title: title,
+        content: note,
+        tags: tags,
+      }),
+    });
 
-  // const [load, setLoad] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [queryResponse, setQueryResponse] = useState("");
-  const [messages, setMessages] = useState([]);
-  const messagesEndRef = useRef(null);
-  const [numQueries, setNumQueries] = useState();
-  const [showSuggest, setShowSuggest] = useState(true);
-
-  const [userTags, setUserTags] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
-
-  useEffect(() => {
-    // fetchNumQueries();
-    const savedMessages = JSON.parse(localStorage.getItem("messages"));
-    if (savedMessages !== null) {
-      setMessages(savedMessages);
+    if (!response.ok) {
+      console.error(response.statusText);
+    } else {
+      await sendTags();
+      setNote(" ");
+      setUserTitle("");
+      setTags([]);
+      mixpanel.track("Added Journal");
     }
-  }, [session]);
+    setMode("");
+  };
 
+  const sendTags = async () => {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    const response = await fetch(current + "addTags/" + userId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({
+        tags: tags,
+        userId: userId,
+      }),
+    });
+  };
+
+  const handleFileUpload = async (event) => {
+    if (event.target.files.length === 0) return;
+
+    handleTimerChange(false);
+    setLoad(true);
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("audio", file);
+
+    try {
+      const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      const headers = new Headers();
+      headers.append("Authorization", `${token}`);
+      const response = await fetch(current + "transcribe/" + userId, {
+        method: "POST",
+        headers: headers,
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setNote(data.transcription);
+        stoppedListeningFunction(data.transcription);
+        mixpanel.track("Uploaded File");
+      } else {
+        console.log("An error occurred during transcription.");
+        handleTimerChange(false);
+        setLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+      handleTimerChange(false);
+      setLoad(false);
+      setMode("");
+    }
+  };
+
+  const handleDiscardClick = async (event) => {
+    event.preventDefault();
+    if (isListening) {
+      setIsListening(false);
+    }
+    setUserTitle("");
+    setNote("");
+    setTags([]);
+    setSeconds(0);
+    setShowNote(false);
+    setAudioBlob(null);
+    setChunks([]);
+    setMode("");
+  };
+
+  ////////// CHAT INTERFACE //////////
   const sendQuestion = async () => {
     if (!searchTerm.trim()) {
       return;
@@ -498,39 +557,8 @@ const Main = ({ session }) => {
     const userMessage = { text: searchTerm, role: "user" };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setSearchTerm("");
-    setShowSuggest(false);
+    mixpanel.track("Question Asked", { "Num. Journals": noteCount });
   };
-
-  // This waits for messages var to be updated before sending the request to backend
-  useEffect(() => {
-    const fetchData = async () => {
-      if (load) {
-        const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("token");
-        const response = await fetch(current + "queryUserThoughts/" + userId, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${token}`,
-          },
-          body: JSON.stringify({ userId, messages }),
-        });
-        console.log(response);
-        const gptResponse = await response.json();
-        const botMessage = { text: gptResponse, role: "assistant" };
-
-        setLoad(false);
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-        setQueryResponse(gptResponse);
-        localStorage.setItem(
-          "messages",
-          JSON.stringify([...messages, botMessage])
-        );
-      }
-    };
-
-    fetchData();
-  }, [messages]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -546,42 +574,11 @@ const Main = ({ session }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, mode]);
-
-  const askSuggested = async (question) => {
-    setSearchTerm(question);
-  };
-
   const clearMessages = () => {
     localStorage.removeItem("messages");
     setMessages([]);
-    setShowSuggest(true);
     setMode("");
   };
-
-  const [journalPrompt, setJournalPrompt] = useState(
-    "Tell me about your day. The highs & the lows."
-  );
-
-  const getJournalPrompt = async () => {
-    const prompt =
-      mode == "Reflect"
-        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) question for self-reflection in first person."
-        : mode == "Journal"
-        ? "Return an interesting, introspective, one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling."
-        : "Return an interesting one sentence (count the words, 12 words maximum, 5 word minimum) journalling prompt that focuses on reflecting on your day for long daily journalling.";
-    // console.log(prompt);
-    const genJournal = await processMessageToChatGPT(prompt, 20);
-    setJournalPrompt(genJournal);
-  };
-
-  useEffect(() => {
-    if (mode == "Reflect") {
-      getJournalPrompt();
-    }
-  }, [messages]);
 
   return (
     <div className="flex flex-col h-[100dvh] w-[100vw] items-center overflow-hidden noise-gradient-background">
@@ -730,7 +727,10 @@ const Main = ({ session }) => {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setShowNote(true)}
+              onClick={() => {
+                setShowNote(true);
+                mixpanel.track("Clicked Write File");
+              }}
               className={styles.altOption}
             >
               <Img.WriteIcon />
