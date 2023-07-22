@@ -13,7 +13,7 @@ import mixpanel from "mixpanel-browser";
 
 mixpanel.init("993c78ba0ac28f0c6819d394f3406ac9", {
   debug: true,
-  track_pageview: true,
+  // track_pageview: true,
   persistence: "localStorage",
   ignore_dnt: true,
 });
